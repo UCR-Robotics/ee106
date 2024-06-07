@@ -51,6 +51,15 @@ To interrupt the behavior, you can cancel the execution of the ROS node in the s
     
 ..     roslaunch X keyboard_teleop.launch
 
+Updates to code to run the robot
+----------
+
+1. The lidar distance is different as for that in the simulation. You have to increase the distance for the left and front detection. You have to update `self.left_min_dist` & `self.forward_min_dist` to work with this. 
+
+2. The lidar rotates in a different direction to that of the simulation. You have to change certain params in your code accordingly. This will be explained, during your alloted time slot.
+
+3. The real world doesn't have a co-ordinate axis, so you have to update your code to work without the goal params.
+
 
 ROS Node template for the Left Wall-Following
 ----------
@@ -102,6 +111,8 @@ The image below showcases the requirements of this lab, which is the considered 
       -  \+10% Avoid collision with obstacles.
       -  \+10% Reach the goal area and kick the balls.
       -  \+30% Lab report with included ROS Node code and remarks and lessons learned from the lab.
+
+Note: The robot needs to make a lap around the map. It doesnt need to stop at any goal position.
 
 Lab Rules
 ---------
