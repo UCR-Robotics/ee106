@@ -162,6 +162,17 @@ Main steps are
     sudo rosdep init
     rosdep update
 
+
+
+
+Fixes to some common errors
+----------------------------
+- # represents a comment. Do not copy/paste the comments to the terminal when executing the instructions.
+
+- If you see a red circle similar to the 'do not enter' sign on the top-right corner, click that circle, select show updates and click 'install now' before installing ROS to avoid any dependency issues.
+
+- If there is no copy/paste in the VM, run the VM as administrator.
+
 Learn from ROS Tutorials
 ---------------------------
 
