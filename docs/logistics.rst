@@ -95,7 +95,7 @@ No copying of any form is allowed between each other.
   and will be reported to the university.
 
 
-Lab Safety
+Lab Safety 
 ----------
 
 #. COVID-related safety requirements.
