@@ -7,8 +7,8 @@ Welcome
 This page introduces logistics for lab section only; 
 please see syllabus for course overview and lecture/homework related logistics.
 
-- Teaching Assistant: Dimitris Chatziparaschis
-- Email: dchat013@ucr.edu
+- Teaching Assistant: Georgia Kouvoutsakis
+- Email: gkouv001@ucr.edu
 
 Please **feel free** to contact the TA if you have any questions.
 
@@ -61,7 +61,7 @@ Please consider reaching out to the TA in the following preferred order, regardi
 
    + It is good for others who have the same/similar questions. 
 
-   + We can use multimedia materials to interact on Canvas (Piazza section), rather than plain text in emails.
+   + We can use multimedia materials to interact on Canvas, rather than plain text in emails.
 
    + You may get good answers/help from your classmates as well, which is encouraged.
 
