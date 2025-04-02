@@ -57,7 +57,7 @@ Please consider reaching out to the TA in the following preferred order, regardi
 1. **Office Hour**. Please wisely use the time at the lab, during which the
    TA can give detailed explanations.
 
-2. **Canvas**. If you have any questions/concerns offline, please ask on Canvas (Piazza section) first.
+2. **Canvas**. If you have any questions/concerns offline, please ask on Canvas first.
 
    + It is good for others who have the same/similar questions. 
 
@@ -66,13 +66,13 @@ Please consider reaching out to the TA in the following preferred order, regardi
    + You may get good answers/help from your classmates as well, which is encouraged.
 
 ..
-   + You can ask private questions on Piazza if necessary, which are visible to instructors only.
+   + You can ask private questions on Canvas if necessary, which are visible to instructors only.
 
 3. **Emails**. It is hard to discuss technical questions through emails.
    However, the TA will try to get back to you ASAP. To facilitate the process, 
    please have **EE106_Lab** in the email subject.
    
-   + For course logistics and technical questions, Piazza is better than emails. 
+   + For course logistics and technical questions, Canvas is better than emails. 
 
    + For other queries (e.g., personal affairs), you are very welcome to send the TA
    + an email. 
