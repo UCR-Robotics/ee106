@@ -114,7 +114,7 @@ Lab Safety
    - **Cut off all power supply (both robot base and NUC)**.
    - Organize wires, cables, etc.
 
-#. Do not leave your personal information on the robot.
+#. Do not leave your personal information on the robot!
 
    - Create your own folder when you work, and delete code when you leave.
    - The robot is shared by other lab sections.
