@@ -89,6 +89,8 @@ Once you have your VMware installed, let's create a new VM and install Ubuntu 20
 - Download Ubuntu 20.04 disc image from
   `official website <http://releases.ubuntu.com/20.04/>`_ (64-bit PC Desktop).
 
+- For mac users: If you are using a Mac with M architecture, download `Ubuntu 20.04 server image <https://cdimage.ubuntu.com/releases/20.04/release/ubuntu-20.04.5-live-server-arm64.iso>`_.
+
 - In VMware, create a new VM.
 
   + Typical configuration
