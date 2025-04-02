@@ -13,6 +13,7 @@ Programming Practical Robots!
     :hidden:
 
     logistics
+    lab0
     linux
     ros
 
