@@ -17,7 +17,7 @@
 
 # -- Project information -----------------------------------------------------
 
-project = 'UCR EE106 Spring 2025'
+project = 'UCR EE106 Spring 2023'
 copyright = '2023, UCR-Robotics'
 author = 'UCR-Robotics'
 
