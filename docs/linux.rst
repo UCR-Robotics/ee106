@@ -20,7 +20,7 @@ Tab Key Auto-completion
 
   .. code-block:: bash
 
-    roscd ee106s23
+    roscd ee106s25
 
 - This means that Linux can identify an **unique** name of the directory
   by just seeing the first five characters. 
@@ -101,11 +101,11 @@ We can go back and forth between terminal and file manager at any working direct
   and ``.`` is the argument passing into ``nautilus`` that represents the current directory.
 
 - You can also open a file manager at any other working directory. 
-  For example, go to the ``ee106s23`` package and open a file manager from this directory.
+  For example, go to the ``ee106s25`` package and open a file manager from this directory.
 
   .. code-block:: bash
 
-    roscd ee106s23
+    roscd ee106s25
     nautilus .
 
 - On the other hand, at any level of file manager, you can open a new terminal by just 
@@ -119,7 +119,7 @@ We can go back and forth between terminal and file manager at any working direct
 
   .. code-block:: bash
 
-    roscd ee106s23
+    roscd ee106s25
     nautilus . &
 
 - where ``&`` can combine two commands. In this case, no new command is given, 
@@ -130,7 +130,7 @@ We can go back and forth between terminal and file manager at any working direct
 
   .. code-block:: bash
 
-    roscd ee106s23/launch
+    roscd ee106s25/launch
     gedit gazebo.launch &
 
 
