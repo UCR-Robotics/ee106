@@ -296,7 +296,7 @@ Submission
 #. **Demo**: required—teleoperate the Jackal in Gazebo and show your node responding to obstacles  
 #. **When**: 11:59 pm, Sunday, May 7  
 #. **What to submit**:  
-   - ``lab23_report.pdf`` (use the provided template)  
+   - ``lab2_report.pdf`` (use the provided template)  
    - Include all screenshots, detailed step descriptions, and your fully commented Python code at the end  
 
 Demo Checklist
