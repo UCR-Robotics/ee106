@@ -294,7 +294,7 @@ Submission
 
 #. **How**: individual, via Gradescope  
 #. **Demo**: required—teleoperate the Jackal in Gazebo and show your node responding to obstacles  
-#. **When**: 11:59 pm, Sunday, May 7  
+#. **When**: 11:59 pm, Thursday, May 1  
 #. **What to submit**:  
    - ``lab2_report.pdf`` (use the provided template)  
    - Include all screenshots, detailed step descriptions, and your fully commented Python code at the end  
