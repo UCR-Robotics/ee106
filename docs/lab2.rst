@@ -281,8 +281,6 @@ This information can be captured also inside a ROS node by using the ``tf.Transf
     
     rate.sleep()
 
-Submission
-----------
 
 .. roscore
 .. roslaunch gazebo_ros empty_world.launch
@@ -291,34 +289,61 @@ Submission
 .. rosrun teleop_keyboard_. .. 
 
 
-#. Submission: individual submission via Gradescope
+Submission
+----------
 
-In this lab's submission, we will develop a ROS node that will receive the simulated Jackal LiDAR information and will notify the user if the robot is getting closer to an obstacle through a ROS topic publication. 
+#. **How**: individual, via Gradescope  
+#. **Demo**: required—teleoperate the Jackal in Gazebo and show your node responding to obstacles  
+#. **When**: 11:59 pm, Sunday, May 7  
+#. **What to submit**:  
+   - ``lab23_report.pdf`` (use the provided template)  
+   - Include all screenshots, detailed step descriptions, and your fully commented Python code at the end  
 
-.. #. Demo: required (Demonstrate the ROS node functionality in the Gazebo world by using the Jackal.)
+Demo Checklist
+--------------
 
-#. Due time: 11:59pm, May 1, Monday
+- Show the Jackal driving toward obstacles  
+- In a separate terminal, run ``rostopic echo /jackal_robot_status`` and demonstrate “critical”, “major”, and “minor” messages  
+- Open RViz with the RobotModel, TF, and LaserScan displays enabled  
 
-#. Files to submit: 
+Grading Rubric
+--------------
 
-   - lab2_report.pdf (A template .pdf is provided for the report.) **Please include screenshots were possible and describe in detail all followed steps by showing the reasoning and any important remarks.** The developed Python code can be included in the end of your report.
+**10 % – Gazebo world & frame setup**  
+   - Create a world that includes your Jackal, a Stop Sign (from Lab 3), and at least three distinct obstacles.  
+   - Define and broadcast a new frame called ``front_bumper`` (e.g. via a static_transform_publisher or in your launch file).  
 
-#. Grading rubric:
+**15 % – ROS node initialization**  
+   - Initialize a ROS node (e.g. ``ranges_check``).  
+   - Subscribe to the ``/front/scan`` topic (``sensor_msgs/LaserScan``).  
+   - Create a TF listener and successfully retrieve the transform between ``/front_laser`` and ``/front_bumper``.  
 
-   - \+ 10% Create a new Gazebo world with various obstacles.
-   - \+ 10% Create a new `ROS node <https://github.com/UCR-Robotics/ee106/tree/main/scripts/rangescheck_jackal.py>`_ that will subscribe to the robot's LiDAR ROS topic. The ROS message type of the LiDAR ROS Topic is the `sensor_msgs/LaserScan <http://docs.ros.org/en/noetic/api/sensor_msgs/html/msg/LaserScan.html>`_.
-   - \+ 10% Include a ROS publisher inside the newly created ROS node to publish a `std_msgs/String  <http://docs.ros.org/en/melodic/api/std_msgs/html/msg/String.html>`_ ROS message over a new ROS topic named `jackal_robot_status`.
-   - \+ 20% Create a new Python function inside the ROS node to iterate over the LiDAR's captured distances, namely the variable `float32[] ranges` of the message `sensor_msgs/LaserScan`.
+**20 % – LiDAR data processing & coordinate transformation**  
+   - Iterate over ``data.ranges``, skip “inf” values.  
+   - Convert valid range + angle into a point in the ``front_laser`` frame.  
+   - Map each point into the ``front_bumper`` frame using your 4×4 transform matrix.  
+   - Classify each mapped range as:  
+     - **critical** if < 0.2 m  
+     - **major** if < 0.5 m  
+     - **minor** otherwise  
 
+**20 % – ROS publisher & status messages**  
+   - Form a ``std_msgs/String`` whose ``data`` is “critical”, “major”, or “minor” based on the worst‐case reading.  
+   - Publish to ``/jackal_robot_status`` once per scan.  
 
-   - \+ 20% Use the ROS publisher to publish a `std_msgs/String` through `jackal_robot_status` ROS topic, including the message,
-      - ``critical`` if any of the `ranges` is smaller than `0.2m`
-      - ``major`` if any of the `ranges` is smaller than `0.5m` 
-      - ``minor`` if all `ranges > 0.5m` 
-   - \+ 20% Demonstrate the ROS node functionality, by teleoperating the Jackal inside the Gazebo world and showcasing the transmitted ROS topic messages for each of the three cases. Specifically, include a screenshot of the published messages of `jackal_robot_status` by using ``rostopic`` in a new terminal and take a photo of the robot inside the Gazebo at the corresponding moment by showing the surrounding obstacles, for each of the three cases.
-   - \+ 10% Include a screenshot of the RViz while using the Jackal in the Gazebo world, having the RobotModel, TF, and the LiDAR visualization enabled. 
-   - \- 15% Penalty applies for each late day (up to two days). 
+**25 % – Final demonstration & RViz visualization**  
+   - Teleoperate through all three cases (minor, major, critical).  
+   - For each:  
+     - Gazebo screenshot (robot + obstacles)  
+     - Terminal screenshot of ``rostopic echo /jackal_robot_status``  
+     - RViz screenshot with RobotModel, TF frames, and LaserScan display  
 
+**10 % – Report clarity & code quality**  
+   - Clear, concise write-up with figure captions.  
+   - Comments explaining each major code block.  
+   - Discussion of any challenges or design decisions.  
+
+**–15 % per late day** (up to two days)
 
 Reading Materials
 -----------------
