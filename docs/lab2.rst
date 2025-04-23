@@ -1,4 +1,4 @@
-Lab 2: ROS Tools and Testing on a Real Robot
+Lab 2: ROS Tools and Testing on a Simulated Robot
 ========================
 
 Overview
