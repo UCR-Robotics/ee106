@@ -443,59 +443,5 @@ ROS Conventions
 ..   if __name__ == '__main__':
 ..       main(sys.argv)
 
-Submission
-----------
 
-#. **How**: individual, via Gradescope  
-#. **Demo**: required—teleoperate the Jackal in Gazebo and show your node responding to obstacles  
-#. **When**: 11:59 pm, Thursday, May 1  
-#. **What to submit**:  
-   - ``lab2_report.pdf`` (use the provided template)  
-   - Include all screenshots, detailed step descriptions, and your fully commented Python code at the end  
-
-Demo Checklist
---------------
-
-- Show the Jackal driving toward obstacles  
-- In a separate terminal, run ``rostopic echo /jackal_robot_status`` and demonstrate “critical”, “major”, and “minor” messages  
-- Open RViz with the RobotModel, TF, and LaserScan displays enabled  
-
-Grading Rubric
---------------
-
-**10 % – Gazebo world & frame setup**  
-   - Create a world that includes your Jackal, a Stop Sign (from Lab 3), and at least three distinct obstacles.  
-   - Define and broadcast a new frame called ``front_bumper`` (e.g. via a static_transform_publisher or in your launch file).  
-
-**15 % – ROS node initialization**  
-   - Initialize a ROS node (e.g. ``ranges_check``).  
-   - Subscribe to the ``/front/scan`` topic (``sensor_msgs/LaserScan``).  
-   - Create a TF listener and successfully retrieve the transform between ``/front_laser`` and ``/front_bumper``.  
-
-**20 % – LiDAR data processing & coordinate transformation**  
-   - Iterate over ``data.ranges``, skip “inf” values.  
-   - Convert valid range + angle into a point in the ``front_laser`` frame.  
-   - Map each point into the ``front_bumper`` frame using your 4×4 transform matrix.  
-   - Classify each mapped range as:  
-     - **critical** if < 0.2 m  
-     - **major** if < 0.5 m  
-     - **minor** otherwise  
-
-**20 % – ROS publisher & status messages**  
-   - Form a ``std_msgs/String`` whose ``data`` is “critical”, “major”, or “minor” based on the worst‐case reading.  
-   - Publish to ``/jackal_robot_status`` once per scan.  
-
-**25 % – Final demonstration & RViz visualization**  
-   - Teleoperate through all three cases (minor, major, critical).  
-   - For each:  
-     - Gazebo screenshot (robot + obstacles)  
-     - Terminal screenshot of ``rostopic echo /jackal_robot_status``  
-     - RViz screenshot with RobotModel, TF frames, and LaserScan display  
-
-**10 % – Report clarity & code quality**  
-   - Clear, concise write-up with figure captions.  
-   - Comments explaining each major code block.  
-   - Discussion of any challenges or design decisions.  
-
-**–15 % per late day** (up to two days)
 
