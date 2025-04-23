@@ -73,7 +73,7 @@ To execute the ROS launch file you can perform in a new terminal,
 
   roslaunch package_name file.launch
 
-Now, let's try to create a launch file for our created ROS package, namely the ``ee106s23``. Specifically, create a ROS launch that you can execute at the same time both the `publisher` and `subscriber` nodes of the Lab 1. Show the results to the Teaching Assistant.
+Now, let's try to create a launch file for our created ROS package, namely the ``ee106s25``. Specifically, create a ROS launch that you can execute at the same time both the `publisher` and `subscriber` nodes of the Lab 1. Show the results to the Teaching Assistant.
 
 rqt and rqt_graph Tools
 ----------
@@ -110,7 +110,7 @@ To properly exit or terminate Gazebo you should use the window terminating butto
   sudo killall gzserver
   sudo killall gzclient
 
-As the Gazebo is up and running, we can spawn a Jackal robot inside the simulated environment. To achieve that, we will create a dedicated ROS launch file in ``ee106s23/launch`` folder and attach the following,   
+As the Gazebo is up and running, we can spawn a Jackal robot inside the simulated environment. To achieve that, we will create a dedicated ROS launch file in ``ee106s25/launch`` folder and attach the following,   
 
 .. code-block:: html
   
@@ -142,11 +142,11 @@ As the Gazebo is up and running, we can spawn a Jackal robot inside the simulate
 
 .. then create a ROS subscriber and try to collect the data from the raw pointcloud and check distances
 
-This file will be the ROS launch file that we will use to start Gazebo and spawn a simulated Jackal robot inside the world.  Specifically, the variables `x,y,z` and `yaw` define the initial position and orientation values of the robot in the world. The 'joystick' variable enables the teleoperation of the Jackal robot through a joystick controller. This file can be saved with the name of ``jackal.launch`` file inside the ``ee106s23`` ROS package. To execute the ROS launch file, you can perform in a new terminal,
+This file will be the ROS launch file that we will use to start Gazebo and spawn a simulated Jackal robot inside the world.  Specifically, the variables `x,y,z` and `yaw` define the initial position and orientation values of the robot in the world. The 'joystick' variable enables the teleoperation of the Jackal robot through a joystick controller. This file can be saved with the name of ``jackal.launch`` file inside the ``ee106s25`` ROS package. To execute the ROS launch file, you can perform in a new terminal,
 
 .. code-block:: bash
 
-  roslaunch ee106s23 jackal.launch
+  roslaunch ee106s25 jackal.launch
 
 After the execution of the above ROS launch file, you can use ``rviz`` to visualize the captured sensory information from the simulated Jackal robot. Place objects closely around the simulated robot and check the `front/scan` ROS topic of type `sensor_msgs/LaserScan` on how it updates the visualized information in RViz. 
 
@@ -172,7 +172,7 @@ Jackal Control inside the Gazebo World
 As we have completed the above steps, to spawn the simualted Jackal inside the Gazebo world we execute in separate terminals the below commands in the following order,
 
 #. roslaunch gazebo_ros empty_world.launch
-#. roslaunch ee106s23 jackal.launch
+#. roslaunch ee106s25 jackal.launch
 #. rosrun teleop_twist_keyboard teleop_twist_keyboard.py
 
 RViz program can be executed also in a separate terminal, in case you want to visualize the sensory information that is captured by the simulated Jackal robot.
@@ -182,7 +182,7 @@ Submission
 
 .. roscore
 .. roslaunch gazebo_ros empty_world.launch
-.. roslaunch ee106s23 jackal.launch
+.. roslaunch ee106s25 jackal.launch
 .. rviz
 .. rosrun teleop_keyboard_. .. 
 
