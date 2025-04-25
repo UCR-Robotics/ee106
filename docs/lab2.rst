@@ -242,7 +242,7 @@ This information can be captured also inside a ROS node by using the ``tf.Transf
 
 .. code-block:: python
 
- #!/usr/bin/env python
+ #!/usr/bin/env python3
  import roslib
  roslib.load_manifest('ee106s25')
  import rospy
@@ -250,6 +250,7 @@ This information can be captured also inside a ROS node by using the ``tf.Transf
  import tf
  import geometry_msgs.msg
  import numpy as np
+ rospy.init_node('tf_listener_node')
 
  # initialization of the ROS tf listener
  listener = tf.TransformListener()
