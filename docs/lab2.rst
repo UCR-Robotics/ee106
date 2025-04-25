@@ -302,8 +302,7 @@ Submission
 Demo Checklist
 --------------
 
-- Show the Jackal driving toward obstacles  
-- In a separate terminal, run ``rostopic echo /jackal_robot_status`` and demonstrate “critical”, “major”, and “minor” messages  
+- Show the Jackal driving toward obstacles   
 - Open RViz with the RobotModel, TF, and LaserScan displays enabled  
 
 Grading Rubric
@@ -327,6 +326,7 @@ Grading Rubric
 - \+ 20 % ROS publisher & status messages  
   - Form a ``std_msgs/String`` whose ``data`` is the worst-case classification.  
   - Publish once per scan to ``/jackal_robot_status``.  
+  - In a separate terminal, run ``rostopic echo /jackal_robot_status`` and demonstrate “critical”, “major”, and “minor” messages 
 
 - \+ 25 % Final demonstration & RViz visualization  
   - Teleoperate through all three cases (minor, major, critical).  
