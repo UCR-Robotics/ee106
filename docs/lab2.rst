@@ -378,71 +378,69 @@ ROS Conventions
 
 .. .. code-block:: python
 
-..   #!/usr/bin/env python3
+.. #!/usr/bin/env python
+.. import roslib
+.. roslib.load_manifest('ee106s25')
+.. import rospy
+.. import math
+.. import tf
+.. from sensor_msgs.msg import LaserScan
+.. from std_msgs.msg import String
+.. import numpy as np
 
-..   import rospy
-..   import sys
-..   import numpy as np
-..   from sensor_msgs.msg import LaserScan
-..   from std_msgs.msg import String
+.. def callback(scan: LaserScan):
+..    # 1) lookup the latest transform front_laser → base_link
+..    try:
+..        (trans, rot) = listener.lookupTransform(
+..            '/base_link', '/front_laser', rospy.Time(0)
+..       )
+..    except (tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):
+..        rospy.logwarn("TF not available yet")
+ ..       return
 
-..   class ranges_check:
-      
-..     def __init__(self):
-..       #
-..       # Initialize the ROS publisher and subscriber. Use "self." to initialize the publisher and subscriber variables, to be able to access them through all class methods. The function "callback" will be the callback of the ROS subscriber. 
-..       #
-..       rospy.Subscriber("front/scan", LaserScan, self.callback)
-..       self.pub = rospy.Publisher("jackal_robot_status", String, queue_size=10)
+..    # 2) build 4×4 homogeneous transform matrix T
+..    T = tf.transformations.quaternion_matrix(rot)
+..    T[0:3, 3] = trans
 
-..     def callback(self,data):
+..    # 3) loop over all ranges, skip inf, transform each point, compute dist
+..    worst = 'minor'
+..    for idx, r in enumerate(scan.ranges):
+..        if not np.isfinite(r):
+..            continue
 
-..       # Add code here to iterate over all values in LaserScan ranges[] field and check the criticality of the robot position. Additionally, initialize a String variable that will contain the criticality message.
-..       #
-      
-..       # initialize the counter variables for each criticality level
-..       counter_minor = 0
-..       counter_major = 0
-..       counter_critical = 0
-      
-..       for r in data.ranges:
-..         if str(r)=="inf":
-..           continue
+..        theta = scan.angle_min + idx * scan.angle_increment
+..        x_l = r * math.cos(theta)
+..        y_l = r * math.sin(theta)
+..        p_l = np.array([x_l, y_l, 0.0, 1.0])
 
-..         # else check criticality
+..        # transform into base_link frame
+..        p_b = T.dot(p_l)
+..        dist = math.hypot(p_b[0], p_b[1])
 
-..         if r < 0.2:
-..           counter_critical = counter_critical + 1
-..         elif r < 0.5:
-..           counter_major = counter_major + 1
-..         else:
-..           counter_minor = counter_minor + 1
-          
-..         str_msg = String()
-..         if counter_critical > 0:
-..           str_msg.data = "critical"
-..         elif counter_major > 0:
-..           str_msg.data = "major"
-..         elif counter_minor > 0:
-..           str_msg.data = "minor"
-..         else: 
-..           str_msg.data = "no obstacle"
-        
-..         # Publish the String through the created ROS publisher variable...
-..         #
-..         self.pub.publish(str_msg.data)
-      
-..   def main(args):
-..       ## initialization of the class object
-..       rospy.init_node('ranges_check', anonymous=True)
-..       ic = ranges_check()
-..       try:
-..           rospy.spin()
-..       except KeyboardInterrupt:
-..           print("Shutting down")
-          
-..   if __name__ == '__main__':
-..       main(sys.argv)
+ ..       # classify
+ ..       if dist < 0.2:
+ ..           worst = 'critical'
+ ..           break
+ ..       elif dist < 0.5 and worst != 'critical':
+ ..           worst = 'major'
+
+..    # 4) publish the single “worst” status
+..    status_msg = String(data=worst)
+..    pub.publish(status_msg)
+
+..    # (optional) print for debugging
+..    rospy.loginfo(f"Published status: {worst}")
+
+.. if __name__ == '__main__':
+..    rospy.init_node('tf_listener')
+..    listener = tf.TransformListener()
+..    pub = rospy.Publisher('jackal_robot_status', String, queue_size=1)
+
+..    # subscribe to LiDAR
+..    rospy.Subscriber('/front/scan', LaserScan, callback)
+
+..    rospy.loginfo("tf_listener with LiDAR processing started")
+..    rospy.spin()
 
 
 
