@@ -1,4 +1,4 @@
-Lab 4: Open Loop Control
+Lab 3: Open Loop Control
 ========================
 
 Overview
