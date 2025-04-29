@@ -270,7 +270,7 @@ Sample Code Explained
 
   .. code-block:: python
 
-    self.vel_pub = rospy.Publisher("", Twist, queue_size=10)
+    self.vel_pub = rospy.Publisher("cmd_vel", Twist, queue_size=10)
 
 - The following question is how frequently we should send velocity commands.
   Note that the robot will stop if no velocity command is received after a while,
