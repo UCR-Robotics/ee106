@@ -114,12 +114,12 @@ A sample code is provided to make the robot move forward for a certain distance.
 Please read carefully the provided code, and understand its functionality.
 You need to make changes under ``run`` function to complete the square trajectory.
 
-- Open a new terminal and go to your ``ee106s23`` package. 
+- Open a new terminal and go to your ``ee106s25`` package. 
   We will start from a new Python script.
 
   .. code-block:: bash
 
-    roscd ee106s23
+    roscd ee106s25
     cd src
     touch open_loop.py
     gedit open_loop.py
@@ -138,7 +138,7 @@ You need to make changes under ``run`` function to complete the square trajector
         def __init__(self):
             rospy.init_node("turtlebot_move")
             rospy.loginfo("Press Ctrl + C to terminate")
-            self.vel_pub = rospy.Publisher("", Twist, queue_size=10)
+            self.vel_pub = rospy.Publisher("cmd_vel", Twist, queue_size=10)
             self.rate = rospy.Rate(10)
             self.run()
 
@@ -177,7 +177,7 @@ Sample Code Explained
   
   .. code-block:: python
 
-    #!/usr/bin/env python
+    #!/usr/bin/env python3
 
 - You need to import rospy in order to use ROS in Python.
   This is the Python library that contains common operations and resources in ROS.
