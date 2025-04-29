@@ -83,13 +83,13 @@ Then, we clone and install the turtlebot3 ROS packages in our ROS workspace,
 
   .. code-block:: bash
 
-  cd ~/catkin_ws/src/
-  git clone -b noetic-devel https://github.com/ROBOTIS-GIT/turtlebot3.git
-  git clone -b noetic-devel https://github.com/ROBOTIS-GIT/turtlebot3_msgs.git
-  git clone -b noetic-devel https://github.com/ROBOTIS-GIT/turtlebot3_simulations.git
-  cd ../
+      cd ~/catkin_ws/src/
+      git clone -b noetic-devel https://github.com/ROBOTIS-GIT/turtlebot3.git
+      git clone -b noetic-devel https://github.com/ROBOTIS-GIT/turtlebot3_msgs.git
+      git clone -b noetic-devel https://github.com/ROBOTIS-GIT/turtlebot3_simulations.git
+      cd ../
 
-and then we **build** the workspace. :wink:
+and then we **build** the workspace. 😉
 
 Gazebo and Turtlebot3 Simulation
 ----------------
