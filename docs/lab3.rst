@@ -372,13 +372,13 @@ ROS Conventions
 Submission
 ----------
 
-#. Submission: individual submission via Gradescope
+#. Submission: individual submission via Gradescope (**please use exactly the same filename**; autograder is case sensitive)
 
-#. Due time: 11:59pm, May 14, Sunday
+#. Due time: 11:59pm, May 8, Thursday
 
 #. Files to submit: 
 
-   - lab4_report.pdf with the open_loop.py included inside
+   - lab3_report.pdf with the open_loop.py included inside
 
 #. Grading rubric:
 
@@ -393,24 +393,10 @@ Submission
    + \+ 10%  The script can complete the task on time and exit gracefully.
    + \- 15%  Penalty applies for each late day. 
 
-.. Autograder
-.. ----------
+Autograder
+----------
 
-.. All code submissions will be graded automatically by an autograder uploaded to Gradescope.
-.. Your scripts will be tested on a Ubuntu cloud server using a similar ROS + Gazebo environment.
-.. The grading results will be available in a couple of minutes after submission.
-
-.. The autograder works in the following way (no action on your side needed; just to explain). 
-.. (1) Under Gazebo simulation environment, the submitted Python script will be run for once 
-.. and the robot trajectory will be saved into csv files. 
-.. (2) The scores will be given by evaluating the saved trajectory and uploaded back to Gradescope.
-
-
-.. Testing parameters are as follows. 
-
-.. #. The tolerance for distance error is set to 1.0m (considering this is open-loop control).
-
-..    - For example, passing point [3.6, 3.4] is approximately equivalent to passing point [4.0, 4.0].
+All code submissions will be graded automatically by an autograder uploaded to Gradescope. Your scripts will be tested on a Ubuntu cloud server using a similar ROS + Gazebo environment. The grading results will be available in a couple of minutes after submission. The autograder works in the following way (no action on your side needed; just to explain). (1) Under Gazebo simulation environment, the submitted Python script will be run for once and the robot trajectory will be saved into csv files. (2) The scores will be given by evaluating the saved trajectory and uploaded back to Gradescope. Testing parameters are as follows. The tolerance for distance error is set to 1.0m (considering this is open-loop control). For example, passing point [3.6, 3.4] is approximately equivalent to passing point [4.0, 4.0]. If running properly, the task in this lab can be done in about 1 min, based on our testing. It is important that your script can exit gracefully after task completion.
 
 .. #. The time limit for the submitted script is set to 5 mins.
 
