@@ -72,16 +72,24 @@ with respect to :math:`W` will be of the from:
 Installation Steps
 ----------------
 
-First, we clone and install the turtlebot3 ROS packages in our ROS workspace,
+First, let’s upgrade existing packages and install some dependencies for Turtlebot.
+
+ .. code-block:: bash
+
+    sudo apt-get update
+    sudo apt-get upgrade
+
+Then, we clone and install the turtlebot3 ROS packages in our ROS workspace,
 
   .. code-block:: bash
 
-    cd ~/catkin_ws/src/
-    git clone https://github.com/ROBOTIS-GIT/turtlebot3.git
-    git clone https://github.com/ROBOTIS-GIT/turtlebot3_simulations
-    cd ../
+  cd ~/catkin_ws/src/
+  git clone -b noetic-devel https://github.com/ROBOTIS-GIT/turtlebot3.git
+  git clone -b noetic-devel https://github.com/ROBOTIS-GIT/turtlebot3_msgs.git
+  git clone -b noetic-devel https://github.com/ROBOTIS-GIT/turtlebot3_simulations.git
+  cd ../
 
-and then we build the workspace.
+and then we **build** the workspace. :wink:
 
 Gazebo and Turtlebot3 Simulation
 ----------------
