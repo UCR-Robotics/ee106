@@ -1,4 +1,4 @@
-Lab 5: Closed Loop Control
+Lab 4: Closed Loop Control
 ==========================
 
 Overview
@@ -11,7 +11,7 @@ the desired waypoint has been reached.
 
 Specifically, the task is to implement a PD controller (a variant/subset of PID controller)
 to track the square shape trajectory. 
-Same as in Lab 4, the waypoints are [4, 0], [4, 4], [0, 4], [0, 0], and the sequence does matter.
+Same as in Lab 3, the waypoints are [4, 0], [4, 4], [0, 4], [0, 0], and the sequence does matter.
 After task completion, the robot should stop at the origin and the Python script should exit gracefully. 
 Please plot the trajectory (using another provided Python script) and discuss your results in the lab report.
 
@@ -23,11 +23,11 @@ Submission
 
 #. Submission: individual submission via Gradescope
 
-#. Due time: 11:59pm, May 18, Saturday
+#. Due time: 11:59pm, May 16, Friday
 
 #. Files to submit: (please use exactly the same filename; case sensitive)
 
-   - lab5_report.pdf
+   - lab4_report.pdf
    - closed_loop.py
 
 #. Grading rubric:
@@ -179,12 +179,12 @@ Sample Code
 A sample code is provided as the starting point for your implementation. 
 Please read carefully the provided code, and understand its functionality. 
 
-- Open a new terminal and go to the ``ee106s24`` package. 
+- Open a new terminal and go to the ``ee106s25`` package. 
   We will start from a new python script.
 
   .. code-block:: bash
 
-    roscd ee106s24/scripts
+    roscd ee106s25/scripts
     touch closed_loop.py
     gedit closed_loop.py
 
