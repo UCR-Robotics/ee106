@@ -190,8 +190,8 @@ Please read carefully the provided code, and understand its functionality.
 
 - Please copy and paste the following code, then save and close it. If you are working on turtlebot 2, you will need to change the topic name to ``/mobile_base/commands/velocity``.
 
-  .. literalinclude:: ../../scripts/closed_loop.py
-    :language: python
+.. literalinclude:: ../../scripts/controller.py
+   :language: python
 
 - Please make changes to the ``run`` function to complete the task in this lab.
   Once finished, you can run it two ways as introduced in Lab 4.
