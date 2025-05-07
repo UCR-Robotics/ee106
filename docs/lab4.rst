@@ -132,7 +132,7 @@ Consider the following feedback control diagram.
   To make it work, you need to understand the PD control algorithm 
   and complete the three lines of code under the ``update`` function.
 
-  ..literalinclude:: ../../scripts/controller.py
+  .. literalinclude:: ../../scripts/controller.py
     :language: python
 
 
