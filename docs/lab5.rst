@@ -52,7 +52,7 @@ Notably, the ``rossrv`` bash command is used to display information about ROS Se
 ROS Service Use Example
 ----------
 
-Let's see an example by using the `rospy_tutorials/AddTwoInts` ROS Service. First, create a new ROS Publisher and Subscriber node, as followed on our `ROS tutorial <https://ucr-robotics.readthedocs.io/en/latest/intro_ros.html>`_ and name them `node_a.py` and `node_b.py` under the ``ee106s23`` ROS package. In addition, modify both the ``node_a`` and ``node_b`` to the following,
+Let's see an example by using the `rospy_tutorials/AddTwoInts` ROS Service. First, create a new ROS Publisher and Subscriber node, as followed on our `ROS tutorial <https://ucr-robotics.readthedocs.io/en/latest/intro_ros.html>`_ and name them `node_a.py` and `node_b.py` under the ``ee106s25`` ROS package. In addition, modify both the ``node_a`` and ``node_b`` to the following,
 
 
 .. code-block:: python  
@@ -130,7 +130,7 @@ As it is evident, the highlighted code are new additions in our ROS publisher-su
 Creation of new ROS Service Type
 ----------
 
-For the generation of the new ROS Service type, initially, we create a new folder ``srv`` inside the `ee106s23` ROS package. Then, we create a ``ee106s23_service.srv`` file, which will contain the main request/response data structure,
+For the generation of the new ROS Service type, initially, we create a new folder ``srv`` inside the `ee106s25` ROS package. Then, we create a ``ee106s25_service.srv`` file, which will contain the main request/response data structure,
 
 .. code-block:: python
 
@@ -147,7 +147,7 @@ To use the new ROS Service we have to build the workspace, but first, we need to
 
  # Declare the service files to be built
  add_service_files(FILES
-    ee106s23_service.srv
+    ee106s25_service.srv
  )
 
 As we have applied all the changes, we build the workspace and we can use our new ROS Service in any ROS Node, as the package dependencies are satisfied.
@@ -169,7 +169,7 @@ Submission
 
 #. Goal: Creation of a ROS Node that can command the Turtlebot3 to follow the left wall, in an unknown environment, by using LiDAR information.
 
-#. Due time: 11:59pm, May 23, Tuesday
+#. Due time: 11:59pm, May 23, Friday
 
 #. Files to submit: 
 
@@ -180,8 +180,8 @@ Submission
    .. image:: ./pics/straight_line_wall_following.png
       :align: center
 
-   + \+ 5% Create a new folder in ``ee106s23`` ROS package, by using the name ``worlds``. Download the `Gazebo world <https://github.com/UCR-Robotics/ee106/blob/main/scripts/straight_line.world>`_ and copy it inside the ``ee106s23/worlds/`` folder.
-   + \+ 10% Create the below ROS launch file and save it inside the ``ee106s23/launch/``, under the name of ``lab5_turtlebot_world.launch``. Execute the launch file in a separate terminal by running first ``export TURTLEBOT3_MODEL=burger``. 
+   + \+ 5% Create a new folder in ``ee106s25`` ROS package, by using the name ``worlds``. Download the `Gazebo world <https://github.com/UCR-Robotics/ee106/blob/main/scripts/straight_line.world>`_ and copy it inside the ``ee106s25/worlds/`` folder.
+   + \+ 10% Create the below ROS launch file and save it inside the ``ee106s25/launch/``, under the name of ``lab5_turtlebot_world.launch``. Execute the launch file in a separate terminal by running first ``export TURTLEBOT3_MODEL=burger``. 
 
    .. code-block:: python
 
@@ -192,7 +192,7 @@ Submission
       <arg name="z_pos" default="0.0"/>
 
       <include file="$(find gazebo_ros)/launch/empty_world.launch">
-         <arg name="world_name" value="$(find ee106s23)/worlds/straight_line.world"/>
+         <arg name="world_name" value="$(find ee106s25)/worlds/straight_line.world"/>
          <arg name="paused" value="false"/>
          <arg name="use_sim_time" value="true"/>
          <arg name="gui" value="true"/>
