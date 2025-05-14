@@ -213,7 +213,6 @@ Submission
  + \+ 15% Fully integrate the left-wall following behavior logic into the TurtleBot3 Burger’s motion-planning node, ensuring it publishes on /cmd_vel for the new complex worlds as well.
  .. image:: ./pics/complex_case.png
       :align: center
-
  .. image:: ./pics/more_complex_case.png
       :align: center
 
