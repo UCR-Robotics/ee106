@@ -127,31 +127,6 @@ and the ``node_b``,
 
 As it is evident, the highlighted code are new additions in our ROS publisher-subscriber nodes, to integrate the creation (`node_b`) and the call (`node_a`) of the ROS Service.
 
-Creation of new ROS Service Type
-----------
-
-For the generation of the new ROS Service type, initially, we create a new folder ``srv`` inside the `ee106s25` ROS package. Then, we create a ``ee106s25_service.srv`` file, which will contain the main request/response data structure,
-
-.. code-block:: python
-
- string request_msg
- ---
- string response_msg
-
-
-.. Our main goal for this service is transit a message 
-
-To use the new ROS Service we have to build the workspace, but first, we need to apply the modifications of the `CMakeLists.txt <https://ucr-ee106.readthedocs.io/en/latest/lab1.html#creation-of-custom-ros-message>`_. Also, we have to uncomment the following part in the `CMakeLists.txt` file to enable the build of our newly created ROS Service, 
-
-.. code-block:: python
-
- # Declare the service files to be built
- add_service_files(FILES
-    ee106s25_service.srv
- )
-
-As we have applied all the changes, we build the workspace and we can use our new ROS Service in any ROS Node, as the package dependencies are satisfied.
-
 Reading Materials
 -----------------
 
