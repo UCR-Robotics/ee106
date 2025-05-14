@@ -165,7 +165,7 @@ ROS Services
 Submission
 ----------
 
-#. Submission: individual submission via Gradescope
+#. Submission: Group submission via Gradescope (2 people)
 
 #. Goal: Creation of a ROS Node that can command the Turtlebot3 to follow the left wall, in an unknown environment, by using LiDAR information.
 
