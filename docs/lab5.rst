@@ -212,10 +212,10 @@ Submission
 + \+ 10% Download the two new Gazebo worlds, namely `complex.world <https://github.com/UCR-Robotics/ee106/blob/main/scripts/complex.world>`_ and `more_complex.world <https://github.com/UCR-Robotics/ee106/blob/main/scripts/more_complex.world>`_ and place them inside the `worlds` folder of ``ee106s25``. Update the `lab5_turtlebot_world.launch` file to load the new worlds, for each experiment. 
  + \+ 15% Fully integrate the left-wall following behavior logic into the TurtleBot3 Burger’s motion-planning node, ensuring it publishes on /cmd_vel for the new complex worlds as well.
  .. image:: ./pics/complex_case.png
-    :align: center
+      :align: center
 
  .. image:: ./pics/more_complex_case.png
-    :align: center
+      :align: center
 
 
   + \+ 10% Record a panoramic video of the resulting left-wall following behavior for each world and include the output of the ROS Node terminal, which will print out the following actions of the robot. Remember that you can always reset the Gazebo world state by pressing ``Ctrl + R`` during your experiments.
@@ -256,8 +256,6 @@ Initially, as can be seen from the image, every case can be modeled by using two
     * - Occupied
       - Occupied
       - Right
-
-
 
 
 
