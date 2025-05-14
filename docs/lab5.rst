@@ -213,12 +213,11 @@ Submission
  + \+ 15% Fully integrate the left-wall following behavior logic into the TurtleBot3 Burger’s motion-planning node, ensuring it publishes on /cmd_vel for the new complex worlds as well.
  .. image:: ./pics/complex_case.png
       :align: center
- .. image:: ./pics/more_complex_case.png
-      :align: center
-
 
   + \+ 10% Record a panoramic video of the resulting left-wall following behavior for each world and include the output of the ROS Node terminal, which will print out the following actions of the robot. Remember that you can always reset the Gazebo world state by pressing ``Ctrl + R`` during your experiments.
  + \- 15%  Penalty applies for each late day. 
+ .. image:: ./pics/more_complex_case.png
+      :align: center
 
 
 Left Wall-following Scenario
