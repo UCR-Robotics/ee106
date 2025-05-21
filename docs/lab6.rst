@@ -17,11 +17,11 @@ The pseudocode is provided at the end of this page.
 Submission
 ----------
 
-#. Submission: group submission via Gradescope
+#. Submission: Group submission via Gradescope
 
 #. Demo: not required
 
-#. Due time: 11:59, May 25, Thursday
+#. Due time: 11:59, May 30, Friday
 
 #. Files to submit:
 
@@ -62,12 +62,12 @@ For each A* path computed, the autograder will check the following conditions.
 Sample Code
 -----------
 
-- Open a new terminal and go to your ``ee106s23`` package. 
+- Open a new terminal and go to your ``ee106s25`` package. 
   We will create a new python script.
 
   .. code-block:: bash
 
-    roscd ee106s23/src
+    roscd ee106s25/src
     touch motion_planning.py
     gedit motion_planning.py
 
