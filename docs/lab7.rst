@@ -1,90 +1,123 @@
-Lab 7: Wall Following and the Finite-State Machine
-====================
+Lab 7: Go! Turtlebot!
+=====================
 
 Overview
 --------
 
-In this lab, we will continue the development of the Turtlebot3 left wall-following behavior, by fully describing the navigation and sensing problem and the way of approaching it. Additionally, we will introduce the Finite State Machine (FSM) which will be integrated into the development of our behavior. 
+In this lab, we will put everything together and apply what we have learned so far in ROS on the real Turtlebot. 
+The task is to use Turtlebot and perform left-wall following in a real-world environment without colliding with obstacles or walls.
 
-The developed behavior will be evaluated and tested on the real Turtlebot3 Burger on Week 10, in a real wall-following setting.
+The implemented ROS node of `Lab 6 <https://ucr-ee106.readthedocs.io/en/latest/lab6.html#>`_ will be used with proper modifications, to run onboard the Turtlebot to complete the navigation scenario. In the end, a demonstration of the complete wall-following behavior will be performed for the system's evaluation. Each team will have one Turtlebot to work with and do the demonstration.
 
-Left Wall-following Scenario
---------
+**A successful demo on Gazebo is required before any 
+implementation on the real robot.**
 
-To perform the left wall following initially, we have to consider the type of sensor modules that the robot will need. In general, there are many types of sensors that can indicate the existence of a wall around the robot, either with physical touch or by distance. In our case, we place a LiDAR sensor on the top of the Turtlebot3 Burger, which provides `360°` range measurements around it. For the left wall-following scenario, we can reduce the captured ranging measurements down to the `front` and `left` side of the robot. In many robots, an ultrasonic ranging sensor is used to provide distances of the front and left side of the robot, but in our case, the LiDAR can provide a range of distance measurements on the front left side of the robot.
+Connection with the robot and roslaunch
+----------
 
-The cases that a robot might experience during its exploration in a maze, by following left wall-following, are depicted below,
+As we saw in the first labs, one of the ways to connect to the robot is via Secure SHell (SSH). Thus, in this case, you need first to connect to the local Wi-Fi router (for further information please ask the Teaching Assistant) and then to the robot. To connect to the robot, you can open an SSH connection terminal, 
 
-.. image:: ./pics/wall_following.png
- :width: 600
- :align: center
+  .. code-block:: bash
 
-Initially, as can be seen from the image, every case can be modeled by using two parameters, the `Left Side` and the `Right Side` occupancy. Thus, the robot depending on the values of these two parameters can decide on the next action-move, which can be moving `forward`, `left`, or `right`. These cases can be represented also as the following lookup matrix,
+    ssh ee106_nucx@192.168.0.X
+
+where `nucx` stands for the nuc number, as mentioned on the robot and `X` is the final digits of the robot's IP. Since you are connected to the remote shell of the robot, you can navigate in the `~/catkin_ws` folder of its ROS workspace. 
+
+First we need to enable the robot  ROS node. Thus, execute in the above terminal, 
+
+  .. code-block:: bash
+
+    roslaunch kobuki_node robot_with_tf.launch
+
+In another terminal run
+
+  .. code-block:: bash
+
+    sudo chmod 666 /dev/ttyUSB1
+
+then in the same terminal run
+
+  .. code-block:: bash
+
+    roslaunch rplidar_ros rplidar_a2m8.launch
+
+To execute your locally saved ROS node, you need first to secure copy (`scp`) it in the robot's directory and then execute it. So, open a terminal in your VMware and execute,
+
+  .. code-block:: bash
+
+    scp `path_to_your_script` ee106_nucx@192.168.0.X:/home/ee106_nucx/turtlebot2_ws/src/ee106s25/src/left_wall_following.py
+
+Then, on the same terminal follow the above instructions of performing SSH, and obtain access on the TurtleBot by a new terminal.
+
+As the file is copied on the Robot, you can navigate to the `ee106s25` ROS package, and provide permission on the copied ROS node with the command `chmod +x left_wall_following.py`. To execute your ROS node on the Turtlebot3, perform the following command on the SSH terminal,
+
+  .. code-block:: bash
+
+    rosrun ee106s25 left_wall_following.py
+
+To interrupt the behavior, you can cancel the execution of the ROS node in the same way as the Gazebo. In case you want to perform changes on your code, you can do this locally on your computer, and then copy back the new updated code on the robot. 
+
+.. Additionally, you can use the keyboard as a controller to provide velocity commands directly on the robot and also to stop it. To enable this node please execute,
+
+..   .. code-block:: bash
+    
+..     roslaunch X keyboard_teleop.launch
 
 
-.. list-table:: 
-    :align: center
-    :widths: 50 50 50
-    :header-rows: 1
+ROS Bag Recording and Data Logging (Optional)
+----------
 
-    * - Left Side
-      - Front Side
-      - Action
-    * - Free
-      - Free
-      - Left
-    * - Free
-      - Occupied
-      - Right 
-    * - Occupied
-      - Free
-      - Forward
-    * - Occupied
-      - Occupied
-      - Right
+One of the ways to record the data being produced during a ROS scenario you can use the ROS bag command. Specifically, this command enables the ROS data logging feature to capture information that is being published via the ROS Topics and save it locally. The information is saved in ROS Bag file format (`.bag`), which can be accessed at a later time and be replayed back to replay the captured data of the scenario. 
 
+In our scenario, the ROS Bag recording can be used to save the implemented scenario of the TurtleBot3 and then can be replayed to visualize the data captured during the real scenario. To save the ROS Bag you can execute while the robot is running,
 
+  .. code-block:: bash
 
-Finite-State Machine (FSM)
---------
+    rosbag record -a
 
-A Finite-State Machine is a state automata that can formulate an algorithmic problem, which can be described by distinct states and transitions between them. Specifically, an FSM contains a finite number of states with an initial starting state, and at each moment only one state can be active in the machine. To have a transition between states, specific actions needed to occur (triggered) that also are described by the transition actions.
+The locally saved ROS Bag can be replayed back, by doing,
 
-.. image:: ./pics/fsm.png
- :width: 400
- :align: center
+  .. code-block:: bash
 
-The left wall-following problem described above can be illustrated as a FSM, by using the robot actions as the states and the range measurements as the transition triggers. As the FSM is formed it can be integrated inside the motion planning ROS node, to perform left wall following. Notably, to achieve the robot's inclination towards the left wall while moving forward, an `extreme_close_to_wall` parameter is used, which can be enabled when the robot has the left wall less than `10cm` closer to its left side.
+    rosbag play name_of_the_rosbag.bag --clock -l
+  
+By using the `Space` button you can pause the replay. Additionally, by using the `rostopic list` command you can see that the captured ROS Topics are being replayed back. 
+
+.. In our scenario, you will be asked to record a ROS Bag, to use after the lab to access and visualize the captured data from the real scenario in the Lab. `Please ask your TA about how to save the captured ROS Bag on your computer.`
 
 Submission
---------
+----------
 
-#. Group Submission (2-people)
+#. In the lab report include explanations and screenshots from the robot's navigation scenario.
 
-#. Due time: 11:59pm, June 1, Saturday.
-
-#. Files to submit:
-
- - lab7_report.pdf with link of the video/s included. Please provide a report describing all the following steps and results experienced in both experiments.
+#. Due time: 06/10/2025
 
 #. Grading rubric:
+      -  \+10% Communicate successfully with the real robot
+      -  \+40% Demo the task on the real robot
+      -  \+10% Avoid collision with wall.
+      -  \+10% Do a lap around the map.
+      -  \+30% Lab report with included ROS Node code and remarks and lessons learned from the lab.
 
- + \+ 10% Download the two new Gazebo worlds, namely `complex.world <https://github.com/UCR-Robotics/ee106/blob/main/scripts/complex.world>`_ and `more_complex.world <https://github.com/UCR-Robotics/ee106/blob/main/scripts/more_complex.world>`_ and place them inside the `worlds` folder of ``ee106s23``. Update the `lab5_turtlebot_world.launch` file to load the new worlds, for each experiment. 
- + \+ 40% Fully integrate the FSM behavior in the Turtlebot3 Burger motion planning behavior, based on the work of the ROS node of `Lab 5 <https://ucr-ee106.readthedocs.io/en/latest/lab5.html#submission>`_. 
- + \+ 25% Demonstrate the left wall-following behavior on the `complex_case.world`, provide comments about the robot behavior, and provide a panoramic video of the result (link).
- 
- .. image:: ./pics/complex_case.png
- :align: center
+Lab Rules
+---------
 
- + \+ 25% Demonstrate the left wall-following behavior on the `more_complex_case.world`, provide comments about the robot behavior, and include a panoramic video of the result in the report (link).
- 
- .. image:: ./pics/more_complex_case.png
- :align: center
+#. Safety is always the top priority.
 
- + \- 15% Penalty applies for each late day. 
+   - No food or beverage allowed in the lab.
+   - Report any suspicious cables, wires, etc.
 
+#. Organize your station before you leave.
 
-Reading Materials
---------
+   - Organize wires, cables, etc.
 
-Wikipedia `Finite-state Machines <https://en.wikipedia.org/wiki/Finite-state_machine>`_ 
+#. Do not leave your personal information on the robot.
+
+   - Create your own folder when you work, and delete code when you leave.
+   - The robot is shared by two lab sections.
+
+#. Do NOT make any changes to the wiring on the robot.
+
+#. Please save the battery (recharging takes time), 
+   and charge the robot if you do not have it running.
+  
