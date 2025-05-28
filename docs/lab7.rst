@@ -7,7 +7,7 @@ Overview
 In this lab, we will put everything together and apply what we have learned so far in ROS on the real Turtlebot. 
 The task is to use Turtlebot and perform left-wall following in a real-world environment without colliding with obstacles or walls.
 
-The implemented ROS node of `Lab 6 <https://ucr-ee106.readthedocs.io/en/latest/lab6.html#>`_ will be used with proper modifications, to run onboard the Turtlebot to complete the navigation scenario. In the end, a demonstration of the complete wall-following behavior will be performed for the system's evaluation. Each team will have one Turtlebot to work with and do the demonstration.
+The implemented ROS node of `Lab 5 <https://ucr-ee106.readthedocs.io/en/latest/lab5.html#>`_ will be used with proper modifications, to run onboard the Turtlebot to complete the navigation scenario. In the end, a demonstration of the complete wall-following behavior will be performed for the system's evaluation. Each team will have one Turtlebot to work with and do the demonstration.
 
 **A successful demo on Gazebo is required before any 
 implementation on the real robot.**
