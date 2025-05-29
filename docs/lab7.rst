@@ -82,6 +82,8 @@ By using the `Space` button you can pause the replay. Additionally, by using the
 
 Submission
 ----------
+.. image:: ./pics/world_2025.jpeg
+    :align: center
 
 #. In the lab report include explanations and screenshots from the robot's navigation scenario.
 
