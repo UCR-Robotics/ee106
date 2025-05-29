@@ -12,6 +12,22 @@ The implemented ROS node of `Lab 5 <https://ucr-ee106.readthedocs.io/en/latest/l
 **A successful demo on Gazebo is required before any 
 implementation on the real robot.**
 
+Submission
+----------
+.. image:: ./pics/wall_world_2025.jpg
+    :align: center
+
+#. In the lab report include explanations and screenshots from the robot's navigation scenario.
+
+#. Due time: 06/10/2025
+
+#. Grading rubric:
+      -  \+10% Communicate successfully with the real robot
+      -  \+40% Demo the task on the real robot
+      -  \+10% Avoid collision with wall.
+      -  \+10% Reach the goal area and kick the balls.
+      -  \+30% Lab report with included ROS Node code and remarks and lessons learned from the lab.
+
 Connection with the robot and roslaunch
 ----------
 
@@ -79,22 +95,6 @@ The locally saved ROS Bag can be replayed back, by doing,
 By using the `Space` button you can pause the replay. Additionally, by using the `rostopic list` command you can see that the captured ROS Topics are being replayed back. 
 
 .. In our scenario, you will be asked to record a ROS Bag, to use after the lab to access and visualize the captured data from the real scenario in the Lab. `Please ask your TA about how to save the captured ROS Bag on your computer.`
-
-Submission
-----------
-.. image:: ./pics/world_2025.jpg
-    :align: center
-
-#. In the lab report include explanations and screenshots from the robot's navigation scenario.
-
-#. Due time: 06/10/2025
-
-#. Grading rubric:
-      -  \+10% Communicate successfully with the real robot
-      -  \+40% Demo the task on the real robot
-      -  \+10% Avoid collision with wall.
-      -  \+10% Reach the goal area and kick the balls.
-      -  \+30% Lab report with included ROS Node code and remarks and lessons learned from the lab.
 
 Lab Rules
 ---------
