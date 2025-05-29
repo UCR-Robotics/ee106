@@ -19,41 +19,29 @@ As we saw in the first labs, one of the ways to connect to the robot is via Secu
 
   .. code-block:: bash
 
-    ssh ee106_nucx@192.168.0.X
+    ssh pi@192.168.0.X
 
-where `nucx` stands for the nuc number, as mentioned on the robot and `X` is the final digits of the robot's IP. Since you are connected to the remote shell of the robot, you can navigate in the `~/catkin_ws` folder of its ROS workspace. 
+where `X` is the final digits of the robot's IP. Since you are connected to the remote shell of the robot, you can navigate in the `~/catkin_ws` folder of its ROS workspace. 
 
-First we need to enable the robot  ROS node. Thus, execute in the above terminal, 
-
-  .. code-block:: bash
-
-    roslaunch kobuki_node robot_with_tf.launch
-
-In another terminal run
+First we need to enable the robot `bringup` ROS node. Thus, execute in the above terminal, 
 
   .. code-block:: bash
 
-    sudo chmod 666 /dev/ttyUSB1
-
-then in the same terminal run
-
-  .. code-block:: bash
-
-    roslaunch rplidar_ros rplidar_a2m8.launch
+    roslaunch turtlebot3_bringup turtlebot3_robot.launch
 
 To execute your locally saved ROS node, you need first to secure copy (`scp`) it in the robot's directory and then execute it. So, open a terminal in your VMware and execute,
 
   .. code-block:: bash
 
-    scp `path_to_your_script` ee106_nucx@192.168.0.X:/home/ee106_nucx/turtlebot2_ws/src/ee106s25/src/left_wall_following.py
+    scp `path_to_your_script` pi@192.168.0.X:/home/pi/catkin_ws/src/ee106s23/scripts/left_wall_following.py
 
-Then, on the same terminal follow the above instructions of performing SSH, and obtain access on the TurtleBot by a new terminal.
+Then, on the same terminal follow the above instructions of performing SSH, and obtain access on the TurtleBot3 by a new terminal.
 
-As the file is copied on the Robot, you can navigate to the `ee106s25` ROS package, and provide permission on the copied ROS node with the command `chmod +x left_wall_following.py`. To execute your ROS node on the Turtlebot3, perform the following command on the SSH terminal,
+As the file is copied on the Burger, you can navigate to the `ee106s23` ROS package, and provide permission on the copied ROS node with the command `chmod +x left_wall_following.py`. To execute your ROS node on the Turtlebot3, perform the following command on the SSH terminal,
 
   .. code-block:: bash
 
-    rosrun ee106s25 left_wall_following.py
+    rosrun ee106s23 left_wall_following.py
 
 To interrupt the behavior, you can cancel the execution of the ROS node in the same way as the Gazebo. In case you want to perform changes on your code, you can do this locally on your computer, and then copy back the new updated code on the robot. 
 
@@ -62,6 +50,13 @@ To interrupt the behavior, you can cancel the execution of the ROS node in the s
 ..   .. code-block:: bash
     
 ..     roslaunch X keyboard_teleop.launch
+
+
+ROS Node template for the Left Wall-Following
+----------
+
+.. literalinclude:: ../scripts/left_wall_following.py
+   :language: python
 
 
 ROS Bag Recording and Data Logging (Optional)
