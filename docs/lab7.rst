@@ -93,7 +93,7 @@ Submission
       -  \+10% Communicate successfully with the real robot
       -  \+40% Demo the task on the real robot
       -  \+10% Avoid collision with wall.
-      -  \+10% Do a lap around the map.
+      -  \+10% Reach the goal area and kick the balls.
       -  \+30% Lab report with included ROS Node code and remarks and lessons learned from the lab.
 
 Lab Rules
