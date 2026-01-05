@@ -14,18 +14,11 @@ Programming Practical Robots!
 
     logistics
     lab0
-    lab1
-    lab2
-    lab3
-    lab4
-    lab5
-    lab6
-    lab7
     linux
     ros
 
 News
 ====
 
-- 04/02/2025: Welcome!
-- 04/02/2025: Please read `logistics <logistics.html>`_.
+- 01/05/2025: Welcome!
+- 01/05/2025: Please read `logistics <logistics.html>`_.
