@@ -20,5 +20,5 @@ Programming Practical Robots!
 News
 ====
 
-- 01/05/2025: Welcome!
-- 01/05/2025: Please read `logistics <logistics.html>`_.
+- 01/05/2026: Welcome!
+- 01/05/2026: Please read `logistics <logistics.html>`_.
