@@ -43,7 +43,7 @@ From now on, we assume that you have already installed Ubuntu 20.04 and ROS Noet
 .. code-block:: bash
       
     cd ~/catkin_ws/src
-    catkin_create_pkg ee106s25 std_msgs rospy
+    catkin_create_pkg ee106w26 std_msgs rospy
 
 - Take a look at your new package ``ee106s25`` and see what happens. You should be able to see a ``package.xml`` file
   and a ``CMakeLists.txt`` file. Open them and take a quick look. 
@@ -64,13 +64,13 @@ From now on, we assume that you have already installed Ubuntu 20.04 and ROS Noet
 .. code-block:: bash
       
     cd
-    roscd ee106s25
+    roscd ee106w26
 
     cd ~/catkin_ws
-    roscd ee106s25
+    roscd ee106w26
       
     cd ~/Documents
-    roscd ee106s25
+    roscd ee106w26
 
 - Congratulations. You have initialized the ROS workspace and created the ee106s25 ROS package!
   Take some time to think about how the above steps work. 
@@ -84,7 +84,7 @@ The next step is to head to our  `ROS tutorial`_ and create the ROS publisher an
 
 .. code-block:: bash
 
-    roscd ee106s25/src/
+    roscd ee106w26/src/
     chmod +x publisher.py
     chmod +x subscriber.py
 
@@ -98,13 +98,13 @@ Then create two separate terminals, and execute,
 
 .. code-block:: bash
 
-    rosrun ee106s25 publisher.py
+    rosrun ee106w26 publisher.py
 
 and
 
 .. code-block:: bash
 
-    rosrun ee106s25 subscriber.py
+    rosrun ee106w26 subscriber.py
 
 By performing these commands you have successfully created and executed your first ROS application, on which you transfer string data through a ROS topic from the ``talker`` to the ``listener`` ROS node. To preview the transmitted information through the ``chatter`` ROS topic, you can use,
 
@@ -128,7 +128,7 @@ As mentioned in the class, ROS features a simplified message description languag
     float32 float_data
     string string_data
 
-To create this new message type, initially create a folder ``msg`` inside the ``ee106s25`` ROS package. Additionally, create a file ``EE106lab_custom.msg`` inside the created ``msg`` folder, by containing the information depicted above. 
+To create this new message type, initially create a folder ``msg`` inside the ``ee106w26`` ROS package. Additionally, create a file ``EE106lab_custom.msg`` inside the created ``msg`` folder, by containing the information depicted above. 
 
 To be able to use the new ROS message type, we need to indicate its creation to the ROS workspace and compile it. To achieve this, fistly you need to update the package.xml of ``ee106s25`` and make sure these two lines are in it,
 
@@ -137,7 +137,7 @@ To be able to use the new ROS message type, we need to indicate its creation to 
   <build_depend>message_generation</build_depend>
   <exec_depend>message_runtime</exec_depend>
 
-Additionally, to indicate this modification to the cmake compiler, you need to update the line of CMakeLists.txt of ``ee106s25`` package to contain the message_generation,
+Additionally, to indicate this modification to the cmake compiler, you need to update the line of CMakeLists.txt of ``ee106w26`` package to contain the message_generation,
 
 .. code-block:: python
 
@@ -182,7 +182,7 @@ Submission
 
 #. Demo: required (Present the subscriber's additions results in real-time.)
 
-#. Due time: 11:59pm, Apr 24, Thursday
+#. Due time: 11:59pm, Jan 22, Thursday
 
 #. Files to submit: 
 
