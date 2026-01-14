@@ -14,6 +14,7 @@ Programming Practical Robots!
 
     logistics
     lab0
+    lab1
     linux
     ros
 
