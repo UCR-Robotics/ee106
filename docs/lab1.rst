@@ -45,7 +45,7 @@ From now on, we assume that you have already installed Ubuntu 20.04 and ROS Noet
     cd ~/catkin_ws/src
     catkin_create_pkg ee106w26 std_msgs rospy
 
-- Take a look at your new package ``ee106s25`` and see what happens. You should be able to see a ``package.xml`` file
+- Take a look at your new package ``ee106w26`` and see what happens. You should be able to see a ``package.xml`` file
   and a ``CMakeLists.txt`` file. Open them and take a quick look. 
   You may use Google to help you build up a high-level understanding.
 
