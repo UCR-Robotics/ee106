@@ -80,7 +80,7 @@ ROS Publisher and Subcriber Python Nodes
 ----------
 
   
-The next step is to head to our  `ROS tutorial`_ and create the ROS publisher and subscriber nodes. The Python scripts can be saved under the ``ee106s25/src/`` folder. To be able to use the developed ROS python nodes, you need to provide execution permissions by,
+The next step is to head to our  `ROS tutorial`_ and create the ROS publisher and subscriber nodes. The Python scripts can be saved under the ``ee106w26/src/`` folder. To be able to use the developed ROS python nodes, you need to provide execution permissions by,
 
 .. code-block:: bash
 
@@ -130,7 +130,7 @@ As mentioned in the class, ROS features a simplified message description languag
 
 To create this new message type, initially create a folder ``msg`` inside the ``ee106w26`` ROS package. Additionally, create a file ``EE106lab_custom.msg`` inside the created ``msg`` folder, by containing the information depicted above. 
 
-To be able to use the new ROS message type, we need to indicate its creation to the ROS workspace and compile it. To achieve this, fistly you need to update the package.xml of ``ee106s25`` and make sure these two lines are in it,
+To be able to use the new ROS message type, we need to indicate its creation to the ROS workspace and compile it. To achieve this, fistly you need to update the package.xml of ``ee106w26`` and make sure these two lines are in it,
 
 .. code-block:: python
 
