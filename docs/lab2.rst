@@ -360,6 +360,7 @@ from std_msgs.msg import String
 #import geometry_msgs.msg
 import numpy as np
 #----------------------------------------------------------------------------------------------------------------------
+
 def callback(scan: LaserScan):
   # Get the transformations and rotations
   try:
@@ -398,6 +399,7 @@ if __name__ == '__main__':
   rospy.loginfo("TF with LiDAR")
   rospy.spin()
 
+..
 
 
 
