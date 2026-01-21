@@ -346,7 +346,6 @@ Grading Rubric
 
 Pseudo-code
 --------------
-.. code-block:: bash
 .. code-block:: python
 
 
