@@ -346,6 +346,7 @@ Grading Rubric
 
 Pseudo-code
 --------------
+.. code-block:: bash
 .. code-block:: python
 
 
@@ -399,7 +400,7 @@ if __name__ == '__main__':
   rospy.loginfo("TF with LiDAR")
   rospy.spin()
 
-..
+.. code-block:: bash
 
 
 
