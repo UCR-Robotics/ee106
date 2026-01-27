@@ -114,12 +114,12 @@ A sample code is provided to make the robot move forward for a certain distance.
 Please read carefully the provided code, and understand its functionality.
 You need to make changes under ``run`` function to complete the square trajectory.
 
-- Open a new terminal and go to your ``ee106s25`` package. 
+- Open a new terminal and go to your ``ee106w26`` package. 
   We will start from a new Python script.
 
   .. code-block:: bash
 
-    roscd ee106s25
+    roscd ee106w26
     cd src
     touch open_loop.py
     gedit open_loop.py
