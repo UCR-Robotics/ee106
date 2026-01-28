@@ -374,7 +374,7 @@ Submission
 
 #. Submission: individual submission via Gradescope (**please use exactly the same filename**; autograder is case sensitive)
 
-#. Due time: 11:59pm, May 8, Thursday
+#. Due time: 11:59pm, Feb 5, Thursday
 
 #. Files to submit: 
 
