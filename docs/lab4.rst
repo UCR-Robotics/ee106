@@ -207,7 +207,7 @@ Please read carefully the provided code, and understand its functionality.
 
   .. code-block:: bash
 
-    roscd ee106s25/scripts
+    roscd ee106w26/scripts
     touch closed_loop.py
     gedit closed_loop.py
 
