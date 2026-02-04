@@ -23,7 +23,7 @@ Submission
 
 #. Submission: individual submission via Gradescope
 
-#. Due time: 11:59pm, May 16, Friday
+#. Due time: 11:59pm, Feb 12, Thursday
 
 #. Files to submit: (please use exactly the same filename; case sensitive)
 
@@ -202,7 +202,7 @@ Sample Code
 A sample code is provided as the starting point for your implementation. 
 Please read carefully the provided code, and understand its functionality. 
 
-- Open a new terminal and go to the ``ee106s25`` package. 
+- Open a new terminal and go to the ``ee106w26`` package. 
   We will start from a new python script.
 
   .. code-block:: bash
