@@ -144,7 +144,7 @@ Submission
 
 #. Goal: Creation of a ROS Node that can command the Turtlebot3 to follow the left wall, in an unknown environment, by using LiDAR information.
 
-#. Due time: 11:59pm, May 23, Friday
+#. Due time: 11:59pm, Feb 19, Thursday
 
 #. Files to submit: 
 
