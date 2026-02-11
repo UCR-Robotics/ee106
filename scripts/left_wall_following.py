@@ -2,7 +2,7 @@
 
 import rospy
 import roslib
-roslib.load_manifest('ee106s23')
+roslib.load_manifest('ee106w26')
 import sys
 import numpy as np
 
