@@ -52,7 +52,7 @@ Notably, the ``rossrv`` bash command is used to display information about ROS Se
 ROS Service Use Example
 ----------
 
-Let's see an example by using the `rospy_tutorials/AddTwoInts` ROS Service. First, create a new ROS Publisher and Subscriber node, as followed on our `ROS tutorial <https://ucr-robotics.readthedocs.io/en/latest/intro_ros.html>`_ and name them `node_a.py` and `node_b.py` under the ``ee106s25`` ROS package. In addition, modify both the ``node_a`` and ``node_b`` to the following,
+Let's see an example by using the `rospy_tutorials/AddTwoInts` ROS Service. First, create a new ROS Publisher and Subscriber node, as followed on our `ROS tutorial <https://ucr-robotics.readthedocs.io/en/latest/intro_ros.html>`_ and name them `node_a.py` and `node_b.py` under the ``ee106w26`` ROS package. In addition, modify both the ``node_a`` and ``node_b`` to the following,
 
 
 .. code-block:: python  
@@ -155,8 +155,8 @@ Submission
    .. image:: ./pics/straight_line_wall_following.png
       :align: center
 
-   + \+ 5% Create a new folder in ``ee106s25`` ROS package, by using the name ``worlds``. Download the `Gazebo world <https://github.com/UCR-Robotics/ee106/blob/main/scripts/straight_line.world>`_ and copy it inside the ``ee106s25/worlds/`` folder.
-   + \+ 10% Create the below ROS launch file and save it inside the ``ee106s25/launch/``, under the name of ``lab5_turtlebot_world.launch``. Execute the launch file in a separate terminal by running first ``export TURTLEBOT3_MODEL=burger``. 
+   + \+ 5% Create a new folder in ``ee106w26`` ROS package, by using the name ``worlds``. Download the `Gazebo world <https://github.com/UCR-Robotics/ee106/blob/main/scripts/straight_line.world>`_ and copy it inside the ``ee106w26/worlds/`` folder.
+   + \+ 10% Create the below ROS launch file and save it inside the ``ee106w26/launch/``, under the name of ``lab5_turtlebot_world.launch``. Execute the launch file in a separate terminal by running first ``export TURTLEBOT3_MODEL=burger``. 
 
    .. code-block:: python
 
@@ -167,7 +167,7 @@ Submission
       <arg name="z_pos" default="0.0"/>
 
       <include file="$(find gazebo_ros)/launch/empty_world.launch">
-         <arg name="world_name" value="$(find ee106s25)/worlds/straight_line.world"/>
+         <arg name="world_name" value="$(find ee106w26)/worlds/straight_line.world"/>
          <arg name="paused" value="false"/>
          <arg name="use_sim_time" value="true"/>
          <arg name="gui" value="true"/>
@@ -184,7 +184,7 @@ Submission
    + \+ 20% Create a ROS Node that will contain a ROS subscriber to the robot's onboard LiDAR module, a ROS publisher on the ``cmd_vel`` ROS Topic of type `Twist`. Include a ROS listener of capturing the transformation of the LiDAR module and the ``left_limit`` frame of the robot.
    + \+ Transform the captured ranging measurements of the left side of the robot (1.52 to 1.62 rad) with respect to the ``left_limit`` frame, calculate their distance from the new origin (0,0) (Euclidian distance, Pythagorean Theorem, etc.), and obtain the minimum distance ``min_dist`` from captured and transformed range measurements.
    + \+ 20% By using that information, develop a navigating behavior of the Turtlebot3 to move ``forward`` if the ``min_dist`` is in `[10,20] cm`, move ``forward`` and ``slightly right`` if ``min_dist`` is less than `10cm` (approaching wall), and move ``forward`` and ``slightly left`` if ``min_dist`` is more than `20cm` (leaving the wall behind). Expand the functionality of this behavior, by adding a check of the front and first range scan (`idx=0`) is less than `30cm`, to detect if the robot reached at the end of the map. 
-+ \+ 10% Download the two new Gazebo worlds, namely `complex.world <https://github.com/UCR-Robotics/ee106/blob/main/scripts/complex.world>`_ and `more_complex.world <https://github.com/UCR-Robotics/ee106/blob/main/scripts/more_complex.world>`_ and place them inside the `worlds` folder of ``ee106s25``. Update the `lab5_turtlebot_world.launch` file to load the new worlds, for each experiment. 
++ \+ 10% Download the two new Gazebo worlds, namely `complex.world <https://github.com/UCR-Robotics/ee106/blob/main/scripts/complex.world>`_ and `more_complex.world <https://github.com/UCR-Robotics/ee106/blob/main/scripts/more_complex.world>`_ and place them inside the `worlds` folder of ``ee106w26``. Update the `lab5_turtlebot_world.launch` file to load the new worlds, for each experiment. 
  + \+ 15% Fully integrate the left-wall following behavior logic into the TurtleBot3 Burger’s motion-planning node, ensuring it publishes on /cmd_vel for the new complex worlds as well.
 
  .. image:: ./pics/complex_case.png
