@@ -126,18 +126,15 @@ You may refer to the pseudocode shown below.
 
 
 
-Overview
+Trajectory Generation
 --------
 
-In this lab, we will focus on how to generate **smooth trajectories** using polynomial time scaling. 
+Now we will focus on how to generate **smooth trajectories** using polynomial time scaling. 
 
 Specifically, the task is to implement the 3rd order polynomial time scaling and apply it
 for each segment of the trajectory and for both x and y coordinates. 
 Waypoints will be provided in the sample script, 
 and should be included in the boundary/continuity constraints when generating trajectories.
-
-Preview: Next time we will learn how to use A* algorithm to search for the waypoints, when a map is given.
-
 
 Submission
 ----------
@@ -161,7 +158,7 @@ Submission
    + \- 15%  Penalty applies for each late day. 
 
 
-Autograder
+Autograder (2) for Trajectory Generation
 ----------
 
 All code submissions will be graded automatically by an autograder uploaded to Gradescope.
