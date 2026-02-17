@@ -1,7 +1,7 @@
-Lab 6: Motion Planning
+Lab 6: Motion Planning and Trajectory Generation
 ======================
 
-Overview
+Motion Planning
 --------
 
 We assume a grid map is given with some grids marked as obstacles.
@@ -35,7 +35,7 @@ Submission
    + \- 15%  Penalty applies for each late day. 
 
 
-Autograder
+Autograder (1) for Motion Planning
 ----------
 
 For each A* path computed, the autograder will check the following conditions. 
