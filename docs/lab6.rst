@@ -293,17 +293,19 @@ Submission
 
 #. Demo: not required
 
-#. Due time: 11:59, May 30, Friday
+#. Due time: 11:59, Feb 27, Friday
 
 #. Files to submit:
 
    - lab6_report.pdf
    - motion_planning.py
+   - trajectory_generation.py
 
 #. Grading rubric:
 
-   + \+ 50%  Clearly describe your approach and explain your code in the lab report.
-   + \+ 50%  Implement A* algorithm and pass all test cases.
+   + \+ 20%  Clearly describe your approach and explain your codes in the lab report. For trajectory generation, plot the trajectory and discuss the results under different parameters ( + \+ 20% ).
+   + \+ 40%  Implement A* algorithm and pass all test cases.
+   + \+ 40%  Pass all waypoints using 3rd order polynomial trajectories.
    + \- 15%  Penalty applies for each late day. 
 
 
