@@ -42,12 +42,12 @@ For each A* path computed, the autograder will check the following conditions.
 Sample Code
 -----------
 
-- Open a new terminal and go to your ``ee106s25`` package. 
+- Open a new terminal and go to your ``ee106w26`` package. 
   We will create a new python script.
 
   .. code-block:: bash
 
-    roscd ee106s25/src
+    roscd ee106w26/src
     touch motion_planning.py
     gedit motion_planning.py
 
@@ -139,12 +139,12 @@ Testing parameters are as follows.
 Sample Code
 -----------
 
-- Open a new terminal and go to your ``ee144f23`` package. 
+- Open a new terminal and go to your ``ee106w26`` package. 
   We will start from a new python script.
 
   .. code-block:: bash
 
-    roscd ee144f23/scripts
+    roscd ee106w26/src
     touch trajectory_generation.py
     gedit trajectory_generation.py
 
