@@ -153,7 +153,7 @@ Sample Code
   .. literalinclude:: ../scripts/trajectory_generation.py
     :language: python
 
-- This script is following the same structure as the one used in Lab 3, 
+- This script is following the same structure as the one used in Lab 4, 
   except for the changes under ``run`` function.
 
 - You need to complete the ``move_to_point`` function in this code,
@@ -307,30 +307,6 @@ Submission
    + \+ 40%  Implement A* algorithm and pass all test cases.
    + \+ 40%  Pass all waypoints using 3rd order polynomial trajectories.
    + \- 15%  Penalty applies for each late day. 
-
-
-Submission
-----------
-
-#. Submission: group submission via Gradescope. **Important**: If any of the two team members have ROS Kinetic installed, it is **highly recommended** to setup the code on this computer and not on the M1/M2 computer. The main reason for this is that during the final Lab 8, the real turtlebots have ROS Kinetic installed so there will be fewer code modifications if you develop your ROS nodes for ROS Kinetic.
-
-#. Demo: not required
-
-#. Due time: 11:59pm, Nov 27, Monday
-
-#. Files to submit:
-
-   - lab6_report.pdf (please include the plot of trajectory)
-   - trajectory_generation.py
-
-#. Grading rubric:
-
-   + \+ 30%  Clearly describe your approach and explain your code in the lab report.
-   + \+ 20%  Plot the trajectory and discuss the results under different parameters.
-   + \+ 50%  Pass all waypoints using 3rd order polynomial trajectories.
-   + \- 15%  Penalty applies for each late day. 
-
-
 
 
 Programming Tips
