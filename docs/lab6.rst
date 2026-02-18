@@ -303,7 +303,7 @@ Submission
 
 #. Grading rubric:
 
-   + \+ 20%  Clearly describe your approach and explain your codes in the lab report. For trajectory generation, plot the trajectory and discuss the results under different parameters ( + \+ 20% ).
+   + \+ 20%  Clearly describe your approach and explain your codes in the lab report. For trajectory generation, plot the trajectory and discuss the results under different parameters (10%).
    + \+ 40%  Implement A* algorithm and pass all test cases.
    + \+ 40%  Pass all waypoints using 3rd order polynomial trajectories.
    + \- 15%  Penalty applies for each late day. 
