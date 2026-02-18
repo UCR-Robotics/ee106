@@ -14,26 +14,6 @@ No diagonal movement is allowed (i.e. use 4-connected graphs).
 Please refer to the lecture slides for more details. 
 The pseudocode is provided at the end of this page.
 
-Submission
-----------
-
-#. Submission: Group submission via Gradescope
-
-#. Demo: not required
-
-#. Due time: 11:59, May 30, Friday
-
-#. Files to submit:
-
-   - lab6_report.pdf
-   - motion_planning.py
-
-#. Grading rubric:
-
-   + \+ 50%  Clearly describe your approach and explain your code in the lab report.
-   + \+ 50%  Implement A* algorithm and pass all test cases.
-   + \- 15%  Penalty applies for each late day. 
-
 
 Autograder (1) for Motion Planning
 ----------
@@ -135,28 +115,6 @@ Specifically, the task is to implement the 3rd order polynomial time scaling and
 for each segment of the trajectory and for both x and y coordinates. 
 Waypoints will be provided in the sample script, 
 and should be included in the boundary/continuity constraints when generating trajectories.
-
-Submission
-----------
-
-#. Submission: group submission via Gradescope. **Important**: If any of the two team members have ROS Kinetic installed, it is **highly recommended** to setup the code on this computer and not on the M1/M2 computer. The main reason for this is that during the final Lab 8, the real turtlebots have ROS Kinetic installed so there will be fewer code modifications if you develop your ROS nodes for ROS Kinetic.
-
-#. Demo: not required
-
-#. Due time: 11:59pm, Nov 27, Monday
-
-#. Files to submit:
-
-   - lab6_report.pdf (please include the plot of trajectory)
-   - trajectory_generation.py
-
-#. Grading rubric:
-
-   + \+ 30%  Clearly describe your approach and explain your code in the lab report.
-   + \+ 20%  Plot the trajectory and discuss the results under different parameters.
-   + \+ 50%  Pass all waypoints using 3rd order polynomial trajectories.
-   + \- 15%  Penalty applies for each late day. 
-
 
 Autograder (2) for Trajectory Generation
 ----------
@@ -328,8 +286,52 @@ Visualization
   It is a bit overshooting. You can do better :)
 
 
+Submission
+----------
 
-Programming Tips Motion Planning
+#. Submission: Group submission via Gradescope
+
+#. Demo: not required
+
+#. Due time: 11:59, May 30, Friday
+
+#. Files to submit:
+
+   - lab6_report.pdf
+   - motion_planning.py
+
+#. Grading rubric:
+
+   + \+ 50%  Clearly describe your approach and explain your code in the lab report.
+   + \+ 50%  Implement A* algorithm and pass all test cases.
+   + \- 15%  Penalty applies for each late day. 
+
+
+Submission
+----------
+
+#. Submission: group submission via Gradescope. **Important**: If any of the two team members have ROS Kinetic installed, it is **highly recommended** to setup the code on this computer and not on the M1/M2 computer. The main reason for this is that during the final Lab 8, the real turtlebots have ROS Kinetic installed so there will be fewer code modifications if you develop your ROS nodes for ROS Kinetic.
+
+#. Demo: not required
+
+#. Due time: 11:59pm, Nov 27, Monday
+
+#. Files to submit:
+
+   - lab6_report.pdf (please include the plot of trajectory)
+   - trajectory_generation.py
+
+#. Grading rubric:
+
+   + \+ 30%  Clearly describe your approach and explain your code in the lab report.
+   + \+ 20%  Plot the trajectory and discuss the results under different parameters.
+   + \+ 50%  Pass all waypoints using 3rd order polynomial trajectories.
+   + \- 15%  Penalty applies for each late day. 
+
+
+
+
+Programming Tips
 ----------------
 
 #. Review of some use cases of Python List
