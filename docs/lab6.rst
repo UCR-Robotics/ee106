@@ -17,6 +17,9 @@ The pseudocode is provided at the end of this page.
 
 Autograder (1) for Motion Planning
 ----------
+All code submissions will be graded automatically by an autograder uploaded to Gradescope.
+The scripts will be tested on a Ubuntu cloud server using a similar ROS + Gazebo environment.
+The grading results will be available in a couple of minutes after submission.
 
 For each A* path computed, the autograder will check the following conditions. 
 
@@ -118,10 +121,6 @@ and should be included in the boundary/continuity constraints when generating tr
 
 Autograder (2) for Trajectory Generation
 ----------
-
-All code submissions will be graded automatically by an autograder uploaded to Gradescope.
-The scripts will be tested on a Ubuntu cloud server using a similar ROS + Gazebo environment.
-The grading results will be available in a couple of minutes after submission.
 
 Testing parameters are as follows. 
 
