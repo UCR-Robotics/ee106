@@ -113,6 +113,19 @@ In general, we need to follow ROS
 `installation tutorial <http://wiki.ros.org/noetic/Installation/Ubuntu>`_.
 Main steps are
 
+- Setup **locale**
+
+   .. code-block:: bash
+
+   locale  # check for UTF-8
+
+   sudo apt update && sudo apt install locales
+   sudo locale-gen en_US en_US.UTF-8
+   sudo update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8sudo 
+   export LANG=en_US.UTF-8
+   
+   locale  # verify settings
+
 - Setup sources.list
  
   .. code-block:: bash
