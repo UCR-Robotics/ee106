@@ -23,39 +23,39 @@ ROS Reading Guideline
 
 In the following we list the most important tutorials. (Read them in order.)
 
-#. `Installing and Configuring Your ROS Environment 
-   <http://wiki.ros.org/ROS/Tutorials/InstallingandConfiguringROSEnvironment>`_
+#. `Installing and Configuring Your ROS 2 Environment 
+   <https://docs.ros.org/en/jazzy/Tutorials/Beginner-CLI-Tools/Configuring-ROS2-Environment.html>`_
 
-#. `Creating a ROS Package 
-   <http://wiki.ros.org/ROS/Tutorials/CreatingPackage>`_
+#. `Creating a ROS 2 Package 
+   <https://docs.ros.org/en/jazzy/How-To-Guides/Developing-a-ROS-2-Package.html>`_
 
-#. `Understanding ROS Nodes 
-   <http://wiki.ros.org/ROS/Tutorials/UnderstandingNodes>`_
+#. `Understanding ROS 2 Nodes 
+   <https://docs.ros.org/en/jazzy/Tutorials/Beginner-CLI-Tools/Understanding-ROS2-Nodes/Understanding-ROS2-Nodes.html>`_
 
-#. `Understanding ROS Topics 
-   <http://wiki.ros.org/ROS/Tutorials/UnderstandingTopics>`_
+#. `Understanding ROS 2 Topics 
+   <https://docs.ros.org/en/jazzy/Tutorials/Beginner-CLI-Tools/Understanding-ROS2-Topics/Understanding-ROS2-Topics.html>`_
 
 #. `Writing a Simple Publisher and Subscriber (Python) 
-   <http://wiki.ros.org/ROS/Tutorials/WritingPublisherSubscriber%28python%29>`_
+   <https://docs.ros.org/en/jazzy/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Py-Publisher-And-Subscriber.html>`_
 
 Some important concepts.
 
-- `ROS Core <http://wiki.ros.org/roscore>`_ and `ROS Master <http://wiki.ros.org/Master>`_
+- `ROS 2 DDS <https://docs.ros.org/en/jazzy/Installation/RMW-Implementations/DDS-Implementations.html>`_
 
 - `ROS Message <http://wiki.ros.org/action/fullsearch/Messages>`_
 
-- `ROS Launch <http://wiki.ros.org/roslaunch>`_ and 
-  `Command Line Tools <http://wiki.ros.org/roslaunch/Commandline%20Tools>`_
+- `ROS 2 Launch <https://docs.ros.org/en/jazzy/Tutorials/Intermediate/Launch/Creating-Launch-Files.html>`_ and 
+  `Command Line Tools <https://docs.ros.org/en/jazzy/Tutorials/Beginner-CLI-Tools.html>`_
 
 - `Graph Resource Names <http://wiki.ros.org/Names>`_
 
 Command line tools for debugging.
 
-- `Command line tools main page <http://wiki.ros.org/ROS/CommandLineTools>`_
+- `Command line tools main page <https://docs.ros.org/en/jazzy/Tutorials/Beginner-CLI-Tools.html>`_
 
-- `rosnode <http://wiki.ros.org/rosnode>`_
+- `ros2 node <https://docs.ros.org/en/jazzy/Tutorials/Beginner-CLI-Tools/Understanding-ROS2-Nodes/Understanding-ROS2-Nodes.html#ros2-node-list>`_
 
-- `rostopic <http://wiki.ros.org/rostopic>`_
+- `ros2 topic <https://docs.ros.org/en/jazzy/Tutorials/Beginner-CLI-Tools/Understanding-ROS2-Topics/Understanding-ROS2-Topics.html#ros2-topic-list>`_
 
-- `rqt_graph <http://wiki.ros.org/rqt_graph>`_
+- `rqt_graph <https://docs.ros.org/en/jazzy/Tutorials/Beginner-CLI-Tools/Understanding-ROS2-Topics/Understanding-ROS2-Topics.html#rqt-graph>`_
 

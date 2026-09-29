@@ -7,7 +7,7 @@ This project relies on the container provided by the UCR course-support reposito
 The container provides a pre-configured environment with all necessary software.
 
 For detailed installation instructions, refer to the official README:
-`containers/ee106 <https://github.com/ucrcsedept/course-support/tree/main/containers/cs265a>`_.
+`containers/ee265a <https://github.com/ucrcsedept/course-support/tree/main/containers/cs265a>`_.
 
 Steps to Set Up
 ---------------
