@@ -14,6 +14,8 @@ Programming Practical Robots!
 
     logistics
     lab0
+    container
+    vm
     linux
     ros
 
