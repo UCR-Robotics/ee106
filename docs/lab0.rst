@@ -116,7 +116,6 @@ Main steps are
 - Setup **locale**
 
    .. code-block:: bash
-
    locale  # check for UTF-8
 
    sudo apt update && sudo apt install locales
