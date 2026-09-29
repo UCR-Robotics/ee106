@@ -25,14 +25,11 @@ and Virtual Machine (VM).
    packages, and contribute to ROS community.
    These packages are similar to those libraries that we "import" in Python.
 
-3. A good way to learn **ROS** is to learn from `ROS wiki <http://wiki.ros.org/ROS/Tutorials>`_,
-   which provides official tutorials.
-   In addition, there is a reference book *A Gentle Introduction to ROS*
-   by Jason M. O’Kane (`free online <https://www.cse.sc.edu/~jokane/agitr/>`_), 
-   which introduces useful design ideas behind ROS.
-   Note that examples in this book and some tutorials on ROS wiki are written in C++.
-   Please focus on high-level design ideas and `rospy <http://wiki.ros.org/rospy_tutorials>`_
-   library only (not roscpp), since we will use Python (instead of C++) in this class.
+3. A good way to learn **ROS** is to learn from `ROS wiki <https://docs.ros.org/en/jazzy/Tutorials.html>`_,
+   which provides official tutorials. For this course, ROS 2 is preferred.
+   Note that some tutorials on the ROS wiki are written in C++.
+   Please focus on high-level design ideas and `rclpy <https://docs.ros.org/en/jazzy/p/rclpy/>`_
+   library only (not rclcpp), since we will use Python (instead of C++) in this class.
 
 4. For **Python**, basically you need to have a rough idea about data structures,
    operators, flow control, etc. There are also many good tutorials online.
