@@ -9,18 +9,24 @@ Tab Key Auto-completion
 - The most commonly used one is the ``Tab`` key. 
   This auto-completion feature is universal in all Linux systems.
   If you cannot auto-complete the command you are currently typing, 
-  **this means that your command is wrong** and Linux is not able to recognize it.
+  **this means that your command is wrong** and Linux is not able to recognize it. You will need
+  to install ``colcon_cd`` first:
+
+  .. code-block:: bash
+
+    sudo apt install python3-colcon-cd
+
   Try entering the following command in your terminal and press ``Tab`` key on the keyboard.
 
   .. code-block:: bash
 
-    roscd ee106
+    colcon_cd ee106
 
 - You will see that it becomes
 
   .. code-block:: bash
 
-    roscd ee106s25
+    colcon_cd ee106s25
 
 - This means that Linux can identify an **unique** name of the directory
   by just seeing the first five characters. 
@@ -29,7 +35,7 @@ Tab Key Auto-completion
 
   .. code-block:: bash
 
-    roscd e
+    colcon_cd e
 
 - Nothing happens, right? Because in this case, Linux cannot **uniquely** identify 
   which command you want to enter, and hence cannot help complete it.
@@ -66,12 +72,12 @@ Terminal and Shell
   that executes your commands in the backend (GUI is also a program though).
   You may Google keywords "gnome-terminal" or "sh, zsh, bash" for more information.
 
-- If you go to the ``devel`` folder in the ROS workspace, 
+- If you go to the ``install`` folder in the ROS workspace, 
   you can see that the ROS ``setup`` file is available for three kinds of shells: sh, zsh, and bash.
 
   .. code-block:: bash
 
-    cd ~/catkin_ws/devel
+    cd ~/ros2_ws/install
     ls
 
 
@@ -105,7 +111,7 @@ We can go back and forth between terminal and file manager at any working direct
 
   .. code-block:: bash
 
-    roscd ee106s25
+    colcon_cd ee106s25
     nautilus .
 
 - On the other hand, at any level of file manager, you can open a new terminal by just 
@@ -119,7 +125,7 @@ We can go back and forth between terminal and file manager at any working direct
 
   .. code-block:: bash
 
-    roscd ee106s25
+    colcon_cd ee106s25
     nautilus . &
 
 - where ``&`` can combine two commands. In this case, no new command is given, 
@@ -130,8 +136,9 @@ We can go back and forth between terminal and file manager at any working direct
 
   .. code-block:: bash
 
-    roscd ee106s25/launch
-    gedit gazebo.launch &
+    colcon_cd ee106s25
+    cd launch
+    gedit gazebo.launch.py &
 
 
 Shortcuts

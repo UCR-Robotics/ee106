@@ -81,17 +81,18 @@ Virtual Machine
 Install Linux
 -------------
 
-Once you have your VMware installed, let's create a new VM and install Ubuntu 20.04.
+Once you have your VMware installed, let's create a new VM and install Ubuntu 24.04.
 
-- Download Ubuntu 20.04 disc image from
-  `official website <http://releases.ubuntu.com/20.04/>`_ (64-bit PC Desktop).
+- Download Ubuntu 24.04 disc image from
+  `official website <https://releases.ubuntu.com/noble/>`_ (64-bit PC Desktop).
 
-- For mac users: If you are using a Mac with M architecture, download `Ubuntu 20.04 server image <https://cdimage.ubuntu.com/releases/20.04/release/ubuntu-20.04.5-live-server-arm64.iso>`_.
+- For mac users: If you are using a Mac with M architecture, download `Ubuntu 24.04 server image <https://cdimage.ubuntu.com/releases/20.04/release/ubuntu-20.04.5-live-server-arm64.iso>`_.
 
 - In VMware, create a new VM.
 
   + Typical configuration
   + Choose the disc image you download
+  + In case you're using **VirtualBox**, please uncheck the "unattended install" option.
   + Enter some information about this VM
   + Again, enter name
   + Please allocate at least 30GB (preferred 50GB or more)
@@ -116,6 +117,7 @@ Main steps are
 - Setup **locale**
 
    .. code-block:: bash
+
      locale  # check for UTF-8
 
      sudo apt update && sudo apt install locales
@@ -125,51 +127,49 @@ Main steps are
 
      locale  # verify settings
 
-- Setup sources.list
- 
-  .. code-block:: bash
+- Add the repository to the list of sources that Ubuntu can query when looking for packages:
 
-   sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
+   .. code-block:: bash
 
-- Setup your keys
+     sudo apt install software-properties-common
+     sudo add-apt-repository universe
 
-  .. code-block:: bash
-     
-    sudo apt install curl # if you haven't already installed curl
-    curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
-      
-- Update package index
+- Set up the official ROS repository on Ubuntu so that the packages can be installed:
 
-  .. code-block:: bash
+   .. code-block:: bash
 
-    sudo apt-get update
+     sudo apt update && sudo apt install curl -y
+     export ROS_APT_SOURCE_VERSION=$(curl -s https://api.github.com/repos/ros-infrastructure/ros-apt-source/releases/latest | grep -F "tag_name" | awk -F\" '{print $4}')
+     curl -L -o /tmp/ros2-apt-source.deb "https://github.com/ros-infrastructure/ros-apt-source/releases/download/${ROS_APT_SOURCE_VERSION}/ros2-apt-source_${ROS_APT_SOURCE_VERSION}.$(. /etc/os-release && echo ${UBUNTU_CODENAME:-${VERSION_CODENAME}})_all.deb"
+     sudo dpkg -i /tmp/ros2-apt-source.deb
 
-- Install ROS desktop full
+- Install additional tools for ROS development:
 
-  .. code-block:: bash
+   .. code-block:: bash
 
-    sudo apt-get install ros-noetic-desktop-full
+     sudo apt update && sudo apt install ros-dev-tools
 
-- Environment setup
+- Update the system and install ROS 2.0 Jazzy.
 
-  .. code-block:: bash
+   .. code-block:: bash
 
-    echo "source /opt/ros/noetic/setup.bash" >> ~/.bashrc
-    source ~/.bashrc
+     sudo apt update
+     sudo apt upgrade
+     sudo apt install ros-jazzy-desktop
 
-- Install more dependencies and install rosdep
+- The following snippet will find ROS commands and tools every time you login or open a new terminal window:
 
-  .. code-block:: bash
+   .. code-block:: bash
 
-    sudo apt install python3-rosdep python3-rosinstall python3-rosinstall-generator python3-wstool build-essential
+     echo "source /opt/ros/jazzy/setup.bash" >> ~/.bashrc
+     source ~/.bashrc
 
-- Initialize rosdep
+- Initialize rosdep and update:
 
-  .. code-block:: bash
-    
-    sudo apt install python3-rosdep # if you haven't already installed rosdep
-    sudo rosdep init
-    rosdep update
+   .. code-block:: bash
+
+     sudo rosdep init
+     rosdep update
 
 
 
@@ -186,8 +186,8 @@ Learn from ROS Tutorials
 ---------------------------
 
 Once you have ROS Noetic installed, we provide `the tutorial for ROS`_. You can also follow the tutorials
-on `ROS wiki <http://wiki.ros.org/ROS/Tutorials>`_ and
-`rospy <http://wiki.ros.org/rospy_tutorials>`_ documentation.
+on `ROS wiki <https://docs.ros.org/en/jazzy/Tutorials.html>`_ and
+`rclpy <https://docs.ros.org/en/jazzy/p/rclpy/>`_ documentation.
 
 .. _the tutorial for ROS: https://ucr-robotics.readthedocs.io/en/latest/intro_ros.html
 

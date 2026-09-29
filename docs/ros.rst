@@ -4,9 +4,7 @@ ROS Reading Materials
 ROS Wiki
 --------
 
-- `ROS Tutorials main website <http://wiki.ros.org/ROS/Tutorials>`_
-
-- `rospy tutorials main website <http://wiki.ros.org/rospy_tutorials>`_
+- `ROS Tutorials main website (Contains both rclcpp and rclpy) <https://docs.ros.org/en/jazzy/Tutorials.html>`_
 
 
 ROS Conventions
