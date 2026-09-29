@@ -110,7 +110,7 @@ Install ROS
 
 Once you are familiar with Linux, you can start installing ROS.
 In general, we need to follow ROS
-`installation tutorial <http://wiki.ros.org/noetic/Installation/Ubuntu>`_.
+`installation tutorial <https://docs.ros.org/en/jazzy/Installation/Ubuntu-Install-Debs.html>`_.
 Main steps are
 
 - Setup **locale**
@@ -120,8 +120,8 @@ Main steps are
 
    sudo apt update && sudo apt install locales
    sudo locale-gen en_US en_US.UTF-8
-   sudo update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8sudo 
-   export LANG=en_US.UTF-8
+   sudo update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
+   sudo export LANG=en_US.UTF-8
    
    locale  # verify settings
 
