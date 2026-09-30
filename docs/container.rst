@@ -7,7 +7,7 @@ This project relies on the container provided by the UCR course-support reposito
 The container provides a pre-configured environment with all necessary software.
 
 For detailed installation instructions, refer to the official README:
-`containers/ee265a <https://github.com/ucrcsedept/course-support/tree/main/containers/cs265a>`_.
+`containers/cs265a <https://github.com/ucrcsedept/course-support/tree/main/containers/cs265a>`_.
 
 Steps to Set Up
 ---------------
@@ -16,21 +16,41 @@ Steps to Set Up
 
    .. code-block:: bash
 
-     https://github.com/ucrcsedept/course-support
+     git clone https://github.com/ucrcsedept/course-support
 
 2. Navigate to the container directory:
 
    .. code-block:: bash
 
-     containers/ee106
+     containers/cs265a
 
-3. Build the container:
+3. Create a machine:
+
+   .. code-block:: bash
+
+     podman machine init
+
+4. Change the properties of the machine. This is required because the simulations and assigments
+   might require some compute power:
+
+   .. code-block:: bash
+
+     podman machine set --cpus=4        # Example 4 CPUs, please set it to a reasonable number according to your specifications
+     podman machine set --memory=8192   # Example 8 GiB, please set it to a reasonable number according to your specifications
+
+5. Start the machine:
+
+   .. code-block:: bash
+
+     podman machine start
+
+6. Build the container:
 
    .. code-block:: bash
 
      podman compose build
 
-4. Run the container:
+7. Run the container:
 
    .. code-block:: bash
 
