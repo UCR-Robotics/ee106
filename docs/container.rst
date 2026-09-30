@@ -35,8 +35,8 @@ Steps to Set Up
 
    .. code-block:: bash
 
-     podman machine set --cpus=4        # Example 4 CPUs, please set it to a reasonable number according to your specifications
-     podman machine set --memory=8192   # Example 8 GiB, please set it to a reasonable number according to your specifications
+     podman machine set --cpus=4        # Example 4 CPUs, please set it to a reasonable number according to the computer specifications
+     podman machine set --memory=8192   # Example 8 GiB, please set it to a reasonable number according to the computer specifications
 
 5. Start the machine:
 
