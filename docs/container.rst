@@ -22,7 +22,7 @@ Steps to Set Up
 
    .. code-block:: bash
 
-     containers/cs265a
+     cd containers/cs265a
 
 3. Create a machine:
 
