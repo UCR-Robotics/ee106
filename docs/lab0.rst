@@ -73,6 +73,8 @@ Machine (VM) instead, as described in the :doc:`vm`. This approach is recommende
 Using a native Linux system (or dual boot) provides the best performance, but may involve additional
 risks. A Virtual Machine is the safer and recommended option.
 
+Note that if you are getting set up using the container, you will not be required to install ROS.
+
 Install ROS
 -----------
 

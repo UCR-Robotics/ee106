@@ -4,7 +4,8 @@ Container Setup
 This project relies on the container provided by the UCR course-support repository:
 `ucrcsedept/course-support <https://github.com/ucrcsedept/course-support>`_.
 
-The container provides a pre-configured environment with all necessary software.
+The container provides a pre-configured environment with all necessary software. If you install
+the container, there should be no additional requirement for installing ROS.
 
 For detailed installation instructions, refer to the official README:
 `containers/cs265a <https://github.com/ucrcsedept/course-support/tree/main/containers/cs265a>`_.
