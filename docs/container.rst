@@ -10,6 +10,13 @@ the container, there should be no additional requirement for installing ROS.
 For detailed installation instructions, refer to the official README:
 `containers/cs265a <https://github.com/ucrcsedept/course-support/tree/main/containers/cs265a>`_.
 
+Install `podman`
+----------------
+
+The instructions for installing `podman` can be found `here <https://podman.io/docs/installation>`_.
+
+For Apple users, the binaries can be downloaded `here <https://podman.io/>_`.
+
 Steps to Set Up
 ---------------
 
@@ -23,7 +30,7 @@ Steps to Set Up
 
    .. code-block:: bash
 
-     cd containers/cs265a
+     cd course-support/containers/cs265a
 
 3. Create a machine:
 
