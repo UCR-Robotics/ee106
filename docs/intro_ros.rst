@@ -215,7 +215,6 @@ Here we will give a simple example to show how to combine ``Publisher`` with ``S
             # Initialization
             self.N = 20
             self.i = 0
-            self.done = False
             self.vel = Twist()
             self.pose = Pose2D()
 
@@ -230,7 +229,6 @@ Here we will give a simple example to show how to combine ``Publisher`` with ``S
             else:
                 self.timer.cancel()
                 self.shutdown()
-                self.done = True
 
         def controller(self, state):
             self.vel.linear.x = -state.x
@@ -254,8 +252,7 @@ Here we will give a simple example to show how to combine ``Publisher`` with ``S
 
         bot = Bot()
 
-        while rclpy.ok() and not bot.done:
-            rclpy.spin_once(bot)
+        rclpy.spin(bot)
 
         bot.destroy_node()
         rclpy.shutdown()
@@ -265,11 +262,12 @@ Here we will give a simple example to show how to combine ``Publisher`` with ``S
         main()
 
 In the script above, we show how to communicate with a robot and design a feedback controller for it using ROS. 
-Firstly, we do initialization and propagate the system in the ``__init__`` function. 
-Once we initialize the ``Subscriber``, the data in ``odom_callback`` will keep updating its information according to the new received data from topic ``/odom``. 
-So the variable ``pose`` will also keep updating. 
-At every 0.01s (10 hz), when we run the ``controller`` function, it can use current ``pose`` as feedback information for control.
+Firstly, we do initialization in the ``__init__`` function, and propagate the system in the ``timer_callback`` function.
+Once we initialize the ``Subscriber``, the data in ``odom_callback`` will keep updating its information according to the new received data from topic ``/odom``.
+So the variable ``pose`` will also keep updating.
+Every 0.1s (10 Hz), the timer calls ``timer_callback``, which runs the ``controller`` function, so it can use current ``pose`` as feedback information for control.
 Then the control inputs are published to topic ``/cmd_vel``, which will be subscribed by the robot as current command.
+After ``N`` steps, the timer is cancelled and a stop command is sent to the robot. The node keeps running until you press ``Ctrl+C``.
 
 
 Using ``rqt_graph``
