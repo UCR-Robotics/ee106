@@ -42,8 +42,8 @@ From now on, we assume that you have already installed Ubuntu 24.04 and ROS 2.0 
     cd ~/ee106_ws/src
     ros2 pkg create ee106f26 --build-type ament_cmake --dependencies rclpy rclcpp std_msgs
 
-- Take a look at your new package ``ee106f26`` and see what happens. You should be able to see a ``package.xml``,
-  a ``setup.py``, and a ``setup.cfg`` file. Open them and take a quick look. You may use Google to help you build up a high-level
+- Take a look at your new package ``ee106f26`` and see what happens. You should be able to see a ``package.xml`` and
+  a ``CMakeLists.txt``. Open them and take a quick look. You may use Google to help you build up a high-level
   understanding. We will get to the directories in a moment.
 
 - After creating a new package, we can go back to our workspace and **build** this package.
@@ -53,6 +53,7 @@ From now on, we assume that you have already installed Ubuntu 24.04 and ROS 2.0 
       
     cd ~/ee106_ws
     colcon build
+    source install/local_setup.bash
 
 .. - Now the system knows this ROS package, so that you can have access to it anywhere. 
 ..   Try navigating to different directories first, and then go back to this ROS package by ``roscd`` command.
@@ -69,7 +70,7 @@ From now on, we assume that you have already installed Ubuntu 24.04 and ROS 2.0 
 ..     cd ~/Documents
 ..     roscd ee106f26
 
-- Congratulations. You have initialized the ROS workspace and created the ee106f26 ROS package!
+- Congratulations. You have initialized the ROS workspace and created the ``ee106f26`` ROS package!
   Take some time to think about how the above steps work.
 
   
@@ -99,7 +100,20 @@ To do that, edit the file ``CMakeLists.txt``, and add the following lines:
     )
 
 To execute the created ROS nodes, firstly, you will need to let ROS know that you have made changes to your package.
-Build the `ee106f26` package one more time. Then create two separate terminals, and execute:
+Build the `ee106f26` package one more time:
+
+.. code-block:: bash
+
+    cd ~/ee106_ws
+    colcon build
+
+Then create two separate terminals. In each new terminal, first source the workspace so ROS can find your package:
+
+.. code-block:: bash
+
+    source ~/ee106_ws/install/local_setup.bash
+
+and then execute:
 
 .. code-block:: bash
 
