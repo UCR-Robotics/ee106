@@ -7,8 +7,8 @@ Welcome
 This page introduces logistics for lab section only; 
 please see syllabus for course overview and lecture/homework related logistics.
 
-- Teaching Assistant: TBD
-- Email: TBD
+- Teaching Assistant: Aritra Samanta
+- Email: asama004@ucr.edu
 
 Please **feel free** to contact the TA if you have any questions.
 

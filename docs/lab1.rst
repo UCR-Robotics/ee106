@@ -20,7 +20,7 @@ From now on, we assume that you have already installed Ubuntu 24.04 and ROS 2.0 
 .. code-block:: bash
 
     mkdir -p ~/ee106_ws/src
-    cd ~/ee106_ws 
+    cd ~/ee106_ws
     colcon build
     source ~/ee106_ws/install/setup.bash
 
@@ -83,44 +83,44 @@ To be able to use the developed ROS python nodes, you need to provide execution 
 
 .. code-block:: bash
 
-    cd ~/ee106_ws/ee106f26/src/scripts
+    cd ~/ee106_ws/src/ee106f26/scripts
     chmod +x publisher.py
     chmod +x subscriber.py
 
 Once you have created and saved the scripts, you will need to tell ROS, how to find the code for the nodes you have written.
-To do that, edit the file ``setup.py``, and add entry points to your scripts by modifying ``'console_scripts'``:
+To do that, edit the file ``CMakeLists.txt``, and add the following lines:
 
-.. code-block:: python
+.. code-block:: cmake
 
-    entry_points={
-        'console_scripts': [
-            'talker = ee106f26.talker:main',
-            'listener = ee106f26.listener:main',
-        ],
-    },
+    install(PROGRAMS
+      scripts/publisher.py
+      scripts/subscriber.py
+      DESTINATION lib/${PROJECT_NAME}
+    )
 
 To execute the created ROS nodes, firstly, you will need to let ROS know that you have made changes to your package.
 Build the `ee106f26` package one more time. Then create two separate terminals, and execute:
 
 .. code-block:: bash
 
-    ros2 run ee106f26 talker
+    ros2 run ee106f26 publisher.py
 
 and
 
 .. code-block:: bash
 
-    ros2 run ee106f26 listener
+    ros2 run ee106f26 subscriber.py
 
-By performing these commands you have successfully created and executed your first ROS application, on which you transfer string data through a ROS topic from the ``talker`` to the ``listener`` ROS node. To preview the transmitted information through the ``chatter`` ROS topic, you can use,
+By performing these commands you have successfully created and executed your first ROS application, on which you transfer string data through a ROS topic from the ``publisher`` to the ``subscriber`` ROS node.
+To preview the transmitted information through the ``chatter`` ROS topic, you can use,
 
 .. code-block:: bash
 
-    rostopic echo /chatter
+    ros2 topic echo /chatter
 
-The `ROS wiki <http://wiki.ros.org/ROS/Tutorials>`_ and `rospy <http://wiki.ros.org/rospy_tutorials>`_ contain the  analytic documentation of the followed steps.
+The `ROS wiki <https://docs.ros.org/en/jazzy/Tutorials/Beginner-Client-Libraries.html>`_ contain the  analytic documentation of the followed steps.
 
-.. _ROS tutorial: https://ucr-robotics.readthedocs.io/en/latest/intro_ros.html
+.. _ROS tutorial: intro_ros.html
 
 Creation of Custom ROS Message
 ----------
