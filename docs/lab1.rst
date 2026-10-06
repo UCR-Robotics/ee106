@@ -176,6 +176,8 @@ By performing ``colcon build`` under the ``ee106_ws`` directory the ROS package 
 This ``msg`` structure will be utilized and tested in the submission part of Lab 1. More information about the previous steps can be found in the official `ROS interfaces <https://docs.ros.org/en/jazzy/Concepts/Basic/About-Interfaces.html>`_.
 
 
+**Anytime you make changes to your package, make sure to build it one more time**.
+
 Submission
 ----------
 
