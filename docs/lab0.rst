@@ -74,6 +74,7 @@ Using a native Linux system (or dual boot) provides the best performance, but ma
 risks. A Virtual Machine is the safer and recommended option.
 
 Note that if you are getting set up using the container, you will not be required to install ROS.
+You will only need to install ROS if you're running Linux natively or inside a Virtual Machine.
 
 Install ROS
 -----------
