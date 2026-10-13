@@ -8,7 +8,7 @@ In this lab, we are going to test ROS tools that are developed for illustrating 
 
 Additionally, the `Turtlebot 4 <https://clearpathrobotics.com/turtlebot-4/>`_ mobile robot will be demonstrated in the class, along with the use of some of the ROS tools. Furthermore, the simulated version of the Turtlebot robot will be deployed in the Gazebo simulator and it will be compared with the real robot. A 2D LiDAR ranging scenario will be demonstrated and will be the base of this lab's assignment.
 
-Installing Gazebo Simulator ()
+Installing Gazebo Simulator (Virtual Machine)
 -----------
 
 The Gazebo simulator is a broadly used open-source robotic simulator, that has been used for ROS application development before testing on robots in the real world.
@@ -161,12 +161,14 @@ As the Gazebo is up and running, we can spawn a Turtlebot inside the simulated e
       # Directories
       pkg_turtlebot4_gz_bringup = get_package_share_directory(
           'turtlebot4_gz_bringup')
+      pkg_ee106f26 = get_package_share_directory(
+        'ee106f26')
 
       # Paths
       gazebo_launch = PathJoinSubstitution(
           [pkg_turtlebot4_gz_bringup, 'launch', 'sim.launch.py'])
       robot_spawn_launch = PathJoinSubstitution(
-          [pkg_turtlebot4_gz_bringup, 'launch', 'turtlebot_spawn.launch.py'])
+          [pkg_ee106f26, 'launch', 'turtlebot_spawn.launch.py'])
 
       gazebo = IncludeLaunchDescription(
           PythonLaunchDescriptionSource([gazebo_launch]),
@@ -219,13 +221,13 @@ Robot Teleoperation
 .. rosrun, rostopic, rosmsg, rosnode, rosbag
 
 Nowadays, most of the robots support teleoperation through a connected keyboard or a gamepad/joystick.
-In ROS we can use the `teleop_twist_keyboard <https://docs.ros.org/en/ros2_packages/humble/api/teleop_twist_keyboard/>`_ to use our keyboard for robot teleoperation, which publishes `geometry_twist/Twist` message on the ``cmd_vel`` ROS topic. 
+In ROS we can use the `teleop_twist_keyboard <https://docs.ros.org/en/ros2_packages/humble/api/teleop_twist_keyboard/>`_ to use our keyboard for robot teleoperation, which publishes `geometry_msgs/msg/Twist` message on the ``cmd_vel`` ROS topic. 
 
 To install this package, 
 
 .. code-block:: bash
 
-  cd ~/catkin_ws/src/
+  cd ~/ros2_ws/src/
   git clone https://github.com/ros-teleop/teleop_twist_keyboard.git
 
 and build the catkin workspace.
@@ -235,6 +237,7 @@ Turtlebot Control inside the Gazebo World
 As we have completed the above steps, to spawn the simualted Turtlebot inside the Gazebo world we execute in separate terminals the below commands in the following order,
 
 .. code-block:: bash
+
   ros2 launch ee106f26 turtlebot.launch.py model:=lite world:=maze # In terminal 1
   ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r cmd_vel:=/cmd_vel_unstamped # In terminal 2
 
@@ -278,7 +281,7 @@ Thus, each captured measurement can be spatially described in the corresponding 
  .. image:: ./pics/turtlebot_frames.png
 ..  :align: center
 
-In order to publish a transformation between two ROS frames that remains static over time, you can use the tool `static_transform_publisher` from the `tf` ROS package.
+In order to publish a transformation between two ROS frames that remains static over time, you can use the tool `static_transform_publisher` from the `tf2_ros` ROS package.
 For example in our case, it would be ideal to create a frame for the front bumper of the Turtlebot, so we can spatially describe all captured ranging measurements in respect to it to avoid any potential collisions as it moves forward.
 
 To do that, we can describe the new `front_bumper` frame, with respect to the `base_link` frame of the robot, by executing in a new terminal, 
@@ -299,17 +302,18 @@ One of the terminal commands to obtain the `transformation matrix` between two R
 
  ros2 run tf2_ros tf2_echo base_link front_bumper
 
-This information can be captured also inside a ROS node by using the ``tf.TransformListener()`` module.
+This information can be captured also inside a ROS node by using the ``tf2_ros.TransformListener()`` module.
 Some helper functions are also available to convert the transformation quaternion to a rotation matrix using the ``tf_transformations`` library.
 The library can be installed using the following commands. In a new terminal window, execute the following commands:
 
 .. code-block:: bash
 
  cd ~/ee106_ws/src
- git clone git clone https://github.com/DLu/tf_transformations.git
+ git clone https://github.com/DLu/tf_transformations.git
  cd ~/ee106_ws/
  rosdep update
  rosdep install --from-paths src --ignore-src --rosdistro jazzy -y
+ colcon build
 
 To test it, please initialize a new ROS node inside the ``ee106f26`` ROS package, under the name of ``tf_listener.py``, which will contain,
 
@@ -407,24 +411,24 @@ Grading Rubric
 - \+ 15 % ROS node initialization  
   - Initialize a ROS node (e.g. ``ranges_check``).  
   - Subscribe to ``/scan`` (``sensor_msgs/LaserScan``).  
-  - Create a TF listener and retrieve the transform between ``/front_laser`` and ``/front_bumper``.  
+  - Create a TF listener and retrieve the transform between ``/turtlebot4/rplidar_link/rplidar`` and ``/front_bumper``.  
 
 - \+ 20 % LiDAR data processing & coordinate transformation  
   - Iterate over ``data.ranges``, skipping “inf” values.  
-  - Convert each valid range+angle into a point in the ``front_laser`` frame.  
+  - Convert each valid range+angle into a point in the ``turtlebot4/rplidar_link/rplidar`` frame.  
   - Use your 4×4 transform to map points into the ``front_bumper`` frame.  
   - Classify each mapped range as **critical** (< 0.2 m), **major** (< 0.5 m), or **minor** (≥ 0.5 m).  
 
 - \+ 20 % ROS publisher & status messages  
   - Form a ``std_msgs/String`` whose ``data`` is the worst-case classification.  
   - Publish once per scan to ``/turtlebot_status``.  
-  - In a separate terminal, run ``rostopic echo /turtlebot_status`` and demonstrate “critical”, “major”, and “minor” messages 
+  - In a separate terminal, run ``ros2 topic echo /turtlebot_status`` and demonstrate “critical”, “major”, and “minor” messages 
 
 - \+ 25 % Final demonstration & RViz visualization  
   - Teleoperate through all three cases (minor, major, critical).  
   - For each case include:  
     - Gazebo screenshot (robot + obstacles)  
-    - Terminal screenshot of ``rostopic echo /turtlebot_status``  
+    - Terminal screenshot of ``ros2 topic echo /turtlebot_status``  
     - RViz screenshot with RobotModel, TF frames, and LaserScan  
 
 - \+ 10 % Report clarity & code quality  

@@ -15,6 +15,7 @@ Programming Practical Robots!
     logistics
     lab0
     lab1
+    lab2
     container
     vm
     linux
@@ -28,3 +29,4 @@ News
 - 09/28/2026: Please read `logistics <logistics.html>`_.
 - 09/28/2026: `Lab 0 <lab0.html>`_ is up.
 - 10/05/2026: `Lab 1 <lab1.html>`_ is up.
+- 10/13/2026: `Lab 2 <lab2.html>`_ is up.
