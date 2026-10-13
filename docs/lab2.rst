@@ -89,7 +89,9 @@ To execute the ROS launch file you can perform in a new terminal,
 
   ros2 launch package_name file.launch.py
 
-Now, let's try to create a launch file for our created ROS package, namely the ``ee106f26``. Specifically, create a ROS launch that you can execute at the same time both the `publisher` and `subscriber` nodes of the Lab 1. Show the results to the Teaching Assistant.
+Now, let's try to create a launch file for our created ROS package, namely the ``ee106f26``.
+Specifically, create a ROS launch that you can execute at the same time both the `publisher` and `subscriber` nodes of the Lab 1.
+Show the results to the Teaching Assistant.
 
 rqt and rqt_graph Tools
 ----------
@@ -197,8 +199,10 @@ As the Gazebo is up and running, we can spawn a Turtlebot inside the simulated e
 
 This file will be the ROS launch file that we will use to start Gazebo and spawn a simulated Turtlebot robot inside the world.
 Specifically, the variables `x,y,z` and `yaw` define the initial position and orientation values of the robot in the world.
-The 'joystick' variable enables the teleoperation of the Turtlebot robot through a joystick controller.
 This file can be saved with the name of ``turtlebot.launch.py`` file inside the ``ee106f26`` ROS package.
+**NOTE**: An accompanying launch file is required for launching the Turtlebot in simulation. This file will spawn the individual components
+of the Turtlebot. It is provided `here <https://raw.githubusercontent.com/UCR-Robotics/ee106/refs/heads/Fall2026/launch/turtlebot_spawn.launch.py>`_.
+Download this file and place it in the ``launch`` directory as ``turtlebot_spawn.launch.py``.
 To execute the ROS launch file, you can perform in a new terminal,
 
 .. code-block:: bash
@@ -206,7 +210,7 @@ To execute the ROS launch file, you can perform in a new terminal,
   ros2 launch ee106f26 turtlebot.launch.py model:=lite world:=empty
 
 After the execution of the above ROS launch file, you can use ``rviz`` to visualize the captured sensory information from the simulated Turtlebot robot.
-Place objects closely around the simulated robot and check the `front/scan` ROS topic of type `sensor_msgs/LaserScan` on how it updates the visualized information in RViz. 
+Place objects closely around the simulated robot and check the `/scan` ROS topic of type `sensor_msgs/LaserScan` on how it updates the visualized information in RViz. 
 
 
 Robot Teleoperation
@@ -293,9 +297,20 @@ One of the terminal commands to obtain the `transformation matrix` between two R
 
 .. code-block:: bash
 
- ros2 run tf2_ros tf2_echo base_link front_laser
+ ros2 run tf2_ros tf2_echo base_link front_bumper
 
 This information can be captured also inside a ROS node by using the ``tf.TransformListener()`` module.
+Some helper functions are also available to convert the transformation quaternion to a rotation matrix using the ``tf_transformations`` library.
+The library can be installed using the following commands. In a new terminal window, execute the following commands:
+
+.. code-block:: bash
+
+ cd ~/ee106_ws/src
+ git clone git clone https://github.com/DLu/tf_transformations.git
+ cd ~/ee106_ws/
+ rosdep update
+ rosdep install --from-paths src --ignore-src --rosdistro jazzy -y
+
 To test it, please initialize a new ROS node inside the ``ee106f26`` ROS package, under the name of ``tf_listener.py``, which will contain,
 
 .. code-block:: python
@@ -371,7 +386,7 @@ Submission
 
 #. **How**: individual, via Gradescope  
 #. **Demo**: required—teleoperate the Turtlebot in Gazebo and show your node responding to obstacles  
-#. **When**: 11:59 pm, Thursday, Jan 29  
+#. **When**: 11:59 pm, Thursday, Oct 29  
 #. **What to submit**:  
    - ``lab2_report.pdf`` (use the provided template)  
    - Include all screenshots, detailed step descriptions, and your fully commented Python code at the end  
@@ -445,7 +460,7 @@ Pseudo-code
     class Lab2TemplateNode(Node):
 
         def __init__(self):
-            super().__init__('tf_listener')
+            super().__init__('ranges_check')
             self.tf_buffer = Buffer()
             self.tf_listener = TransformListener(self.tf_buffer, self)
 
@@ -507,35 +522,24 @@ Pseudo-code
     if __name__ == '__main__':
         main()
 
-
-
-
-
-
-
-
-
-
-
-
 Reading Materials
 -----------------
 
 ROS Nodes
 ~~~~~~~~~
 
-- `Understanding ROS Nodes <http://wiki.ros.org/ROS/Tutorials/UnderstandingNodes>`_
+- `Understanding ROS Nodes <https://docs.ros.org/en/jazzy/Tutorials/Beginner-CLI-Tools/Understanding-ROS2-Nodes/Understanding-ROS2-Nodes.html>`_
 
-- `Initialization and Shutdown <http://wiki.ros.org/rospy/Overview/Initialization%20and%20Shutdown>`_
+- `Initialization and Shutdown <https://docs.ros.org/en/jazzy/p/rclpy/api/init_shutdown.html>`_
 
 ROS Topics and Messages
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-- `Messages <http://wiki.ros.org/Messages>`_
+- `Interfaces <https://docs.ros.org/en/jazzy/Concepts/Basic/About-Interfaces.html>`_
 
-- `Understanding ROS Topics <http://wiki.ros.org/ROS/Tutorials/UnderstandingTopics>`_
+- `Understanding ROS Topics <https://docs.ros.org/en/jazzy/Tutorials/Beginner-CLI-Tools/Understanding-ROS2-Topics/Understanding-ROS2-Topics.html>`_
 
-- `Publishers and Subscribers <http://wiki.ros.org/rospy/Overview/Publishers%20and%20Subscribers>`_
+- `Publishers and Subscribers <https://docs.ros.org/en/jazzy/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Py-Publisher-And-Subscriber.html>`_
 
 ROS Conventions
 ~~~~~~~~~~~~~~~
