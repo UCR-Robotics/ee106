@@ -221,16 +221,16 @@ Robot Teleoperation
 .. rosrun, rostopic, rosmsg, rosnode, rosbag
 
 Nowadays, most of the robots support teleoperation through a connected keyboard or a gamepad/joystick.
-In ROS we can use the `teleop_twist_keyboard <https://docs.ros.org/en/ros2_packages/humble/api/teleop_twist_keyboard/>`_ to use our keyboard for robot teleoperation, which publishes `geometry_msgs/msg/Twist` message on the ``cmd_vel`` ROS topic. 
+In ROS we can use the `teleop_twist_keyboard <https://docs.ros.org/en/ros2_packages/humble/api/teleop_twist_keyboard/>`_ to use our keyboard for robot teleoperation, which publishes `geometry_msgs/msg/Twist` message on the ``cmd_vel`` ROS topic.
+This package should already be installed. If not, it can be installed as follows:
 
-To install this package, 
+.. To install this package, 
 
 .. code-block:: bash
 
-  cd ~/ros2_ws/src/
-  git clone https://github.com/ros-teleop/teleop_twist_keyboard.git
+  sudo apt install ros-jazzy-teleop-twist-keyboard
 
-and build the catkin workspace.
+.. and build the catkin workspace.
 
 Turtlebot Control inside the Gazebo World
 ----------
