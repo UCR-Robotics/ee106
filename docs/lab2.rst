@@ -4,76 +4,92 @@ Lab 2: ROS Tools and Testing on a Simulated Robot
 Overview
 --------
 
-In this lab, we are going to test ROS tools that are developed for illustrating the ROS Nodes and Topic graph relations and visualizing the ROS Topics in real-time. ROS, as a tool-based framework, features a plethora of applications, which can also be found `here <http://wiki.ros.org/Tools>`_.
+In this lab, we are going to test ROS tools that are developed for illustrating the ROS Nodes and Topic graph relations and visualizing the ROS Topics in real-time. ROS, as a tool-based framework, features a plethora of applications, which can also be found `here <https://docs.ros.org/en/jazzy/Tutorials/Beginner-CLI-Tools.html>`_.
 
-Additionally, the `Clearpath Jackal <https://clearpathrobotics.com/jackal-small-unmanned-ground-vehicle/>`_ mobile robot will be demonstrated in the class, along with the use of some of the ROS tools. Furthermore, the simulated version of the Jackal robot will be deployed in the Gazebo simulator and it will be compared with the real robot. A 2D LiDAR ranging scenario will be demonstrated and will be the base of this lab's assignment.
+Additionally, the `Turtlebot 4 <https://clearpathrobotics.com/turtlebot-4/>`_ mobile robot will be demonstrated in the class, along with the use of some of the ROS tools. Furthermore, the simulated version of the Turtlebot robot will be deployed in the Gazebo simulator and it will be compared with the real robot. A 2D LiDAR ranging scenario will be demonstrated and will be the base of this lab's assignment.
 
-Installing Gazebo Simulator
+Installing Gazebo Simulator ()
 -----------
 
-The Gazebo simulator is a broadly used open-source robotic simulator, that has been used for ROS application development before testing on robots in the real world. To install the Gazebo simulator we need to perform,
+The Gazebo simulator is a broadly used open-source robotic simulator, that has been used for ROS application development before testing on robots in the real world.
+To install the simulator platform and the Turtlebot4 packages on the **Virtual Machines**, we need to perform,
 
 .. code-block:: bash
 
-  sudo apt-get install ros-noetic-gazebo-ros-pkgs ros-noetic-gazebo-ros-control
-
-To install the official ROS package of the Clearpath Jackal robot for its Gazebo simulation
-
-.. code-block:: bash
-
-  sudo apt-get install ros-noetic-jackal-gazebo
-
-to install the official Gazebo package of the simulated Clearpath Jackal robot
+  sudo apt-get install ros-jazzy-turtlebot4-simulator ros-jazzy-irobot-create-nodes
 
 
 ROS Launch files
 ----------
 
-Before we proceed with the experiment on the Jackal robot and the ROS tools, we need to describe the ROS launch file functionality. Particularly, a ROS launch file is a ``XML``  type file with a ``.launch`` file extension, which can be used to launch multiple ROS nodes at the same time while it can set values on parameters in the Parameters Server before executing the ``rosrun``. The ROS launch files can are kept in the ``launch`` folder of each ROS package.
+Before we proceed with the experiment on the Turtlebot robot and the ROS tools, we need to describe the ROS launch file functionality.
+Particularly, a ROS launch file can be a ``Python`` or ``XML`` type file with a ``.launch.py`` (Python) or ``.launch.xml`` file (XML) extension,
+which can be used to launch multiple ROS nodes at the same time while it can set values for the parameters.
+The ROS launch files can are kept in the ``launch`` folder of each ROS package.
 
 An example of a launch file could be,
 
-.. code-block:: html
+.. code-block:: python
 
-  <launch>
-          <arg name="x_var" default="0" />
-          <arg name="enable_var" default="true" />
+  from launch import LaunchDescription
+  from launch.actions import DeclareLaunchArgument
+  from launch.substitutions import LaunchConfiguration
+  from launch_ros.actions import Node
 
-          <!-- This is a comment -->
-          <node pkg="package_name" name="node_name" type="node_filename" />
 
-          <node pkg="package_name" name="node_name_2" type="node_filename_2" args="-x $(arg x_var) -enable_var $(arg enable_var)" />
+  def generate_launch_description():
+      return LaunchDescription([
+          DeclareLaunchArgument('x_var', default_value='0'),
+          DeclareLaunchArgument('enable_var', default_value='true'),
 
-  </launch>
+          # This is a comment
+          Node(package='package_name', executable='node_filename', name='node_name'),
+
+          Node(package='package_name', executable='node_filename_2', name='node_name_2',
+               arguments=['-x', LaunchConfiguration('x_var'),
+                          '-enable_var', LaunchConfiguration('enable_var')]),
+      ])
 
 where,
 
-.. code-block:: html
+.. code-block:: python
 
-  <arg name="x_var" default="0" />
-  <arg name="enable_var" default="true" />
+  DeclareLaunchArgument('x_var', default_value='0'),
+  DeclareLaunchArgument('enable_var', default_value='true'),
 
 is the initialization of the variable ``x_var`` with the value 0 and the variable ``enable_var`` with True. The code part of,
 
-.. code-block:: html
+.. code-block:: python
 
-  <node pkg="package_name" name="node_name" type="node_filename" />
+  Node(package='package_name', executable='node_filename', name='node_name')
 
 executes the node ``node_filename`` from the package ``package_name`` and names it ``node_name``. The second node call part, namely,
 
-.. code-block:: html
+.. code-block:: python
 
-  <node pkg="package_name" name="node_name_2" type="node_filename_2" args="-x $(arg x_var) -enable_var $(arg enable_var)" 
+  Node(package='package_name', executable='node_filename_2', name='node_name_2',
+               arguments=['-x', LaunchConfiguration('x_var'),
+                          '-enable_var', LaunchConfiguration('enable_var')])
 
-executes the ``node_filename_2`` node, but also provides argument information through the Parameter Server.
+executes the ``node_filename_2`` node, but also provides arguments directly to the program.
+
+To install the launch files, add the following lines to `CMakeLists.txt` before `ament_package()`:
+
+.. code-block:: cmake
+
+  install(DIRECTORY launch
+    DESTINATION share/${PROJECT_NAME}
+  )
+
+and build the package using `colcon build`.
 
 To execute the ROS launch file you can perform in a new terminal,
 
 .. code-block:: bash
 
-  roslaunch package_name file.launch
+  ros2 launch package_name file.launch.py
 
-Now, let's try to create a launch file for our created ROS package, namely the ``ee106w26``. Specifically, create a ROS launch that you can execute at the same time both the `publisher` and `subscriber` nodes of the Lab 1. Show the results to the Teaching Assistant.
+Now, let's try to create a launch file for our created ROS package, namely the ``ee106f26``. Specifically, create a ROS launch that you can execute at the same time both the `publisher` and `subscriber` nodes of the Lab 1. Show the results to the Teaching Assistant.
 
 rqt and rqt_graph Tools
 ----------
@@ -92,63 +108,105 @@ In addition, the main visualization tool that is used in ROS software developmen
 
 .. code-block:: bash
 
-  rviz
+  rviz2
 
-Gazebo Simulation and the Clearpath Jackal Robot
+Gazebo Simulation and the Clearpath Turtlebot
 --------------
 
 In order to start the Gazebo simulator with an empty world, you can execute, 
 
 .. code-block:: bash
 
-  roslaunch gazebo_ros empty_world.launch
+  ros2 launch ros_gz_sim gz_sim.launch.py gz_args:=empty.sdf
 
 To properly exit or terminate Gazebo you should use the window terminating button. In many cases, such as closing abruptly the terminal or if the Gazebo is not responding, you can terminate it by executing in a new terminal, 
 
 .. code-block:: bash
 
-  sudo killall gzserver
-  sudo killall gzclient
+  pkill -f "gz sim"
 
-As the Gazebo is up and running, we can spawn a Jackal robot inside the simulated environment. To achieve that, we will create a dedicated ROS launch file in ``ee106w26/launch`` folder and attach the following,   
+As the Gazebo is up and running, we can spawn a Turtlebot inside the simulated environment. To achieve that, we will create a dedicated ROS launch file in ``ee106f26/launch`` folder and attach the following,   
 
-.. code-block:: html
+.. code-block:: python
   
-  <launch>
-    <arg name="x" default="0" />
-    <arg name="y" default="0" />
-    <arg name="z" default="1" />
-    <arg name="yaw" default="0" />
-    <arg name="joystick" default="true" />
+  from ament_index_python.packages import get_package_share_directory
 
-    <!-- Configuration of Jackal which you would like to simulate.
-        See jackal_description for details. -->
-    <arg name="config" default="front_laser" />
+  from launch import LaunchDescription
+  from launch.actions import DeclareLaunchArgument
+  from launch.actions import IncludeLaunchDescription
+  from launch.launch_description_sources import PythonLaunchDescriptionSource
+  from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 
-    <!-- Load Jackal's description, controllers, and teleop nodes. -->
-    <include file="$(find jackal_description)/launch/description.launch">
-      <arg name="config" value="$(arg config)" />
-    </include>
-    <include file="$(find jackal_control)/launch/control.launch" />
-    <include file="$(find jackal_control)/launch/teleop.launch">
-      <arg name="joystick" value="$(arg joystick)" />
-    </include>
 
-    <!-- Spawn Jackal -->
-    <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model"
-          args="-urdf -model jackal -param robot_description -x $(arg x) -y $(arg y) -z $(arg z) -R 0 -P 0 -Y $(arg yaw)" />
+  ARGUMENTS = [
+      DeclareLaunchArgument('namespace', default_value='',
+                            description='Robot namespace'),
+      DeclareLaunchArgument('rviz', default_value='false',
+                            choices=['true', 'false'], description='Start rviz.'),
+      DeclareLaunchArgument('world', default_value='warehouse',
+                            description='Simulation World'),
+      DeclareLaunchArgument('model', default_value='standard',
+                            choices=['standard', 'lite'],
+                            description='Turtlebot4 Model'),
+  ]
 
-  </launch>
+  for pose_element in ['x', 'y', 'z', 'yaw']:
+      ARGUMENTS.append(DeclareLaunchArgument(pose_element, default_value='0.0',
+                      description=f'{pose_element} component of the robot pose.'))
+
+
+  def generate_launch_description():
+      # Directories
+      pkg_turtlebot4_gz_bringup = get_package_share_directory(
+          'turtlebot4_gz_bringup')
+
+      # Paths
+      gazebo_launch = PathJoinSubstitution(
+          [pkg_turtlebot4_gz_bringup, 'launch', 'sim.launch.py'])
+      robot_spawn_launch = PathJoinSubstitution(
+          [pkg_turtlebot4_gz_bringup, 'launch', 'turtlebot_spawn.launch.py'])
+
+      gazebo = IncludeLaunchDescription(
+          PythonLaunchDescriptionSource([gazebo_launch]),
+          launch_arguments=[
+              ('world', LaunchConfiguration('world'))
+          ]
+      )
+
+      # Includes the launch description of the robot
+      # This loads the models of the components, and any other packages
+      # required for spawning the robot
+      robot_spawn = IncludeLaunchDescription(
+          PythonLaunchDescriptionSource([robot_spawn_launch]),
+          launch_arguments=[
+              ('namespace', LaunchConfiguration('namespace')),
+              ('rviz', LaunchConfiguration('rviz')),
+              ('x', LaunchConfiguration('x')),
+              ('y', LaunchConfiguration('y')),
+              ('z', LaunchConfiguration('z')),
+              ('yaw', LaunchConfiguration('yaw'))]
+      )
+
+      # Create launch description and add actions
+      ld = LaunchDescription(ARGUMENTS)
+      ld.add_action(gazebo)
+      ld.add_action(robot_spawn)
+      return ld
 
 .. then create a ROS subscriber and try to collect the data from the raw pointcloud and check distances
 
-This file will be the ROS launch file that we will use to start Gazebo and spawn a simulated Jackal robot inside the world.  Specifically, the variables `x,y,z` and `yaw` define the initial position and orientation values of the robot in the world. The 'joystick' variable enables the teleoperation of the Jackal robot through a joystick controller. This file can be saved with the name of ``jackal.launch`` file inside the ``ee106w26`` ROS package. To execute the ROS launch file, you can perform in a new terminal,
+This file will be the ROS launch file that we will use to start Gazebo and spawn a simulated Turtlebot robot inside the world.
+Specifically, the variables `x,y,z` and `yaw` define the initial position and orientation values of the robot in the world.
+The 'joystick' variable enables the teleoperation of the Turtlebot robot through a joystick controller.
+This file can be saved with the name of ``turtlebot.launch.py`` file inside the ``ee106f26`` ROS package.
+To execute the ROS launch file, you can perform in a new terminal,
 
 .. code-block:: bash
 
-  roslaunch ee106w26 jackal.launch
+  ros2 launch ee106f26 turtlebot.launch.py model:=lite world:=empty
 
-After the execution of the above ROS launch file, you can use ``rviz`` to visualize the captured sensory information from the simulated Jackal robot. Place objects closely around the simulated robot and check the `front/scan` ROS topic of type `sensor_msgs/LaserScan` on how it updates the visualized information in RViz. 
+After the execution of the above ROS launch file, you can use ``rviz`` to visualize the captured sensory information from the simulated Turtlebot robot.
+Place objects closely around the simulated robot and check the `front/scan` ROS topic of type `sensor_msgs/LaserScan` on how it updates the visualized information in RViz. 
 
 
 Robot Teleoperation
@@ -156,7 +214,8 @@ Robot Teleoperation
 
 .. rosrun, rostopic, rosmsg, rosnode, rosbag
 
-Nowadays, most of the robots support teleoperation through a connected keyboard or a gamepad/joystick. In ROS we can use the `teleop_twist_keyboard <https://github.com/ros-teleop/teleop_twist_keyboard>`_ to use our keyboard for robot teleoperation, which publishes `geometry_twist/Twist` message on the ``cmd_vel`` ROS topic. 
+Nowadays, most of the robots support teleoperation through a connected keyboard or a gamepad/joystick.
+In ROS we can use the `teleop_twist_keyboard <https://docs.ros.org/en/ros2_packages/humble/api/teleop_twist_keyboard/>`_ to use our keyboard for robot teleoperation, which publishes `geometry_twist/Twist` message on the ``cmd_vel`` ROS topic. 
 
 To install this package, 
 
@@ -167,134 +226,151 @@ To install this package,
 
 and build the catkin workspace.
 
-Jackal Control inside the Gazebo World
+Turtlebot Control inside the Gazebo World
 ----------
-As we have completed the above steps, to spawn the simualted Jackal inside the Gazebo world we execute in separate terminals the below commands in the following order,
+As we have completed the above steps, to spawn the simualted Turtlebot inside the Gazebo world we execute in separate terminals the below commands in the following order,
 
-#. roslaunch gazebo_ros empty_world.launch
-#. roslaunch ee106w26 jackal.launch
-#. rosrun teleop_twist_keyboard teleop_twist_keyboard.py
+.. code-block:: bash
+  ros2 launch ee106f26 turtlebot.launch.py model:=lite world:=maze # In terminal 1
+  ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r cmd_vel:=/cmd_vel_unstamped # In terminal 2
 
-RViz program can be executed also in a separate terminal, in case you want to visualize the sensory information that is captured by the simulated Jackal robot.
-
+RViz program can be executed also in a separate terminal, in case you want to visualize the sensory information that is captured by the simulated Turtlebot robot.
 
 
 RViz and TF Visualisation
 -----------
 
-Initially, we start the Gazebo simulator with the simulated Jackal robot. Thus, in separate terminals execute,
+Initially, we start the Gazebo simulator with the simulated Turtlebot robot. Thus, in a terminal execute,
 
 .. code-block:: bash
  
- roslaunch gazebo_ros empty_world.launch
+ ros2 launch ee106f26 turtlebot.launch.py model:=lite world:=maze
 
-and 
-
-.. code-block:: bash
- 
- roslaunch ee106w26 jackal.launch
-
-As the robot has been successfully spawned inside the Gazebo world, we can enable the ROS visualization tool, by executing in a separate terminal,
+As the robot has been successfully spawned inside the Gazebo world with a maze, we can enable the ROS visualization tool, by executing in a separate terminal,
 
 .. code-block:: bash
  
- rviz
+ rviz2
 
-In order to visualize the robot in the RViz tool, we have to set firstly the visualization `Global Options/Fixed Frame` to any of the listed coordinate systems. For our setup, we set `Global Options/Fixed Frame` to ``base_link``, as it represents the base coordinate system of the Jackal robot. Also, we by using the `Add` button of the left panel of RViz, we add the visualization of the `TF`, the `RobotModel`, and the `LaserScan` by selecting, the latter, to visualize the `front/scan` ROS topic. Finally, to include an obstacle inside the Gazebo world, we add a `Stop Sign` model at the position (2,0,0).
+In order to visualize the robot in the RViz tool, we have to set firstly the visualization `Global Options/Fixed Frame` to any of the listed coordinate systems.
+For our setup, we set `Global Options/Fixed Frame` to ``base_link``, as it represents the base coordinate system of the Turtlebot.
+Also, by using the `Add` button of the left panel of RViz, we add the visualization of the `TF` and the `LaserScan` by selecting, the latter, to visualize the `/scan` ROS topic.
 
- .. image:: ./pics/jackal_stop_sign.png
+ .. image:: ./pics/turtlebot_maze.png
  :align: center
 
 
- .. image:: ./pics/jackal_stop_sign_rviz.png
+ .. image:: ./pics/turtlebot_tf.png
  :align: center
 
 
 ROS Frames and TF Listener
 -----------
 
-`ROS frames <http://wiki.ros.org/tf2>`_ are fundamental entities in ROS, as they represent the existing coordinate systems of the robotic setup. Particularly, ROS frames can be assigned on any part of the robot, which can be considered rigid, as well as, on any onboard sensor. Thus, each captured measurement can be spatially described in the corresponding ROS frame of the capturing sensor, while multiple frames can be connected to each other spatially and form the ROS frame tree of the ROS setup.
+`ROS frames <https://docs.ros.org/en/jazzy/Tutorials/Intermediate/Tf2/Introduction-To-Tf2.html>`_ are fundamental entities in ROS, as they represent the existing coordinate systems of the robotic setup.
+Particularly, ROS frames can be assigned on any part of the robot, which can be considered rigid, as well as, on any onboard sensor.
+Thus, each captured measurement can be spatially described in the corresponding ROS frame of the capturing sensor, while multiple frames can be connected to each other spatially and form the ROS frame tree of the ROS setup.
 
- .. image:: ./pics/jackal_frames.jpg
- :align: center
+ .. image:: ./pics/turtlebot_frames.png
+..  :align: center
 
-In order to publish a transformation between two ROS frames that remains static over time, you can use the tool `static_transform_publisher` from the `tf` ROS package. For example in our case, it would be ideal to create a frame for the front bumper of the Jackal, so we can spatially describe all captured ranging measurements in respect to it to avoid any potential collisions as it moves forward.
+In order to publish a transformation between two ROS frames that remains static over time, you can use the tool `static_transform_publisher` from the `tf` ROS package.
+For example in our case, it would be ideal to create a frame for the front bumper of the Turtlebot, so we can spatially describe all captured ranging measurements in respect to it to avoid any potential collisions as it moves forward.
 
 To do that, we can describe the new `front_bumper` frame, with respect to the `base_link` frame of the robot, by executing in a new terminal, 
 
 .. code-block:: bash
 
- rosrun tf static_transform_publisher 0.26 0 0.11 0 0 0 1 base_link front_bumper 100
+ ros2 run tf2_ros static_transform_publisher --x 0.26 --y 0 --z 0.11 --qx 0 --qy 0 --qz 0 --qw 1 --frame-id base_link --child-frame-id front_bumper
 
 where the arguments of this command are, 
 
 .. code-block:: bash
 
- static_transform_publisher x y z qx qy qz qw frame_id child_frame_id period(milliseconds)
+ ros2 run tf2_ros static_transform_publisher --x x --y y --z z --qx qx --qy qy --qz qz --qw qw --frame-id frame_id --child-frame-id child_frame_id
 
 One of the terminal commands to obtain the `transformation matrix` between two ROS frames is,
 
 .. code-block:: bash
 
- rosrun tf tf_echo base_link front_laser
+ ros2 run tf2_ros tf2_echo base_link front_laser
 
-This information can be captured also inside a ROS node by using the ``tf.TransformListener()`` module. To test it, please initialize a new ROS node inside the ``ee106w26`` ROS package, under the name of ``tf_listener.py``, which will contain,
+This information can be captured also inside a ROS node by using the ``tf.TransformListener()`` module.
+To test it, please initialize a new ROS node inside the ``ee106f26`` ROS package, under the name of ``tf_listener.py``, which will contain,
 
 .. code-block:: python
 
- #!/usr/bin/env python3
- import roslib
- roslib.load_manifest('ee106w26')
- import rospy
- import math
- import tf
- import geometry_msgs.msg
- import numpy as np
- rospy.init_node('tf_listener_node')
+  #!/usr/bin/env python3
 
- # initialization of the ROS tf listener
- listener = tf.TransformListener()
+  import math
 
- rate = rospy.Rate(10.0)
- # the goal of this node is to continously listen to the transformation relation between the base_link and front_laser ROS frames and print the Translation and Rotation of the captured transformation matrix.
- while not rospy.is_shutdown():
-    try:
-        # capture the tf of the two frames the exact moment of the command execution (rospy.Time(0))
-        (trans,rot) = listener.lookupTransform('/base_link', '/front_laser', rospy.Time(0))
-    except (tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):
-        continue
+  import numpy as np
+  import rclpy
+  from rclpy.node import Node
+  from rclpy.time import Time
+  from tf2_ros import TransformException
+  from tf2_ros.buffer import Buffer
+  from tf2_ros.transform_listener import TransformListener
 
-    # print of the Translation and Rotation information, by demonstrating the Quaternion, Euler, and Rotation Matrix representation of the latter.
-    print("The translation is (x,y,z) = " + str(trans))
-    print("The rotation (quaternion) is (x,y,z,w) = " + str(rot))
-    print("The rotation (euler) is (r,p,y) = " + str(tf.transformations.euler_from_quaternion(rot)))
-    rot_mat = tf.transformations.quaternion_matrix(rot)
-    print("The rotation (rotation matrix) is = " + str(tf.transformations.quaternion_matrix(rot)))
-    
-    # we assume that a Lidar point is detected, w.r.t the Lidar's frame
-    laser_point_detected = [1, 0, 0, 1]
-    
-    # initialization of the tf matrix to describe it in the /base_link frame
-    rot_mat[0,3] = trans[0]
-    rot_mat[1,3] = trans[1]
-    rot_mat[2,3] = trans[2]
-    print(np.dot(rot_mat , laser_point_detected))
-    
-    rate.sleep()
+  from tf_transformations import euler_from_quaternion, quaternion_matrix
 
 
-.. roscore
-.. roslaunch gazebo_ros empty_world.launch
-.. roslaunch ee106w26 jackal.launch
-.. rviz
-.. rosrun teleop_keyboard_. .. 
+  class TfListener(Node):
+
+      def __init__(self):
+          super().__init__('tf_listener')
+          self.tf_buffer = Buffer()
+          self.tf_listener = TransformListener(self.tf_buffer, self)
+          self.timer = self.create_timer(1.0, self.timer_callback)
+
+      def timer_callback(self):
+          try:
+              # capture the latest available tf of the two frames (Time() means "latest")
+              t = self.tf_buffer.lookup_transform('base_link', 'turtlebot4/rplidar_link/rplidar', Time())
+          except TransformException as ex:
+              self.get_logger().info('Could not get transform: %s' % ex)
+              return
+
+          trans = t.transform.translation
+          rot = t.transform.rotation
+
+          # print of the Translation and Rotation information, by demonstrating the Quaternion, Euler, and Rotation Matrix representation of the latter.
+          print("The translation is (x,y,z) = " + str((trans.x, trans.y, trans.z)))
+          print("The rotation (quaternion) is (x,y,z,w) = " + str((rot.x, rot.y, rot.z, rot.w)))
+          print("The rotation (euler) is (r,p,y) = " + str(euler_from_quaternion([rot.x, rot.y, rot.z, rot.w])))
+          rot_mat = quaternion_matrix([rot.x, rot.y, rot.z, rot.w])
+          print("The rotation (rotation matrix) is = " + str(rot_mat))
+
+          # we assume that a Lidar point is detected, w.r.t the Lidar's frame
+          laser_point_detected = [1, 0, 0, 1]
+
+          # initialization of the tf matrix to describe it in the base_link frame
+          rot_mat[0, 3] = trans.x
+          rot_mat[1, 3] = trans.y
+          rot_mat[2, 3] = trans.z
+          print(np.dot(rot_mat, laser_point_detected))
+
+
+  def main(args=None):
+      rclpy.init(args=args)
+
+      tf_listener = TfListener()
+
+      rclpy.spin(tf_listener)
+
+      tf_listener.destroy_node()
+      rclpy.shutdown()
+
+
+  if __name__ == '__main__':
+      main()
 
 
 Submission
 ----------
 
 #. **How**: individual, via Gradescope  
-#. **Demo**: required—teleoperate the Jackal in Gazebo and show your node responding to obstacles  
+#. **Demo**: required—teleoperate the Turtlebot in Gazebo and show your node responding to obstacles  
 #. **When**: 11:59 pm, Thursday, Jan 29  
 #. **What to submit**:  
    - ``lab2_report.pdf`` (use the provided template)  
@@ -303,19 +379,19 @@ Submission
 Demo Checklist
 --------------
 
-- Show the Jackal driving toward obstacles   
-- Open RViz with the RobotModel, TF, and LaserScan displays enabled  
+- Show the Turtlebot driving toward obstacles   
+- Open RViz with the TF and LaserScan displays enabled  
 
 Grading Rubric
 --------------
 
 - \+ 10 % Gazebo world & frame setup  
-  - Create a world containing Jackal, a Stop Sign, and at least three distinct obstacles.  
-  - Define and broadcast a new frame called ``front_bumper`` (e.g. via static_transform_publisher).  
+  - Spawn a world containing Turtlebot with the maze.  
+  - Define and broadcast a new frame called ``front_bumper`` (e.g. via ``static_transform_publisher``).  
 
 - \+ 15 % ROS node initialization  
   - Initialize a ROS node (e.g. ``ranges_check``).  
-  - Subscribe to ``/front/scan`` (``sensor_msgs/LaserScan``).  
+  - Subscribe to ``/scan`` (``sensor_msgs/LaserScan``).  
   - Create a TF listener and retrieve the transform between ``/front_laser`` and ``/front_bumper``.  
 
 - \+ 20 % LiDAR data processing & coordinate transformation  
@@ -326,14 +402,14 @@ Grading Rubric
 
 - \+ 20 % ROS publisher & status messages  
   - Form a ``std_msgs/String`` whose ``data`` is the worst-case classification.  
-  - Publish once per scan to ``/jackal_robot_status``.  
-  - In a separate terminal, run ``rostopic echo /jackal_robot_status`` and demonstrate “critical”, “major”, and “minor” messages 
+  - Publish once per scan to ``/turtlebot_status``.  
+  - In a separate terminal, run ``rostopic echo /turtlebot_status`` and demonstrate “critical”, “major”, and “minor” messages 
 
 - \+ 25 % Final demonstration & RViz visualization  
   - Teleoperate through all three cases (minor, major, critical).  
   - For each case include:  
     - Gazebo screenshot (robot + obstacles)  
-    - Terminal screenshot of ``rostopic echo /jackal_robot_status``  
+    - Terminal screenshot of ``rostopic echo /turtlebot_status``  
     - RViz screenshot with RobotModel, TF frames, and LaserScan  
 
 - \+ 10 % Report clarity & code quality  
@@ -348,58 +424,88 @@ Pseudo-code
 --------------
 .. code-block:: python
 
+    #!/usr/bin/env python3
 
- #!/usr/bin/env python3
- import roslib
- roslib.load_manifest('ee106w26')
- import rospy
- import math
- import tf
- from sensor_msgs.msg import LaserScan
- from std_msgs.msg import String
- #import geometry_msgs.msg
- import numpy as np
- #----------------------------------------------------------------------------------------------------------------------
+    import math
 
- def callback(scan: LaserScan):
-   # Get the transformations and rotations
-   try:
-     (trans,rot) = listener.lookupTransform('base_link','front_laser',rospy.Time(0))
-   except (tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):
-     rospy.logwarn("No TF available yet")
-     return
-   # Build a 4x4 homogeneous transform matrix T
-   T = tf.transformations.quaternion_matrix(rot)
-   T[0:3,3] = trans
-   worst = 'minor'
-   # Loop over all ranges, skip the inf ranges
-   for idx, r in enumerate(scan.ranges):
-     if not np.isfinite(r):
-       continue
-     # transform each point
-     theta = scan.angle_min + idx * scan.angle_increment
-     x_Laser = r * math.cos(theta)
-     y_Laser =  #COMPLETE
-     p_Laser = # COMPLETE
-     # transofrm into base_link frame
-     p_Bumper = #COMPLETE
-     # compute distance (in meters)
-     distance = np.hypot(p_Laser[0], p_Laser[1])
-     #print(distance)
-     #COMPLETE CODE….
-     # classify critical, major, minor
-     #PUBLISH worst
- if __name__ == '__main__':
-   rospy.init_node('tf_listener')
-   listener = tf.TransformListener()
-   # Create a publisher to view the output of
-   pub = rospy.Publisher('jackal_robot_status', String, queue_size=1)
-   # Create a subscriber for the /front/scan topic that will send LiDAR data to callback()
-   rospy.Subscriber('/front/scan', LaserScan, callback)
-   rospy.loginfo("TF with LiDAR")
-   rospy.spin()
+    import numpy as np
+    import rclpy
+    from rclpy.node import Node
+    from rclpy.qos import qos_profile_sensor_data
+    from rclpy.time import Time
+    from sensor_msgs.msg import LaserScan
+    from std_msgs.msg import String
+    from tf2_ros import TransformException
+    from tf2_ros.buffer import Buffer
+    from tf2_ros.transform_listener import TransformListener
 
-.. code-block:: bash
+    from tf_transformations import quaternion_matrix
+
+
+    class Lab2TemplateNode(Node):
+
+        def __init__(self):
+            super().__init__('tf_listener')
+            self.tf_buffer = Buffer()
+            self.tf_listener = TransformListener(self.tf_buffer, self)
+
+            self.pub = None # TODO: Publisher for worst case status
+            self.sub = None # TODO: Subscriber for LiDAR
+
+        def callback(self, scan: LaserScan):
+            # Get the transformations and rotations
+            try:
+                t = self.tf_buffer.lookup_transform(
+                    'base_link', 'turtlebot4/rplidar_link/rplidar', Time()
+                )
+            except TransformException:
+                self.get_logger().warn('TF not available yet')
+                return
+
+            trans = t.transform.translation
+            rot = t.transform.rotation
+
+            # Build a 4x4 homogeneous transform matrix T
+            T = quaternion_matrix([rot.x, rot.y, rot.z, rot.w])
+            T[0:3, 3] = [trans.x, trans.y, trans.z]
+
+            # Loop over all ranges, skip the inf ranges
+            worst = 'minor'
+            for idx, r in enumerate(scan.ranges):
+                if not np.isfinite(r):
+                    continue
+
+                # transform each point
+                theta = scan.angle_min + idx * scan.angle_increment
+                x_l = r * math.cos(theta)
+                y_l = 0.0 # TODO: Complete
+                p_l = 0.0 # TODO: Complete
+
+                # transform into base_link frame
+                p_b = 0.0 # TODO: Complete
+
+                # compute distance (in meters)
+                dist = math.hypot(p_b[0], p_b[1])
+
+                # COMPLETE CODE….
+                # classify critical, major, minor
+
+            # PUBLISH worst
+
+
+    def main(args=None):
+        rclpy.init(args=args)
+
+        node = Lab2TemplateNode()
+
+        rclpy.spin(node)
+
+        node.destroy_node()
+        rclpy.shutdown()
+
+
+    if __name__ == '__main__':
+        main()
 
 
 
@@ -439,77 +545,6 @@ ROS Conventions
 
 - `REP 105 Coordinate Frames for Mobile Platforms <https://www.ros.org/reps/rep-0105.html>`_
 
-
-
-.. Solution Approach for Lab 2 Assignment
-.. -----------------
-
-
-.. .. code-block:: python
-
-.. #!/usr/bin/env python
-.. import roslib
-.. roslib.load_manifest('ee106w26')
-.. import rospy
-.. import math
-.. import tf
-.. from sensor_msgs.msg import LaserScan
-.. from std_msgs.msg import String
-.. import numpy as np
-
-.. def callback(scan: LaserScan):
-..    # 1) lookup the latest transform front_laser → base_link
-..    try:
-..        (trans, rot) = listener.lookupTransform(
-..            '/base_link', '/front_laser', rospy.Time(0)
-..       )
-..    except (tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):
-..        rospy.logwarn("TF not available yet")
- ..       return
-
-..    # 2) build 4×4 homogeneous transform matrix T
-..    T = tf.transformations.quaternion_matrix(rot)
-..    T[0:3, 3] = trans
-
-..    # 3) loop over all ranges, skip inf, transform each point, compute dist
-..    worst = 'minor'
-..    for idx, r in enumerate(scan.ranges):
-..        if not np.isfinite(r):
-..            continue
-
-..        theta = scan.angle_min + idx * scan.angle_increment
-..        x_l = r * math.cos(theta)
-..        y_l = r * math.sin(theta)
-..        p_l = np.array([x_l, y_l, 0.0, 1.0])
-
-..        # transform into base_link frame
-..        p_b = T.dot(p_l)
-..        dist = math.hypot(p_b[0], p_b[1])
-
- ..       # classify
- ..       if dist < 0.2:
- ..           worst = 'critical'
- ..           break
- ..       elif dist < 0.5 and worst != 'critical':
- ..           worst = 'major'
-
-..    # 4) publish the single “worst” status
-..    status_msg = String(data=worst)
-..    pub.publish(status_msg)
-
-..    # (optional) print for debugging
-..    rospy.loginfo(f"Published status: {worst}")
-
-.. if __name__ == '__main__':
-..    rospy.init_node('tf_listener')
-..    listener = tf.TransformListener()
-..    pub = rospy.Publisher('jackal_robot_status', String, queue_size=1)
-
-..    # subscribe to LiDAR
-..    rospy.Subscriber('/front/scan', LaserScan, callback)
-
-..    rospy.loginfo("tf_listener with LiDAR processing started")
-..    rospy.spin()
 
 
 
