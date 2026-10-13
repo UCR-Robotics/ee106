@@ -411,7 +411,7 @@ Grading Rubric
 - \+ 15 % ROS node initialization  
   - Initialize a ROS node (e.g. ``ranges_check``).  
   - Subscribe to ``/scan`` (``sensor_msgs/LaserScan``).  
-  - Create a TF listener and retrieve the transform between ``/turtlebot4/rplidar_link/rplidar`` and ``/front_bumper``.  
+  - Create a TF listener and retrieve the transform between ``turtlebot4/rplidar_link/rplidar`` and ``/front_bumper``.  
 
 - \+ 20 % LiDAR data processing & coordinate transformation  
   - Iterate over ``data.ranges``, skipping “inf” values.  
