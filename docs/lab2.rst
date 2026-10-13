@@ -390,7 +390,7 @@ Submission
 
 #. **How**: individual, via Gradescope  
 #. **Demo**: required—teleoperate the Turtlebot in Gazebo and show your node responding to obstacles  
-#. **When**: 11:59 pm, Thursday, Oct 29  
+#. **When**: 11:59 pm, Thursday, Oct 22  
 #. **What to submit**:  
    - ``lab2_report.pdf`` (use the provided template)  
    - Include all screenshots, detailed step descriptions, and your fully commented Python code at the end  
@@ -429,7 +429,7 @@ Grading Rubric
   - For each case include:  
     - Gazebo screenshot (robot + obstacles)  
     - Terminal screenshot of ``ros2 topic echo /turtlebot_status``  
-    - RViz screenshot with RobotModel, TF frames, and LaserScan  
+    - RViz screenshot with TF frames, and LaserScan  
 
 - \+ 10 % Report clarity & code quality  
   - Clear, concise write-up with captions.  
