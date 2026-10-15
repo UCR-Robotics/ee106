@@ -4,7 +4,8 @@ Lab 3: Open Loop Control
 Overview
 --------
 
-In this lab, we are going to learn how to write a Python script to control the Turtlebot3 robot. Specifically, the task is to make the robot move in a square shape using open-loop control 
+In this lab, we are going to learn how to write a Python script to control the Turtlebot4 robot.
+Specifically, the task is to make the robot move in a square shape using open-loop control 
 (i.e. sending commands only; no feedback). 
 The waypoints to visit are [4, 0], [4, 4], [0, 4] and [0, 0]. 
 In other words, the robot should move forward 4 meters, turn left 90 degrees, 
@@ -16,8 +17,7 @@ and the Python script should exit gracefully.
 Introduction to Turtlebot
 -------------------------
 
-The Turtlebot3 robot is a differential wheeled robot built on top of the Kobuki mobile base. 
-We have customized it to include more sensors (one Lidar, two cameras, and one manipulator).
+The Turtlebot4 robot is a differential wheeled robot built on top of the iRobot Create 3 mobile base.
 See the image (right) below for Turtlebot family. 
 
 Though multiple layers of plates/sensors are placed on top of the robot, 
@@ -69,43 +69,43 @@ with respect to :math:`W` will be of the from:
   0 & 0 & 1     
   \end{bmatrix}
 
-Installation Steps
-----------------
+.. Installation Steps
+.. ----------------
 
-First, let’s upgrade existing packages and install some dependencies for Turtlebot.
+.. First, let’s upgrade existing packages and install some dependencies for Turtlebot.
 
- .. code-block:: bash
+..  .. code-block:: bash
 
-    sudo apt-get update
-    sudo apt-get upgrade
+..     sudo apt-get update
+..     sudo apt-get upgrade
 
-Then, we clone and install the turtlebot3 ROS packages in our ROS workspace,
+.. Then, we clone and install the turtlebot3 ROS packages in our ROS workspace,
 
-  .. code-block:: bash
+..   .. code-block:: bash
 
-      cd ~/catkin_ws/src/
-      git clone -b noetic-devel https://github.com/ROBOTIS-GIT/turtlebot3.git
-      git clone -b noetic-devel https://github.com/ROBOTIS-GIT/turtlebot3_msgs.git
-      git clone -b noetic-devel https://github.com/ROBOTIS-GIT/turtlebot3_simulations.git
-      cd ../
+..       cd ~/catkin_ws/src/
+..       git clone -b noetic-devel https://github.com/ROBOTIS-GIT/turtlebot3.git
+..       git clone -b noetic-devel https://github.com/ROBOTIS-GIT/turtlebot3_msgs.git
+..       git clone -b noetic-devel https://github.com/ROBOTIS-GIT/turtlebot3_simulations.git
+..       cd ../
 
-and then we **build** the workspace. 😉
+.. and then we **build** the workspace. 😉
 
-Gazebo and Turtlebot3 Simulation
-----------------
+.. Gazebo and Turtlebot3 Simulation
+.. ----------------
 
-In order to spawn the Gazebo inside the simulated world, first we define the type of its model (burger, waffle, waffle_pi), and then we execute the ROS launch script,
+.. In order to spawn the Gazebo inside the simulated world, first we define the type of its model (burger, waffle, waffle_pi), and then we execute the ROS launch script,
 
-  .. code-block:: bash
+..   .. code-block:: bash
 
-    export TURTLEBOT3_MODEL=burger
-    roslaunch turtlebot3_gazebo turtlebot3_empty_world.launch
+..     export TURTLEBOT3_MODEL=burger
+..     roslaunch turtlebot3_gazebo turtlebot3_empty_world.launch
 
-The turtlebot3 supports teleoperation through `geometry_msgs/Twist` commands, via the corresponding ROS topic. To use a developed teleoperation script you can execute in a separate terminal,
+.. The turtlebot3 supports teleoperation through `geometry_msgs/Twist` commands, via the corresponding ROS topic. To use a developed teleoperation script you can execute in a separate terminal,
 
-  .. code-block:: bash
+..   .. code-block:: bash
 
-    rosrun turtlebot3_teleop turtlebot3_teleop_key
+..     rosrun turtlebot3_teleop turtlebot3_teleop_key
 
 Sample Code
 -----------
@@ -114,13 +114,12 @@ A sample code is provided to make the robot move forward for a certain distance.
 Please read carefully the provided code, and understand its functionality.
 You need to make changes under ``run`` function to complete the square trajectory.
 
-- Open a new terminal and go to your ``ee106w26`` package. 
+- Open a new terminal and go to your ``ee106f26`` package. 
   We will start from a new Python script.
 
   .. code-block:: bash
 
-    roscd ee106w26
-    cd src
+    cd ~/ee106_ws/src/ee106f26/scripts
     touch open_loop.py
     gedit open_loop.py
 
@@ -130,42 +129,91 @@ You need to make changes under ``run`` function to complete the square trajector
 
     #!/usr/bin/env python3
 
-    import rospy
-    from geometry_msgs.msg import Twist
-    from math import pi
+    import rclpy
+    import threading
+    import time
 
-    class Turtlebot():
+    import numpy as np
+
+    from rclpy.action import ActionClient
+    from rclpy.node import Node
+    from geometry_msgs.msg import TwistStamped
+
+    class Turtlebot(Node):
+
         def __init__(self):
-            rospy.init_node("turtlebot_move")
-            rospy.loginfo("Press Ctrl + C to terminate")
-            self.vel_pub = rospy.Publisher("cmd_vel", Twist, queue_size=10)
-            self.rate = rospy.Rate(10)
-            self.run()
 
+            # Create and initialize the Node - this is required
+            super().__init__('turtlebot_move')
+
+            self.get_logger().info("Press Ctrl + C to terminate")
+
+            # Create publisher for publishing the velocity commands
+            self.vel_pub = self.create_publisher(TwistStamped, "cmd_vel", 10)
 
         def run(self):
-            vel = Twist()
-            vel.linear.x = 0.5
-            vel.angular.z = 0
-            #while not rospy.is_shutdown():  # uncomment to use while loop
-            for i in range(50):
-                self.vel_pub.publish(vel)
-                self.rate.sleep()
-            """   
-            vel.linear.x = 0
-            vel.angular.z = 0.05
-            #while not rospy.is_shutdown():  # uncomment to use while loop
-            for i in range(50):
-                self.vel_pub.publish(vel)
-                self.rate.sleep()
+            """
+            Run function. There are a variety of design patterns.
             """
 
-    if __name__ == '__main__':
+            # Create a Twist object
+            # Essentially it's going to publish the velocity
+            vel = TwistStamped()
+
+            # Populate the fields of the message
+            vel.twist.linear.x = 0.5
+            vel.twist.angular.z = 0.0
+
+            # Provide some time to undock
+            time.sleep(1)
+
+            self.get_logger().info("Undocking complete.")
+            self.get_logger().info('Running open-loop control...')
+
+            # TODO: Modify / Add code after this point
+            # SAMPLE: Go Straight
+            for _ in range(100):
+                self.vel_pub.publish(vel)
+                time.sleep(0.1)
+
+    def main(args=None):
+        """
+        Entry point function for the Open Loop control node.
+
+        @param args - Arguments that need to be passed to ROS.
+        """
+
+        # Initialize the client library - this is required
+        rclpy.init(args=args)
+
+        # Create the publisher node
+        turtlebot_node = Turtlebot()
+
+        # Spin so that the node is busy processing
+        # while no exceptions are encountered and ROS
+        # is executing
+        # For this lab - spin rclpy on separate thread
+        thread = threading.Thread(target=rclpy.spin, args=(turtlebot_node,), daemon=True)
+        thread.start()
+
+        # Allow time for other nodes to start
+        time.sleep(5)
+
         try:
-            tb = Turtlebot()
-        except rospy.ROSInterruptException:
-            rospy.loginfo("Action terminated.")
-  
+            turtlebot_node.run()
+        except KeyboardInterrupt:
+            pass
+
+        # Destroy the node explicitly
+        turtlebot_node.destroy_node()
+
+        # Shut down this context
+        rclpy.shutdown()
+
+
+    if __name__ == '__main__':
+        main()
+
 
 Sample Code Explained
 ---------------------
@@ -184,7 +232,7 @@ Sample Code Explained
 
   .. code-block:: python
 
-    import rospy
+    import rclpy
 
 - This line imports a ``Twist`` *class* that can carry linear and angular velocity information. 
   Later on we will need to create an *instance* of this class, 
