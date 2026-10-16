@@ -181,7 +181,7 @@ This ``msg`` structure will be utilized and tested in the submission part of Lab
 Submission
 ----------
 
-#. Submission: individual submission via Canvas
+#. Submission: individual submission via Gradescope
 
 #. Demo: required (Present the subscriber's additions results in real-time.)
 
