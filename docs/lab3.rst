@@ -115,7 +115,7 @@ Please read carefully the provided code, and understand its functionality.
 You need to make changes under ``run`` function to complete the square trajectory.
 
 - Open a new terminal and go to your ``ee106f26`` package. 
-  We will start from a new Python script.
+  We will start from a new Python script. You can use an editor of your choice. For demonstration, we're using `gedit`.
 
   .. code-block:: bash
 
@@ -135,7 +135,8 @@ You need to make changes under ``run`` function to complete the square trajector
 
     import numpy as np
 
-    from rclpy.action import ActionClient
+    from math import pi
+
     from rclpy.node import Node
     from geometry_msgs.msg import TwistStamped
 
@@ -154,6 +155,8 @@ You need to make changes under ``run`` function to complete the square trajector
         def run(self):
             """
             Run function. There are a variety of design patterns.
+            An alternative would have been to use the `timer_callback`
+            design pattern shown in previous labs.
             """
 
             # Create a Twist object
@@ -228,18 +231,21 @@ Sample Code Explained
     #!/usr/bin/env python3
 
 - You need to import `rclpy` in order to use ROS in Python. This is the Python library that contains common operations and resources in ROS.
+  You will also need to import the `Node` class from `rclpy.node` in order to create the `Node` object.
 
   .. code-block:: python
 
     import rclpy
 
-- This line imports a ``Twist`` *class* that can carry linear and angular velocity information. 
+    from rclpy.node import Node
+
+- This line imports a ``TwistStamped`` *class* that can carry linear and angular velocity information. 
   Later on we will need to create an *instance* of this class, 
   assign the velocity value, and publish it out to the robot.
 
   .. code-block:: python
 
-    from geometry_msgs.msg import Twist
+    from geometry_msgs.msg import TwistStamped
 
 - We import a high-precision value of pi (in radian) from math library. Print it out and see its value :)
   This is for your convenience to add the turning part of the code.
@@ -253,7 +259,7 @@ Sample Code Explained
   from another member function. 
 
 - In the following code structure, we first define a *class* named ``Turtlebot``, and then create
-  an *instance* (*object*) called ``tb`` in the Python main function.
+  an *instance* (*object*) called ``turtlebot_node`` in the Python main function.
   The Python program will start running from the line right after ``if __name__ == '__main__':``.
   However, to create a new instance, the program needs to run ``__init__`` function for once 
   (this is a function that every *class* must have for the initialization process).
@@ -261,29 +267,57 @@ Sample Code Explained
   As such, each component is connected into the running pipeline. 
   
 - The keyword ``self`` is a pointer used internally to refer to resources, and the keyword
-  ``pass`` is just a placeholder that actually does nothing.
+  ``pass`` is just a placeholder that actually does nothing. The ``Turtlebot`` class itself inherits
+  from the ``Node`` class, 
 
   .. code-block:: python
     
-    class Turtlebot():
+    class Turtlebot(Node):
         def __init__(self):
-            self.run()
+            pass
 
         def run(self):
             pass
 
     if __name__ == '__main__':
         turtlebot_node = Turtlebot()
+        ...
+        turtlebot_node.run()
 
-- The ``try-except`` block is used to handle exceptions. In this case, it will provide logging information
-  when the user terminates the program using ``Ctrl + C``. 
+- A ROS Node needs to be *spun* in order to do its work. ``rclpy.spin(node)`` keeps the node alive and
+  processes its *callbacks*, i.e. the functions that ROS calls for us when something happens, such as a new message
+  arriving on a subscribed topic or a timer firing. It is a blocking call - it does not return
+  until the node is shut down, so any line written after it would never run.
+
+- In this lab, we want to run our own loop in ``run`` (publish, sleep, repeat) while the node is spinning.
+  To do both at the same time, we start ``rclpy.spin`` on a separate *thread*, which runs in the background
+  alongside the main program. Setting ``daemon=True`` means this background thread is stopped automatically
+  when the main program finishes. We then wait a few seconds so the node can connect to the other ROS Nodes
+  before ``run`` starts sending commands. For the time being, we do not need to know more details on this.
+
+  .. code-block:: python
+
+    thread = threading.Thread(target=rclpy.spin, args=(turtlebot_node,), daemon=True)
+    thread.start()
+
+    time.sleep(5)
+
+    turtlebot_node.run()
+
+  Our open-loop node only publishes, so it does not have any callbacks yet. Spinning in the background becomes
+  essential once we add subscribers (e.g. to read the robot's odometry for feedback control), since their callbacks
+  only run while the node is spinning.
+
+- The ``try-except`` block is used to handle exceptions. In this case, it will catch the ``Ctrl + C`` as an interruption and do nothing.
+  The general paradigm is to print some useful information about the exception that was caught, and additionally perform some cleanup. 
   For the time being, we do not need to know more details on this.
-  
+
   .. code-block:: python
     
     if __name__ == '__main__':
+        turtlebot_node = Turtlebot()
         try:
-            whatever = Turtlebot()
+            turtlebot_node.run()
         except KeyboardInterrupt:
             pass
 
@@ -300,12 +334,11 @@ Sample Code Explained
     super().__init__('turtlebot_move')
 
 - What follows is a common logging function used in ROS. In addition to printing the message
-  to screen (as what ``print`` function does in Python), it can also save the log in ROS 
-  central server for further debugging purpose.
+  to screen (as what ``print`` function does in Python), it can also save the log under ``~/.ros/log``.
 
   .. code-block:: python
 
-    rospy.loginfo("Press Ctrl + C to terminate")
+    self.get_logger().info("Press Ctrl + C to terminate")
 
 - ROS Topic is a way that ROS Node communicates with each other for continuous data transmission. 
   (In this case, we keep sending velocity commands.)
@@ -313,8 +346,7 @@ Sample Code Explained
   
 - On the robot side, there is a ROS Subscriber waiting for velocity commands.
   What we need to do in this script is to create a ROS Publisher to send commands.
-  The required arguments are the topic name, 
-  the message type ``TwistStamped``, and the queue size ``10``.
+  The required arguments are the message type ``TwistStamped``, the topic name, and the queue size ``10``.
 
   .. code-block:: python
 
@@ -329,10 +361,6 @@ Sample Code Explained
   By using the ``time.sleep()`` function together with ``while`` or ``for`` loop,
   we can approximately keep the loop running at 10Hz rate.
   The ``time.sleep(0.1)`` function pauses the program for 0.1 s each time it is called.
-  .. The ``time.sleep()`` function can calculate how much time elapsed **since last time 
-  .. it was called**. If this time elapsed is less than 1/rate (in this case 0.1s),
-  .. it will block the program till the time has reached 1/rate. 
-  .. If the time has already exceeded 1/rate, it will simply let it go.
 
   .. code-block:: python
 
@@ -340,19 +368,24 @@ Sample Code Explained
       self.vel_pub.publish(vel)
       time.sleep(0.1)
 
+.. The ``time.sleep()`` function can calculate how much time elapsed **since last time 
+.. it was called**. If this time elapsed is less than 1/rate (in this case 0.1s),
+.. it will block the program till the time has reached 1/rate. 
+.. If the time has already exceeded 1/rate, it will simply let it go.
+
 - To prepare a ROS Message that contains velocity data, 
-  we first create an *instance* (called ``vel``) of the ``Twist`` class 
+  we first create an *instance* (called ``vel``) of the ``TwistStamped`` class 
   (which is the message we are about to send), 
   and then assign linear and angular velocity to its corresponding variable.
   Note that you need to use ``.`` to have access to the member variables of a *class* data structure.
-  See `ROS Wiki documentation <https://docs.ros.org/en/jazzy/p/geometry_msgs/msg/Twist.html>`_ 
+  See `ROS Wiki documentation <https://docs.ros.org/en/jazzy/p/geometry_msgs/msg/TwistStamped.html>`_ 
   for more information about the message definition. 
 
   .. code-block:: python
 
-        vel = Twist()
-        vel.linear.x = 0.5
-        vel.angular.z = 0
+        vel = TwistStamped()
+        vel.twist.linear.x = 0.5
+        vel.twist.angular.z = 0.0
         self.vel_pub.publish(vel)
 
 .. - Lastly, if you use ``while`` loop, it is highly recommended to add a condition
@@ -396,13 +429,12 @@ Programming Tips
    the leftward direction is the positive y axis; and by right-hand rule, z axis upward. 
    This is also specified in `REP 103 <https://www.ros.org/reps/rep-0103.html>`_. 
 
-.. #. In Gazebo, you can use ``Ctrl + R`` to set the robot back to the origin without the need to relaunch.
-
 #. In this lab, you need to finely tune the parameters for open-loop control. 
    
    - In Gazebo, you can take the visualization as feedback (the grid size of the ground is 1 meter) 
      to tune the parameters. 
 
+  .. #. In Gazebo, you can use ``Ctrl + R`` to set the robot back to the origin without the need to relaunch.
   ..  - On Gradescope autograder, you can take the evaluation results (visited waypoints) as feedback 
   ..    to make minor adjustments to the parameters you have already tuned in the VM.
   ..  - Please note that parameters may vary from platform to platform. In other words,
@@ -414,18 +446,18 @@ Reading Materials
 ROS Nodes
 ~~~~~~~~~
 
-- `Understanding ROS Nodes <http://wiki.ros.org/ROS/Tutorials/UnderstandingNodes>`_
+- `Understanding ROS Nodes <https://docs.ros.org/en/jazzy/Tutorials/Beginner-CLI-Tools/Understanding-ROS2-Nodes/Understanding-ROS2-Nodes.html>`_
 
-- `Initialization and Shutdown <http://wiki.ros.org/rospy/Overview/Initialization%20and%20Shutdown>`_
+- `Initialization and Shutdown <https://docs.ros.org/en/jazzy/p/rclpy/api/init_shutdown.html>`_
 
 ROS Topics and Messages
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-- `Messages <http://wiki.ros.org/Messages>`_
+- `Interfaces <https://docs.ros.org/en/jazzy/Concepts/Basic/About-Interfaces.html>`_
 
-- `Understanding ROS Topics <http://wiki.ros.org/ROS/Tutorials/UnderstandingTopics>`_
+- `Understanding ROS Topics <https://docs.ros.org/en/jazzy/Tutorials/Beginner-CLI-Tools/Understanding-ROS2-Topics/Understanding-ROS2-Topics.html>`_
 
-- `Publishers and Subscribers <http://wiki.ros.org/rospy/Overview/Publishers%20and%20Subscribers>`_
+- `Publishers and Subscribers <https://docs.ros.org/en/jazzy/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Py-Publisher-And-Subscriber.html>`_
 
 ROS Conventions
 ~~~~~~~~~~~~~~~
@@ -438,13 +470,14 @@ ROS Conventions
 Submission
 ----------
 
-#. Submission: individual submission via Gradescope (**please use exactly the same filename**)
+#. Submission: individual submission via Gradescope.
 
-#. Due time: 11:59pm, Feb 5, Thursday
+#. Due time: 11:59pm, October 29, Thursday
 
-#. Files to submit: 
+#. Files to submit (inside a ``.zip`` file): 
 
-   - lab3_report.pdf with the open_loop.py included inside
+   - lab3_report.pdf
+   - open_loop.py
 
 #. Grading rubric:
 
@@ -452,6 +485,7 @@ Submission
 
     .. code-block:: bash
 
+      sudo apt-get update
       sudo apt install simplescreenrecorder
 
    + \+ 40%  The robot can visit all four vertices of the square trajectory (error < 1.0m). 
@@ -459,20 +493,20 @@ Submission
    + \+ 10%  The script can complete the task on time and exit gracefully.
    + \- 15%  Penalty applies for each late day. 
 
-Autograder
+Grading
 ----------
+
+#. Under Gazebo simulation environment, the submitted Python script will be run for once and the robot trajectory will be saved into csv files.
+#. The scores will be given by evaluating the saved trajectory. Testing parameters are as follows.
+   The tolerance for distance error is set to 1.0m (considering this is open-loop control).
+   For example, passing point [3.6, 3.4] is approximately equivalent to passing point [4.0, 4.0].
+   If running properly, the task in this lab can be done in about 1 min, based on our testing.
+   It is important that your script can exit gracefully after task completion.
 
 .. All code submissions will be graded automatically by an autograder uploaded to Gradescope.
 .. Your scripts will be tested on a Ubuntu cloud server using a similar ROS + Gazebo environment.
 .. The grading results will be available in a couple of minutes after submission.
 .. The autograder works in the following way (no action on your side needed; just to explain).
-
-(1) Under Gazebo simulation environment, the submitted Python script will be run for once and the robot trajectory will be saved into csv files.
-(2) The scores will be given by evaluating the saved trajectory.
-Testing parameters are as follows. The tolerance for distance error is set to 1.0m (considering this is open-loop control).
-For example, passing point [3.6, 3.4] is approximately equivalent to passing point [4.0, 4.0].
-If running properly, the task in this lab can be done in about 1 min, based on our testing.
-It is important that your script can exit gracefully after task completion.
 
 .. #. The time limit for the submitted script is set to 5 mins.
 
