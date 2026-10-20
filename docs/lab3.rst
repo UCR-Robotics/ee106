@@ -18,7 +18,7 @@ Introduction to Turtlebot
 -------------------------
 
 The Turtlebot4 robot is a differential wheeled robot built on top of the iRobot Create 3 mobile base.
-See the image (right) below for Turtlebot family. 
+See the image (left) below for Turtlebot family. 
 
 Though multiple layers of plates/sensors are placed on top of the robot, 
 the kinematics of the robot can be simplified according to the property 
@@ -167,10 +167,6 @@ You need to make changes under ``run`` function to complete the square trajector
             vel.twist.linear.x = 0.5
             vel.twist.angular.z = 0.0
 
-            # Provide some time to undock
-            time.sleep(1)
-
-            self.get_logger().info("Undocking complete.")
             self.get_logger().info('Running open-loop control...')
 
             # TODO: Modify / Add code after this point
@@ -217,6 +213,15 @@ You need to make changes under ``run`` function to complete the square trajector
     if __name__ == '__main__':
         main()
 
+- Edit CMakeLists.txt to include the following lines.
+
+.. code-block:: text
+
+    install(PROGRAMS
+      ...
+      scripts/open_loop.py
+      DESTINATION lib/${PROJECT_NAME}
+    )
 
 Sample Code Explained
 ---------------------
@@ -259,12 +264,10 @@ Sample Code Explained
   from another member function. 
 
 - In the following code structure, we first define a *class* named ``Turtlebot``, and then create
-  an *instance* (*object*) called ``turtlebot_node`` in the Python main function.
-  The Python program will start running from the line right after ``if __name__ == '__main__':``.
+  an *instance* (*object*) called ``turtlebot_node`` in the main function.
+  The Python program will start running from the line right after ``if __name__ == '__main__':``, which will in turn call the ``main`` function.
   However, to create a new instance, the program needs to run ``__init__`` function for once 
   (this is a function that every *class* must have for the initialization process).
-  We then call ``run`` function under ``__init__`` function. 
-  As such, each component is connected into the running pipeline. 
   
 - The keyword ``self`` is a pointer used internally to refer to resources, and the keyword
   ``pass`` is just a placeholder that actually does nothing. The ``Turtlebot`` class itself inherits
@@ -279,10 +282,17 @@ Sample Code Explained
         def run(self):
             pass
 
+    def main(args=None):
+      rclpy.init(args=args)
+
+      turtlebot_node = Turtlebot()
+      ...
+      turtlebot_node.run()
+
     if __name__ == '__main__':
-        turtlebot_node = Turtlebot()
-        ...
-        turtlebot_node.run()
+      main()
+
+- ``rclpy.init()`` initializes the ROS client library and must be called once, before creating any ROS Node.
 
 - A ROS Node needs to be *spun* in order to do its work. ``rclpy.spin(node)`` keeps the node alive and
   processes its *callbacks*, i.e. the functions that ROS calls for us when something happens, such as a new message
@@ -413,8 +423,8 @@ Build & Run
 .. code-block:: bash
 
     cd ~/ee106_ws
-    source install/local_setup.bash
     colcon build
+    source install/local_setup.bash
     ros2 run ee106f26 open_loop.py
 
 Programming Tips
@@ -521,3 +531,6 @@ Grading
 ..    - This can happen if you have dead loop in the script (e.g., ``while True: xxx``)
 ..      and the autograder is not able to terminate the script. 
 ..      (Scripts like this cannot be terminated by ``Ctrl + C`` in terminals, if you test it yourself.)
+
+.. We then call ``run`` function under ``__init__`` function. 
+.. As such, each component is connected into the running pipeline. 
