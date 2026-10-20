@@ -227,8 +227,7 @@ Sample Code Explained
 
     #!/usr/bin/env python3
 
-- You need to import rospy in order to use ROS in Python.
-  This is the Python library that contains common operations and resources in ROS.
+- You need to import `rclpy` in order to use ROS in Python. This is the Python library that contains common operations and resources in ROS.
 
   .. code-block:: python
 
@@ -274,7 +273,7 @@ Sample Code Explained
             pass
 
     if __name__ == '__main__':
-        whatever = Turtlebot()
+        turtlebot_node = Turtlebot()
 
 - The ``try-except`` block is used to handle exceptions. In this case, it will provide logging information
   when the user terminates the program using ``Ctrl + C``. 
@@ -285,19 +284,20 @@ Sample Code Explained
     if __name__ == '__main__':
         try:
             whatever = Turtlebot()
-        except rospy.ROSInterruptException:
-            rospy.loginfo("Action terminated.")
+        except KeyboardInterrupt:
+            pass
 
-- In ROS, we have a ROS Master (or ``roscore``) running as a central server to manage global resources
-  and connect all ROS Nodes.
-  Each program will need to talk to this central server first before talking to other program 
-  (this process is, in other words, to register itself as a ROS Node). Therefore,
-  in each and every Python script running ROS, the first thing to do is to initialize itself as a ROS Node. 
+.. - In ROS, we have a ROS Master (or ``roscore``) running as a central server to manage global resources
+..   and connect all ROS Nodes.
+..   Each program will need to talk to this central server first before talking to other program 
+..   (this process is, in other words, to register itself as a ROS Node).
+
+- In each and every Python script running ROS, the first thing to do is to initialize itself as a ROS Node. 
   The argument ``turtlebot_move`` is the name we would like to assign to this ROS Node. 
 
   .. code-block:: python
 
-    rospy.init_node("turtlebot_move")
+    super().__init__('turtlebot_move')
 
 - What follows is a common logging function used in ROS. In addition to printing the message
   to screen (as what ``print`` function does in Python), it can also save the log in ROS 
@@ -314,38 +314,38 @@ Sample Code Explained
 - On the robot side, there is a ROS Subscriber waiting for velocity commands.
   What we need to do in this script is to create a ROS Publisher to send commands.
   The required arguments are the topic name, 
-  the message type ``Twist``, and the queue size ``10``.
+  the message type ``TwistStamped``, and the queue size ``10``.
 
   .. code-block:: python
 
-    self.vel_pub = rospy.Publisher("cmd_vel", Twist, queue_size=10)
+    self.vel_pub = self.create_publisher(TwistStamped, "cmd_vel", 10)
 
 - The following question is how frequently we should send velocity commands.
   Note that the robot will stop if no velocity command is received after a while,
   and the robot may "panic" if thousands of commands are received in a second.
   Therefore, we can pick a moderate rate at 10Hz (i.e. 10 commands per second).
 
-- We use the ``Rate`` class to help us manage the timing. 
-  By using the ``rate.sleep()`` function together with ``while`` or ``for`` loop,
-  we can approximately keep the loop running at 10Hz rate. 
-  The ``rate.sleep()`` function can calculate how much time elapsed **since last time 
-  it was called**. If this time elapsed is less than 1/rate (in this case 0.1s),
-  it will block the program till the time has reached 1/rate. 
-  If the time has already exceeded 1/rate, it will simply let it go. 
+- We use the ``time`` module to help us manage the timing. 
+  By using the ``time.sleep()`` function together with ``while`` or ``for`` loop,
+  we can approximately keep the loop running at 10Hz rate.
+  The ``time.sleep(0.1)`` function pauses the program for 0.1 s each time it is called.
+  .. The ``time.sleep()`` function can calculate how much time elapsed **since last time 
+  .. it was called**. If this time elapsed is less than 1/rate (in this case 0.1s),
+  .. it will block the program till the time has reached 1/rate. 
+  .. If the time has already exceeded 1/rate, it will simply let it go.
 
   .. code-block:: python
 
-    self.rate = rospy.Rate(10)
-    for i in range(50):
-        self.vel_pub.publish(vel)
-        self.rate.sleep()
+    for _ in range(100):
+      self.vel_pub.publish(vel)
+      time.sleep(0.1)
 
 - To prepare a ROS Message that contains velocity data, 
   we first create an *instance* (called ``vel``) of the ``Twist`` class 
   (which is the message we are about to send), 
   and then assign linear and angular velocity to its corresponding variable.
   Note that you need to use ``.`` to have access to the member variables of a *class* data structure.
-  See `ROS Wiki documentation <http://docs.ros.org/melodic/api/geometry_msgs/html/msg/Twist.html>`_ 
+  See `ROS Wiki documentation <https://docs.ros.org/en/jazzy/p/geometry_msgs/msg/Twist.html>`_ 
   for more information about the message definition. 
 
   .. code-block:: python
@@ -355,16 +355,34 @@ Sample Code Explained
         vel.angular.z = 0
         self.vel_pub.publish(vel)
 
-- Lastly, if you use ``while`` loop, it is highly recommended to add a condition
-  to check if the ROS server is still alive. 
-  This can help terminate the Python script whenever you press ``Ctrl + C`` in the terminal. 
-  On the contrary, dead loop like ``while True: xxx`` will not respond to your shutdown commands
-  (unless you add proper ``break`` condition in the loop).
+.. - Lastly, if you use ``while`` loop, it is highly recommended to add a condition
+..   to check if the ROS server is still alive. 
+..   This can help terminate the Python script whenever you press ``Ctrl + C`` in the terminal. 
+..   On the contrary, dead loop like ``while True: xxx`` will not respond to your shutdown commands
+..   (unless you add proper ``break`` condition in the loop).
   
-  .. code-block:: python
+..   .. code-block:: python
 
-    while not rospy.is_shutdown():
-        pass
+..     while not rospy.is_shutdown():
+..         pass
+
+Build & Run
+-----------
+
+#. First, open up the simulator in one window with the TurtleBot 4 Lite model:
+
+.. code-block:: bash
+
+    ros2 launch ee106f26 turtlebot.launch.py model:=lite world:=empty
+
+#. In another terminal window, navigate to the ee106 workspace directory and execute the open loop node:
+
+.. code-block:: bash
+
+    cd ~/ee106_ws
+    source install/local_setup.bash
+    colcon build
+    ros2 run ee106f26 open_loop.py
 
 Programming Tips
 ----------------
@@ -378,7 +396,7 @@ Programming Tips
    the leftward direction is the positive y axis; and by right-hand rule, z axis upward. 
    This is also specified in `REP 103 <https://www.ros.org/reps/rep-0103.html>`_. 
 
-#. In Gazebo, you can use ``Ctrl + R`` to set the robot back to the origin without the need to relaunch.
+.. #. In Gazebo, you can use ``Ctrl + R`` to set the robot back to the origin without the need to relaunch.
 
 #. In this lab, you need to finely tune the parameters for open-loop control. 
    
@@ -420,7 +438,7 @@ ROS Conventions
 Submission
 ----------
 
-#. Submission: individual submission via Gradescope (**please use exactly the same filename**; autograder is case sensitive)
+#. Submission: individual submission via Gradescope (**please use exactly the same filename**)
 
 #. Due time: 11:59pm, Feb 5, Thursday
 
@@ -444,7 +462,17 @@ Submission
 Autograder
 ----------
 
-All code submissions will be graded automatically by an autograder uploaded to Gradescope. Your scripts will be tested on a Ubuntu cloud server using a similar ROS + Gazebo environment. The grading results will be available in a couple of minutes after submission. The autograder works in the following way (no action on your side needed; just to explain). (1) Under Gazebo simulation environment, the submitted Python script will be run for once and the robot trajectory will be saved into csv files. (2) The scores will be given by evaluating the saved trajectory and uploaded back to Gradescope. Testing parameters are as follows. The tolerance for distance error is set to 1.0m (considering this is open-loop control). For example, passing point [3.6, 3.4] is approximately equivalent to passing point [4.0, 4.0]. If running properly, the task in this lab can be done in about 1 min, based on our testing. It is important that your script can exit gracefully after task completion.
+.. All code submissions will be graded automatically by an autograder uploaded to Gradescope.
+.. Your scripts will be tested on a Ubuntu cloud server using a similar ROS + Gazebo environment.
+.. The grading results will be available in a couple of minutes after submission.
+.. The autograder works in the following way (no action on your side needed; just to explain).
+
+(1) Under Gazebo simulation environment, the submitted Python script will be run for once and the robot trajectory will be saved into csv files.
+(2) The scores will be given by evaluating the saved trajectory.
+Testing parameters are as follows. The tolerance for distance error is set to 1.0m (considering this is open-loop control).
+For example, passing point [3.6, 3.4] is approximately equivalent to passing point [4.0, 4.0].
+If running properly, the task in this lab can be done in about 1 min, based on our testing.
+It is important that your script can exit gracefully after task completion.
 
 .. #. The time limit for the submitted script is set to 5 mins.
 
