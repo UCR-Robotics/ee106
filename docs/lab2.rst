@@ -390,10 +390,12 @@ Submission
 
 #. **How**: individual, via Gradescope  
 #. **Demo**: required—teleoperate the Turtlebot in Gazebo and show your node responding to obstacles  
-#. **When**: 11:59 pm, Thursday, Oct 22  
-#. **What to submit**:  
+#. **When**: 11:59 pm, Thursday, Oct 22
+#. **What to submit** (Inside a ``.zip`` file):
    - ``lab2_report.pdf`` (use the provided template)  
-   - Include all screenshots, detailed step descriptions, and your fully commented Python code at the end  
+   - Include all screenshots, detailed step descriptions, and your fully commented Python code at the end
+   - The python code
+   - Launch files that launch both the publisher and subscriber nodes from Lab 1
 
 Demo Checklist
 --------------
