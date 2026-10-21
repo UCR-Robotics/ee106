@@ -488,6 +488,7 @@ Submission
 
    - lab3_report.pdf
    - open_loop.py
+   - Video Recording on the robot traversing across the 4 points
 
 #. Grading rubric:
 
