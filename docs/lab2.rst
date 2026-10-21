@@ -314,6 +314,7 @@ The library can be installed using the following commands. In a new terminal win
  rosdep update
  rosdep install --from-paths src --ignore-src --rosdistro jazzy -y
  colcon build
+ sudo apt-get update && sudo apt-get upgrade && sudo apt-get install python3-transforms3d
 
 To test it, please initialize a new ROS node inside the ``ee106f26`` ROS package, under the name of ``tf_listener.py``, which will contain,
 
