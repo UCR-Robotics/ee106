@@ -385,6 +385,12 @@ To test it, please initialize a new ROS node inside the ``ee106f26`` ROS package
   if __name__ == '__main__':
       main()
 
+Assignment
+----------
+
+For the assignment, the pseudo-code at the end of the lab handout needs to be completed. The core idea is to execute a ROS node that
+is able to consume a 2D LiDAR scan and report the worst case classification of the scan. For details, please go through the rubric and
+the pseudo-code provided at the end of the handout.
 
 Submission
 ----------
@@ -412,7 +418,7 @@ Grading Rubric
   - Define and broadcast a new frame called ``front_bumper`` (e.g. via ``static_transform_publisher``).  
 
 - \+ 15 % ROS node initialization  
-  - Initialize a ROS node (e.g. ``ranges_check``).  
+  - Initialize a ROS node (e.g. ``ranges_check``).
   - Subscribe to ``/scan`` (``sensor_msgs/LaserScan``).  
   - Create a TF listener and retrieve the transform between ``turtlebot4/rplidar_link/rplidar`` and ``/front_bumper``.  
 
