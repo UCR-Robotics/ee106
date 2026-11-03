@@ -23,7 +23,7 @@ Submission
 
 #. Submission: individual submission via Gradescope
 
-#. Due time: 11:59pm, October 12, Thursday
+#. Due time: 11:59pm, November 12, Thursday
 
 #. Files to submit: (please use exactly the same filename; case sensitive)
 
