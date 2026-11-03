@@ -33,3 +33,4 @@ News
 - 10/05/2026: `Lab 1 <lab1.html>`_ is up.
 - 10/13/2026: `Lab 2 <lab2.html>`_ is up.
 - 10/20/2026: `Lab 3 <lab3.html>`_ is up.
+- 11/03/2026: `Lab 4 <lab4.html>`_ is up.
