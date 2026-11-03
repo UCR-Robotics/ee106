@@ -23,7 +23,7 @@ Submission
 
 #. Submission: individual submission via Gradescope
 
-#. Due time: 11:59pm, Feb 12, Thursday
+#. Due time: 11:59pm, October 12, Thursday
 
 #. Files to submit: (please use exactly the same filename; case sensitive)
 
@@ -43,9 +43,7 @@ Submission
 Autograder
 ----------
 
-All code submissions will be graded automatically by an autograder uploaded to Gradescope.
-Your scripts will be tested on a Ubuntu cloud server using a similar ROS + Gazebo environment.
-The grading results will be available in a couple of minutes after submission.
+Your scripts will be tested on Ubuntu using a similar ROS + Gazebo environment.
 
 Testing parameters are as follows. 
 
@@ -63,8 +61,7 @@ Testing parameters are as follows.
 .. note::
 
   It is required to use closed-loop control (i.e. PD controller) to track the trajectory. 
-  Finely tuned open-loop control script may also pass the autograder tests (by adding angular velocity as in Lab 2) but is not allowed.
-  All scripts will be double checked when grading manually. 
+  Finely tuned open-loop control script may also pass the autograder tests (by adding angular velocity as in Lab 3) but is not allowed.
   Penalty will apply if such script is found.
 
 
@@ -202,92 +199,136 @@ Sample Code
 A sample code is provided as the starting point for your implementation. 
 Please read carefully the provided code, and understand its functionality. 
 
-- Open a new terminal and go to the ``ee106w26`` package. 
+- Open a new terminal and go to the ``ee106f26`` package. 
   We will start from a new python script.
 
   .. code-block:: bash
 
-    roscd ee106w26/scripts
+    cd ~/ee106_ws/src/ee106f26/scripts
     touch closed_loop.py
     gedit closed_loop.py
 
-- Please copy and paste the following code, then save and close it. If you are working on turtlebot 2, you will need to change the topic name to ``/mobile_base/commands/velocity``.
+- Please copy and paste the following code, then save and close it.
 
-   .. code-block:: bash
+   .. code-block:: python
    
       #!/usr/bin/env python3
       from math import pi, sqrt, atan2, cos, sin
       import numpy as np
       import rospy
-      import tf
-      from std_msgs.msg import Empty
+      from tf_transformations import euler_from_quaternion
+      import rclpy
+      from rclpy.node import Node
       from nav_msgs.msg import Odometry
-      from geometry_msgs.msg import Twist, Pose2D
+      from geometry_msgs.msg import TwistStamped, Pose2D
       
       class Turtlebot():
    
           def __init__(self):
-              rospy.init_node("turtlebot_move")
-              rospy.loginfo("Press Ctrl + C to terminate")
-              self.vel_pub = rospy.Publisher("cmd_vel", Twist, queue_size=10)
-              self.rate = rospy.Rate(10)
-              # reset odometry to zero
-              self.reset_pub = rospy.Publisher("mobile_base/commands/reset_odometry", Empty, queue_size=10)
-              for i in range(10):
-                  self.reset_pub.publish(Empty())
-                  self.rate.sleep()
-              # subscribe to odometry
+              super().__init__('turtlebot_move')
+
+              self.get_logger().info("Press Ctrl + C to terminate")
+
+              # Create publisher for publishing the velocity commands
+              self.vel_pub = self.create_publisher(TwistStamped, "cmd_vel", 10)
               self.pose = Pose2D()
               self.logging_counter = 0
               self.trajectory = list()
-              self.odom_sub = rospy.Subscriber("odom", Odometry, self.odom_callback)
-              try:
-                  self.run()
-              except rospy.ROSInterruptException:
-                  rospy.loginfo("Action terminated.")
-              finally:
-                  # save trajectory into csv file
-                  np.savetxt('trajectory.csv', np.array(self.trajectory), fmt='%f', delimiter=',')
+              self.odom_sub = rospy.Subscriber(Odometry, "odom", self.odom_callback, 10)
       
           def run(self):
-              # add your code here to adjust your movement based on 2D pose feedback
-              # Use the Controller
-              pass
+              """
+              Run function. There are a variety of design patterns.
+              An alternative would have been to use the `timer_callback`
+              design pattern shown in previous labs.
+              """
+
+              # Create a Twist object
+              # Essentially it's going to publish the velocity
+              vel = TwistStamped()
+
+              # Populate the fields of the message
+              vel.twist.linear.x = 0.5
+              vel.twist.angular.z = 0.0
+
+              self.get_logger().info('Running open-loop control...')
+
+              # TODO: Modify / Add code after this point. Complete and use the Controller class to traverse the square trajectory using PD closed loop control
+              # SAMPLE: Go Straight
+              for _ in range(100):
+                  self.vel_pub.publish(vel)
+                  time.sleep(0.1)
    
           def odom_callback(self, msg):
               # get pose = (x, y, theta) from odometry topic
               quarternion = [msg.pose.pose.orientation.x,msg.pose.pose.orientation.y,\
                           msg.pose.pose.orientation.z, msg.pose.pose.orientation.w]
-              (roll, pitch, yaw) = tf.transformations.euler_from_quaternion(quarternion)
+              (roll, pitch, yaw) = euler_from_quaternion(quarternion)
               self.pose.theta = yaw
               self.pose.x = msg.pose.pose.position.x
               self.pose.y = msg.pose.pose.position.y
-              # logging once every 100 times (Gazebo runs at 1000Hz; we save it at 10Hz)
+              # logging once every 6 times (Gazebo runs at 60Hz; we save it at 10Hz)
               self.logging_counter += 1
-              if self.logging_counter == 100:
+              if self.logging_counter == 6:
                   self.logging_counter = 0
                   self.trajectory.append([self.pose.x, self.pose.y])  # save trajectory
                   # display (x, y, theta) on the terminal
-                  rospy.loginfo("odom: x=" + str(self.pose.x) +\
-                      ";  y=" + str(self.pose.y) + ";  theta=" + str(yaw))
+                  self.get_logger().info("odom: x=" + str(self.pose.x) + ";  y=" + str(self.pose.y) + ";  theta=" + str(yaw))
+
+      def main(args=None):
+          """
+          Entry point function for the Open Loop control node.
+
+          @param args - Arguments that need to be passed to ROS.
+          """
+
+          # Initialize the client library - this is required
+          rclpy.init(args=args)
+
+          # Create the publisher node
+          turtlebot_node = Turtlebot()
+
+          # Spin so that the node is busy processing
+          # while no exceptions are encountered and ROS
+          # is executing
+          # For this lab - spin rclpy on separate thread
+          thread = threading.Thread(target=rclpy.spin, args=(turtlebot_node,), daemon=True)
+          thread.start()
+
+          # Allow time for other nodes to start
+          time.sleep(5)
+
+          try:
+              turtlebot_node.run()
+          except KeyboardInterrupt:
+              pass
+          finally:
+              # save trajectory into csv file
+              np.savetxt('trajectory.csv', np.array(turtlebot_node.trajectory), fmt='%f', delimiter=',')
+
+              # Destroy the node explicitly
+              turtlebot_node.destroy_node()
+
+              # Shut down this context
+              rclpy.shutdown()
    
       if __name__ == '__main__':
-          whatever = Turtlebot()
+          main()
+
+
       
+- Edit CMakeLists.txt to include the following lines.
+
+.. code-block:: text
+
+    install(PROGRAMS
+      ...
+      scripts/closed_loop.py
+      DESTINATION lib/${PROJECT_NAME}
+    )
 
 
 - Please make changes to the ``run`` function to complete the task in this lab.
-  Once finished, you can run it two ways as introduced in Lab 4.
-  (Remember to bring up the robot before running the script.)
-
-  .. code-block:: bash
-
-    python3 closed_loop.py
-
-  .. code-block:: bash
-
-    chmod +x closed_loop.py
-    ./closed_loop.py
 
 
 Sample Code Explained
@@ -297,17 +338,7 @@ Sample Code Explained
   Therefore, if you lift and place a robot from one place to another, it will still "think" 
   that it is at the original place.
 
-- In Gazebo simulator, using command ``Ctrl + R`` to reset the robot is similar to 
-  lifting the robot and placing it to the origin, where the odometry will still report 
-  the previous history record. Therefore, to obtain a correct odometry feedback for the 
-  new run, we need to reset the odometry to zero. 
-
-  .. code-block:: python
-
-    self.reset_pub = rospy.Publisher("mobile_base/commands/reset_odometry", Empty, queue_size=10)
-    for i in range(10):
-        self.reset_pub.publish(Empty())
-        self.rate.sleep()
+- To restart the simulator, close Gazebo and reopen.
 
 - In Lab 4, we have learned how to use ROS Publisher to send a message out. 
   ROS Subscriber is the one on the other side to receive and process the messages.
@@ -317,11 +348,11 @@ Sample Code Explained
   We leverage the shared variables in Turtlebot class to store the latest pose of the robot.
   Note that the ``msg`` argument in the callback function is of the type ``Odometry``. 
   The definition is specified in 
-  `the ROS Wiki documentation <http://docs.ros.org/en/melodic/api/nav_msgs/html/msg/Odometry.html>`_.
+  `the ROS Wiki documentation <https://docs.ros.org/en/jazzy/p/nav_msgs/msg/Odometry.html>`_.
 
   .. code-block:: python
 
-    self.odom_sub = rospy.Subscriber("odom", Odometry, self.odom_callback)
+    self.odom_sub = rospy.Subscriber(Odometry, "odom", self.odom_callback, 10)
 
     def odom_callback(self, msg):
         pass
@@ -334,15 +365,33 @@ Sample Code Explained
 
     finally:
         # save trajectory into csv file
-        np.savetxt('trajectory.csv', np.array(self.trajectory), fmt='%f', delimiter=',')
+        np.savetxt('trajectory.csv', np.array(turtlebot_node.trajectory), fmt='%f', delimiter=',')
+
+
+Build & Run
+-----------
+
+#. First, open up the simulator in one window with the TurtleBot 4 Lite model:
+
+.. code-block:: bash
+
+    ros2 launch ee106f26 turtlebot.launch.py model:=lite world:=empty
+
+#. In another terminal window, navigate to the ee106 workspace directory and execute the open loop node:
+
+.. code-block:: bash
+
+    cd ~/ee106_ws
+    colcon build
+    source install/local_setup.bash
+    ros2 run ee106f26 closed_loop.py
 
 
 Visualization
 -------------
 
 We provide a separate Python script to help visualize the trajectory from the saved csv file. 
-Please do not submit this file and do not include it in the script you plan to submit,
-as it will block the autograder until running timeout.
+Please do not submit this file and do not include it in the script you plan to submit.
 
   .. code-block:: python
 
@@ -361,4 +410,3 @@ as it will block the autograder until running timeout.
       
       if __name__ == '__main__':
           visualization()
-
