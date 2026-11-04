@@ -215,7 +215,7 @@ Please read carefully the provided code, and understand its functionality.
       #!/usr/bin/env python3
       from math import pi, sqrt, atan2, cos, sin
       import numpy as np
-      import rospy
+
       from tf_transformations import euler_from_quaternion
       import rclpy
       from rclpy.node import Node
