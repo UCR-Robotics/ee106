@@ -222,7 +222,7 @@ Please read carefully the provided code, and understand its functionality.
       from nav_msgs.msg import Odometry
       from geometry_msgs.msg import TwistStamped, Pose2D
       
-      class Turtlebot():
+      class Turtlebot(Node):
    
           def __init__(self):
               super().__init__('turtlebot_move')
