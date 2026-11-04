@@ -234,7 +234,7 @@ Please read carefully the provided code, and understand its functionality.
               self.pose = Pose2D()
               self.logging_counter = 0
               self.trajectory = list()
-              self.odom_sub = rospy.Subscriber(Odometry, "odom", self.odom_callback, 10)
+              self.odom_sub = self.create_subscriber(Odometry, "odom", self.odom_callback, 10)
       
           def run(self):
               """
