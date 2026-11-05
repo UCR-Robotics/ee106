@@ -213,18 +213,18 @@ Please read carefully the provided code, and understand its functionality.
    .. code-block:: python
    
       #!/usr/bin/env python3
+      import threading
+      import time
       from math import pi, sqrt, atan2, cos, sin
       import numpy as np
-      import threading
-
       from tf_transformations import euler_from_quaternion
       import rclpy
       from rclpy.node import Node
       from nav_msgs.msg import Odometry
       from geometry_msgs.msg import TwistStamped, Pose2D
-      
+
       class Turtlebot(Node):
-   
+
           def __init__(self):
               super().__init__('turtlebot_move')
 
@@ -236,7 +236,7 @@ Please read carefully the provided code, and understand its functionality.
               self.logging_counter = 0
               self.trajectory = list()
               self.odom_sub = self.create_subscription(Odometry, "odom", self.odom_callback, 10)
-      
+
           def run(self):
               """
               Run function. There are a variety of design patterns.
@@ -251,15 +251,16 @@ Please read carefully the provided code, and understand its functionality.
               # Populate the fields of the message
               vel.twist.linear.x = 0.5
               vel.twist.angular.z = 0.0
+              vel.header.stamp = self.get_clock().now().to_msg()
 
-              self.get_logger().info('Running open-loop control...')
+              self.get_logger().info('Running closed-loop control...')
 
               # TODO: Modify / Add code after this point. Complete and use the Controller class to traverse the square trajectory using PD closed loop control
               # SAMPLE: Go Straight
               for _ in range(100):
                   self.vel_pub.publish(vel)
                   time.sleep(0.1)
-   
+
           def odom_callback(self, msg):
               # get pose = (x, y, theta) from odometry topic
               quarternion = [msg.pose.pose.orientation.x,msg.pose.pose.orientation.y,\
@@ -312,7 +313,7 @@ Please read carefully the provided code, and understand its functionality.
 
               # Shut down this context
               rclpy.shutdown()
-   
+
       if __name__ == '__main__':
           main()
 
