@@ -17,6 +17,40 @@ The instructions for installing `podman` can be found `here <https://podman.io/d
 
 For Apple users, the binaries can be downloaded `here <https://podman.io/>_`.
 
+Windows Users
+-------------
+
+`podman` on Windows runs inside WSL2. Open PowerShell **as Administrator** and enable WSL2, then restart
+the computer:
+
+   .. code-block:: powershell
+
+     wsl.exe --install
+
+After restarting, open a new PowerShell window and run the following commands. `podman-compose` requires
+`Python <https://www.python.org/downloads/>`_ to be installed:
+
+   .. code-block:: powershell
+
+     winget install -e --id RedHat.Podman
+     pip install podman-compose
+
+Close and reopen PowerShell so the ``podman`` command is available.
+
+Apple Users
+-----------
+
+You will need to first install `homebrew <https://brew.sh/>`_ if it's not installed. It's a package manager
+that lets you install `podman` on the computer.
+
+Once `homebrew` is installed, restart the terminal or open a new terminal window and run the following commands:
+
+   .. code-block:: bash
+
+     brew install podman
+     brew install podman-compose
+
+
 Steps to Set Up
 ---------------
 
@@ -32,11 +66,13 @@ Steps to Set Up
 
      cd course-support/containers/cs265a
 
-3. Create a machine:
+3. Create a machine with some specifications. Note that these specifications will vary depending on the resources available on the computer:
 
    .. code-block:: bash
 
-     podman machine init
+     podman machine init --cpus=4 --memory=8192 --disk-size=60 --rootful
+
+  For windows users - ``wsl`` does not allow you to change the 
 
 4. Change the properties of the machine. This is required because the simulations and assigments
    might require some compute power:
@@ -107,7 +143,7 @@ To restart the container in a new session:
 
    .. code-block:: bash
 
-     cd C:\Users\YourName\Location\course-support\containers\ee106
+     cd C:\Users\YourName\Location\course-support\containers\cs265a
 
 3. Run the container:
 

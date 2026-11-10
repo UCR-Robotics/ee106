@@ -221,7 +221,7 @@ Submission
    .. image:: ./pics/straight_line.png
       :align: center
 
-   + \+ 5% Create a new folder in ``ee106f26`` ROS package, by using the name ``worlds``. Download the `Gazebo world <https://github.com/UCR-Robotics/ee106/blob/main/scripts/straight_line.sdf>`_ and copy it inside the ``ee106f26/worlds/`` folder. Then, edit ``CMakeLists.txt`` to include:
+   + \+ 5% Create a new folder in ``ee106f26`` ROS package, by using the name ``worlds``. Download the `Gazebo world <https://github.com/UCR-Robotics/ee106/blob/Fall2026/scripts/straight_line.sdf>`_ and copy it inside the ``ee106f26/worlds/`` folder. Then, edit ``CMakeLists.txt`` to include:
    .. code-block:: python
         install(DIRECTORY worlds
         DESTINATION share/${PROJECT_NAME}
@@ -314,7 +314,7 @@ Submission
    + \+ 20% Create a ROS Node that will contain a ROS subscriber to the robot's onboard LiDAR module, a ROS publisher on the ``cmd_vel`` ROS Topic of type `Twist`. Include a ROS listener of capturing the transformation of the LiDAR module and the ``left_limit`` frame of the robot.
    + \+ Transform the captured ranging measurements of the left side of the robot (1.52 to 1.62 rad) with respect to the ``left_limit`` frame, calculate their distance from the new origin (0,0) (Euclidian distance, Pythagorean Theorem, etc.), and obtain the minimum distance ``min_dist`` from captured and transformed range measurements.
    + \+ 20% By using that information, develop a navigating behavior of the Turtlebot4 to move ``forward`` if the ``min_dist`` is in `[10,20] cm`, move ``forward`` and ``slightly right`` if ``min_dist`` is less than `10cm` (approaching wall), and move ``forward`` and ``slightly left`` if ``min_dist`` is more than `20cm` (leaving the wall behind). Expand the functionality of this behavior, by adding a check of the front and first range scan (`idx=0`) is less than `30cm`, to detect if the robot reached at the end of the map. 
-+ \+ 10% Download the two new Gazebo worlds, namely `complex.sdf <https://github.com/UCR-Robotics/ee106/blob/main/scripts/complex.sdf>`_ and `more_complex.sdf <https://github.com/UCR-Robotics/ee106/blob/main/scripts/more_complex.sdf>`_ and place them inside the `worlds` folder of ``ee106w26``. Update the `lab5_turtlebot_world.launch.py` file to load the new worlds, for each experiment. 
++ \+ 10% Download the two new Gazebo worlds, namely `complex.sdf <https://github.com/UCR-Robotics/ee106/blob/Fall2026/scripts/complex.sdf>`_ and `more_complex.sdf <https://github.com/UCR-Robotics/ee106/blob/Fall2026/scripts/more_complex.sdf>`_ and place them inside the `worlds` folder of ``ee106w26``. Update the `lab5_turtlebot_world.launch.py` file to load the new worlds, for each experiment. 
  + \+ 15% Fully integrate the left-wall following behavior logic into the TurtleBot4 Lite’s motion-planning node, ensuring it publishes on /cmd_vel for the new complex worlds as well.
 
  .. image:: ./pics/complex.png
