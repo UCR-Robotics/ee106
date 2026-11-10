@@ -238,7 +238,7 @@ Submission
 
         from launch import LaunchDescription
         from launch.actions import (AppendEnvironmentVariable, DeclareLaunchArgument,
-                                    IncludeLaunchDescription)
+                                    IncludeLaunchDescription, GroupAction)
         from launch.launch_description_sources import PythonLaunchDescriptionSource
         from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 
@@ -278,15 +278,19 @@ Submission
             # The TurtleBot4 sim.launch.py looks for the world as '<world>.sdf' in the
             # Gazebo resource path. Our worlds folder is added to the path, so that
             # ee106f26/worlds/<world>.sdf is found directly.
-            set_world_path = AppendEnvironmentVariable(
-                'GZ_SIM_RESOURCE_PATH', os.path.join(pkg_ee106f26, 'worlds'))
+            # set_world_path = AppendEnvironmentVariable(
+            #     'GZ_SIM_RESOURCE_PATH', os.path.join(pkg_ee106f26, 'worlds'))
 
-            gazebo = IncludeLaunchDescription(
-                PythonLaunchDescriptionSource([gazebo_launch]),
-                launch_arguments=[
-                    ('world', LaunchConfiguration('world'))
-                ]
-            )
+            gazebo = GroupAction([
+                IncludeLaunchDescription(
+                    PythonLaunchDescriptionSource([gazebo_launch]),
+                    launch_arguments=[
+                        ('world', PathJoinSubstitution(
+                            [pkg_ee106f26, 'worlds', LaunchConfiguration('world')]))
+                    ]
+                )
+            ])
+
 
             # Includes the launch description of the robot
             # This loads the models of the components, and any other packages
@@ -305,7 +309,7 @@ Submission
 
             # Create launch description and add actions
             ld = LaunchDescription(ARGUMENTS)
-            ld.add_action(set_world_path)
+            # ld.add_action(set_world_path)
             ld.add_action(gazebo)
             ld.add_action(robot_spawn)
             return ld
