@@ -344,7 +344,6 @@ The cases that a robot might experience during its exploration in a maze, by fol
 
 Initially, as can be seen from the image, every case can be modeled by using two parameters, the `Left Side` and the `Right Side` occupancy. Thus, the robot depending on the values of these two parameters can decide on the next action-move, which can be moving `forward`, `left`, or `right`. These cases can be represented also as the following lookup matrix,
 
-
 .. list-table:: 
     :align: center
     :widths: 50 50 50
