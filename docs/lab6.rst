@@ -45,12 +45,12 @@ For each A* path computed, the autograder will check the following conditions.
 Sample Code
 -----------
 
-- Open a new terminal and go to your ``ee106w26`` package. 
+- Open a new terminal and go to your ``ee106f26`` package. 
   We will create a new python script.
 
   .. code-block:: bash
 
-    roscd ee106w26/src
+    cd ee106_ws/src/ee106f26/scripts
     touch motion_planning.py
     gedit motion_planning.py
 
@@ -76,6 +76,7 @@ Sample Code
             return path
 
 
+- Now, fill it in to properly get the path from start to goal using A*
 - To test the algorithm, you can use the following script and change test cases as you want. 
 - 
     .. code-block:: python
@@ -138,12 +139,12 @@ Testing parameters are as follows.
 Sample Code
 -----------
 
-- Open a new terminal and go to your ``ee106w26`` package. 
+- Open a new terminal and go to your ``ee106f26`` package. 
   We will start from a new python script.
 
   .. code-block:: bash
 
-    roscd ee106w26/src
+    cd ee106_ws/src/ee106f26/scripts
     touch trajectory_generation.py
     gedit trajectory_generation.py
 
@@ -236,7 +237,7 @@ at each moment. To closely track the trajectory, the parameter ``Kp`` can take a
 As before, it is possible to only track the orientation by the PID controller and 
 simply set the linear velocity to be the magnitude (i.e. :math:`v = \sqrt{v_x^2 + v_y^2}` ). 
 Note that the orientation ``setpoint`` in this lab is changing all the time as the robot follows the trajectory 
-(as opposed to a fixed setpoint in Lab 3). 
+(as opposed to a fixed setpoint in Lab 3). (Tip: Think about :math:`\dot{x}_t` and :math:`\dot{y}_t` and how that relates to the setpoint of the angle. Also remember that you should use :code:`np.atan2()` to get the corret angle for the arctangent instead of just the arctangent function.
 
 So far we have introduced the basic steps to solve for a polynomial time scaling problem.
 The following are three final remarks regarding the selection of parameters.
