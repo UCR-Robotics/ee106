@@ -15,13 +15,12 @@ Please refer to the lecture slides for more details.
 The pseudocode is provided at the end of this page.
 
 
-Autograder (1) for Motion Planning
+Grading
 ----------
-All code submissions will be graded automatically by an autograder uploaded to Gradescope.
-The scripts will be tested on a Ubuntu cloud server using a similar ROS + Gazebo environment.
-The grading results will be available in a couple of minutes after submission.
+All code submissions will be graded manually.
+The scripts will be tested on a similar ROS + Gazebo environment.
 
-For each A* path computed, the autograder will check the following conditions. 
+For each A* path computed, the following conditions will be checked. 
 
 #. The returned path should be a Python list, and each element in the list should be a 2-tuple.
    (Will discuss this data type soon.)
@@ -120,7 +119,7 @@ for each segment of the trajectory and for both x and y coordinates.
 Waypoints will be provided in the sample script, 
 and should be included in the boundary/continuity constraints when generating trajectories.
 
-Autograder (2) for Trajectory Generation
+Grading
 ----------
 
 Testing parameters are as follows. 
@@ -129,7 +128,7 @@ Testing parameters are as follows.
 
    - For example, passing point [3.96, 3.94] is approximately equivalent to passing point [4, 4].
 
-#. The autograder will check 8 out of 14 waypoints and the last stopping point [0, 0].
+#. 8 out of 14 waypoints will be checked along with the last stopping point [0, 0].
 
    - They are [0.5, 0], [0.5, -0.5], [0.5, 0.5], [1, 0], [1, -0.5], [1, 0.5], [1.5, -0.5], [1.5, 0.5]. 
 
@@ -293,7 +292,7 @@ Submission
 
 #. Demo: not required
 
-#. Due time: 11:59, Feb 27, Friday
+#. Due time: 11:59, Nov. 25, Friday
 
 #. Files to submit:
 
