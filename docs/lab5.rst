@@ -223,7 +223,9 @@ Submission
 
    + \+ 5% Create a new folder in ``ee106f26`` ROS package, by using the name ``worlds``. Download the `Gazebo world <https://github.com/UCR-Robotics/ee106/blob/Fall2026/scripts/straight_line.sdf>`_ and copy it inside the ``ee106f26/worlds/`` folder. Then, edit ``CMakeLists.txt`` to include:
    .. code-block:: python
-        install(DIRECTORY worlds
+
+        install(DIRECTORY ...
+        worlds
         DESTINATION share/${PROJECT_NAME}
         )
    and build the package to using colcon build.
