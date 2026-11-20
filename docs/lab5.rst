@@ -167,7 +167,7 @@ As it is evident, the highlighted code are new additions in our ROS publisher-su
 Creation of new ROS Service Type
 ----------
 
-For the generation of the new ROS Service type, initially, we create a new folder ``srv`` inside the `ee106f26` ROS package. Then, we create a ``ee106f26_service.srv`` file, which will contain the main request/response data structure,
+For the generation of the new ROS Service type, initially, we create a new folder ``srv`` inside the `ee106f26` ROS package. Then, we create a ``EE106LabCustomService.srv`` file, which will contain the main request/response data structure,
 
 .. code-block:: python
 
